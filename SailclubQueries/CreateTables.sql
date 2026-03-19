@@ -40,7 +40,7 @@ CREATE TABLE Booking(
     Destination NVARCHAR(30),
     MemberId int NOT NULL,
     BoatId int NOT NULL,
-    FOREIGN KEY (MemberId) REFERENCES SailClubMember (MemberId) ON DELETE CASCADE,
-    FOREIGN KEY (BoatId) REFERENCES Boat (BoatId) ON DELETE CASCADE,
+    FOREIGN KEY (MemberId) REFERENCES SailClubMember (MemberId),
+    FOREIGN KEY (BoatId) REFERENCES Boat (BoatId),
     CONSTRAINT CHK_Dates CHECK (EndDate >= StartDate)
 );
