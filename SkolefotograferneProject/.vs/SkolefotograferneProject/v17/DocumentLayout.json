@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Git\\2AGruppeLKMF\\SkolefotograferneProject\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{57CEE7D0-1C05-433B-BB5D-8760CB812F41}|RazorPageApplication\\RazorPageApplication.csproj|c:\\git\\2agruppelkmf\\skolefotograferneproject\\razorpageapplication\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{57CEE7D0-1C05-433B-BB5D-8760CB812F41}|RazorPageApplication\\RazorPageApplication.csproj|solutionrelative:razorpageapplication\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{57CEE7D0-1C05-433B-BB5D-8760CB812F41}|RazorPageApplication\\RazorPageApplication.csproj|c:\\git\\2agruppelkmf\\skolefotograferneproject\\razorpageapplication\\secret.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{57CEE7D0-1C05-433B-BB5D-8760CB812F41}|RazorPageApplication\\RazorPageApplication.csproj|solutionrelative:razorpageapplication\\secret.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -18,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -26,7 +30,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Git\\2AGruppeLKMF\\SkolefotograferneProject\\RazorPageApplication\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "RazorPageApplication\\Pages\\Index.cshtml",
+              "ToolTip": "C:\\Git\\2AGruppeLKMF\\SkolefotograferneProject\\RazorPageApplication\\Pages\\Index.cshtml",
+              "RelativeToolTip": "RazorPageApplication\\Pages\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-04-21T12:08:39.131Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Git\\2AGruppeLKMF\\SkolefotograferneProject\\RazorPageApplication\\Program.cs",
               "RelativeDocumentMoniker": "RazorPageApplication\\Program.cs",
@@ -34,18 +51,17 @@
               "RelativeToolTip": "RazorPageApplication\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-21T10:58:50.807Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-04-21T10:58:50.807Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "Secret.cs",
               "DocumentMoniker": "C:\\Git\\2AGruppeLKMF\\SkolefotograferneProject\\RazorPageApplication\\Secret.cs",
               "RelativeDocumentMoniker": "RazorPageApplication\\Secret.cs",
               "ToolTip": "C:\\Git\\2AGruppeLKMF\\SkolefotograferneProject\\RazorPageApplication\\Secret.cs",
               "RelativeToolTip": "RazorPageApplication\\Secret.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-21T10:54:38.399Z",
               "EditorCaption": ""
