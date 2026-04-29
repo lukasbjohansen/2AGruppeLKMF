@@ -400,3 +400,4 @@ FodyWeavers.xsd
 # JetBrains Rider
 *.sln.iml
 /SkolefotograferneProject/RazorPageApplication/Secret.cs
+/SkolefotograferneProject/.vs/SkolefotograferneProject/v17/.suo
