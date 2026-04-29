@@ -28,7 +28,7 @@
 
         public override string ToString()
         {
-            return $"School:\n\tId: {Id}\n\tName: {Name}\n\tAddress: {Address}\n\tPostal code: {PostalCode}\n\tSecretary: {Secret}";
+            return $"School:\n\tId: {Id}\n\tName: {Name}\n\tAddress: {Address}\n\tPostal code: {PostalCode}\n\tSecretary: {Secretary}";
         }
     }
 }
