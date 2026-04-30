@@ -10,17 +10,17 @@ namespace RazorPageApplication.Services
             
         }
 
-        public override void CreateUser(Parent parent)
+        public override void CreateUser(Parent user)
         {
             throw new NotImplementedException();
         }
 
-        public override void DeleteUser(Parent parent)
+        public override void DeleteUser(Parent user)
         {
             throw new NotImplementedException();
         }
 
-        public override void FilterUser(Parent parent)
+        public override void FilterUser(Parent user)
         {
             throw new NotImplementedException();
         }
@@ -30,7 +30,7 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
-        public override void UpdateUser(Parent parent)
+        public override void UpdateUser(Parent user)
         {
             throw new NotImplementedException();
         }
