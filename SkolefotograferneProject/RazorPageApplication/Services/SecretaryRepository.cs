@@ -3,34 +3,34 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class SecretaryRepository : BaseUserRepository<Secretary>
+    public class SecretaryRepository : IUserRepositoryAsync<Secretary>
     {
         public SecretaryRepository()
         {
             
         }
 
-        public override void CreateUser(Secretary user)
+        public Task CreateUserAsync(Secretary user)
         {
             throw new NotImplementedException();
         }
 
-        public override void DeleteUser(Secretary user)
+        public Task DeleteUserAsync(Secretary user)
         {
             throw new NotImplementedException();
         }
 
-        public override void FilterUser(Secretary user)
+        public Task FilterUserAsync(Secretary user)
         {
             throw new NotImplementedException();
         }
 
-        public override List<Secretary> GetAllUsers()
+        public Task<List<Secretary>> GetAllUsersAsync()
         {
             throw new NotImplementedException();
         }
 
-        public override void UpdateUser(Secretary user)
+        public Task UpdateUserAsync(Secretary user)
         {
             throw new NotImplementedException();
         }

@@ -3,29 +3,29 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class PhotographerRepository : BaseUserRepository<Photographer>
+    public class PhotographerRepository : IUserRepositoryAsync<Photographer>
     {
-        public override void CreateUser(Photographer user)
+        public Task CreateUserAsync(Photographer user)
         {
             throw new NotImplementedException();
         }
 
-        public override void DeleteUser(Photographer user)
+        public Task DeleteUserAsync(Photographer user)
         {
             throw new NotImplementedException();
         }
 
-        public override void FilterUser(Photographer user)
+        public Task FilterUserAsync(Photographer user)
         {
             throw new NotImplementedException();
         }
 
-        public override List<Photographer> GetAllUsers()
+        public Task<List<Photographer>> GetAllUsersAsync()
         {
             throw new NotImplementedException();
         }
 
-        public override void UpdateUser(Photographer user)
+        public Task UpdateUserAsync(Photographer user)
         {
             throw new NotImplementedException();
         }
