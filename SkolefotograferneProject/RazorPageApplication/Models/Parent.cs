@@ -30,7 +30,7 @@ namespace RazorPageApplication.Models
 
         public override string ToString()
         {
-            return base.ToString();
+            return $"Id: {Id}\n\tMail: {Mail}\n\tName: {Name}\n\tPhoneNumber: {PhoneNumber}\n\tAddress: {Address}\n\tPostalCode: {PostalCode}";
         }
     }
 }

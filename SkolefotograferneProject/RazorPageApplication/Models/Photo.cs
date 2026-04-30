@@ -15,6 +15,11 @@
             Date = date;
         }
 
+        public Photo()
+        {
+            
+        }
+
         public override string ToString()
         {
             return $"Id: {Id}\n\tFilePath: {FilePath}\n\tDate: {Date}";
