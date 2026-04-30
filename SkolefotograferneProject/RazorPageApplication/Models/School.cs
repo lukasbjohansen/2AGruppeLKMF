@@ -2,16 +2,19 @@
 {
     public class School
     {
+        #region Properties
         public int Id { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public List<SchoolClass> SchoolClasses { get; set; }
-        public Secretary Secretary { get;set; }
+        public Secretary Secretary { get; set; }
+        #endregion
 
+        #region Constructors
         public School()
         {
-            
+
         }
 
         public School(int id, string name, string address, string postalCode, List<SchoolClass> schoolClasses, Secretary secretary)
@@ -23,10 +26,13 @@
             SchoolClasses = schoolClasses;
             Secretary = secretary;
         }
+        #endregion
 
+        #region Methods
         public override string ToString()
         {
             return $"School:\n\tId: {Id}\n\tName: {Name}\n\tAddress: {Address}\n\tPostal code: {PostalCode}\n\tSecretary: {Secretary}";
-        }
+        } 
+        #endregion
     }
 }
