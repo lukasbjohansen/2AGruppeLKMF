@@ -4,6 +4,7 @@ namespace RazorPageApplication.Models
 {
     public class Parent : IUser
     {
+        #region Propeties
         public int Id { get; set; }
         public string Mail { get; set; }
         public string Password { get; set; }
@@ -11,10 +12,12 @@ namespace RazorPageApplication.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
+        #endregion
 
+        #region Constructors
         public Parent()
         {
-            
+
         }
 
         public Parent(int id, string mail, string password, string name, string phoneNumber, string address, string postalCode)
@@ -27,10 +30,13 @@ namespace RazorPageApplication.Models
             Address = address;
             PostalCode = postalCode;
         }
+        #endregion
 
+        #region Methods
         public override string ToString()
         {
             return base.ToString();
-        }
+        } 
+        #endregion
     }
 }
