@@ -3,34 +3,29 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class SecretaryRepository : IUserRepositoryAsync<Secretary>
+    public class OrderRepositoryAsync : IOrderRepositoryAsync
     {
-        public SecretaryRepository()
-        {
-            
-        }
-
-        public Task CreateUserAsync(Secretary user)
+        public async Task CreateOrder(Order order)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteUserAsync(Secretary user)
+        public async Task DeleteOrder(Order order)
         {
             throw new NotImplementedException();
         }
 
-        public Task FilterUserAsync(Secretary user)
+        public async Task<List<Order>> FilterOrder(Order order)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Secretary>> GetAllUsersAsync()
+        public async Task<List<Order>> GetAllOrders()
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateUserAsync(Secretary user)
+        public async Task UpdateOrder(Order order)
         {
             throw new NotImplementedException();
         }

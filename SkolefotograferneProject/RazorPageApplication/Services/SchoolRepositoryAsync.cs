@@ -3,34 +3,29 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class StudentRepository : IUserRepositoryAsync<Student>
+    public class SchoolRepositoryAsync : ISchoolRepositoryAsync
     {
-        public StudentRepository()
-        {
-            
-        }
-
-        public Task CreateUserAsync(Student user)
+        public async Task CreateSchoolAsync(School school)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteUserAsync(Student user)
+        public async Task DeleteSchoolAsync(School school)
         {
             throw new NotImplementedException();
         }
 
-        public Task FilterUserAsync(Student user)
+        public async Task<List<School>> FilterSchoolAsync(School school)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<Student>> GetAllUsersAsync()
+        public async Task<List<School>> GetAllSchoolsAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateUserAsync(Student user)
+        public async Task UpdateSchoolAsync(School school)
         {
             throw new NotImplementedException();
         }
