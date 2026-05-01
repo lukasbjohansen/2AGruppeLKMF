@@ -20,7 +20,7 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
-        public async Task FilterUserAsync(Secretary user)
+        public Task<List<Secretary>> FilterUserAsync(string filterCriteria)
         {
             throw new NotImplementedException();
         }
@@ -31,11 +31,6 @@ namespace RazorPageApplication.Services
         }
 
         public async Task UpdateUserAsync(Secretary user)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<List<Secretary>> IUserRepositoryAsync<Secretary>.FilterUserAsync(Secretary user)
         {
             throw new NotImplementedException();
         }

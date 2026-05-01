@@ -6,7 +6,7 @@
         Task Create(T t);
         Task Update(T t);
         Task Delete(T t);
-        Task<List<T>> Filter(T t);
+        Task<List<T>> Filter(string filterCriteria);
         Task<List<T>> GetAll();
     }
 }

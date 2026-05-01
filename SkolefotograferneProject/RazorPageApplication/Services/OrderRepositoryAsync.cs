@@ -15,7 +15,7 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<Order>> FilterOrder(Order order)
+        public async Task<List<Order>> FilterOrder(string filterCriteria)
         {
             throw new NotImplementedException();
         }

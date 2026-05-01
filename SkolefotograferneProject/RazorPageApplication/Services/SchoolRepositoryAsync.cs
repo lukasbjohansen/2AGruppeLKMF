@@ -15,7 +15,7 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
-        public async Task<List<School>> FilterSchoolAsync(School school)
+        public async Task<List<School>> FilterSchoolAsync(string filterCriteria)
         {
             throw new NotImplementedException();
         }

@@ -5,7 +5,7 @@
         Task CreateUserAsync(T user);
         Task DeleteUserAsync(T user);
         Task UpdateUserAsync(T user);
-        Task<List<T>> FilterUserAsync(T user);
+        Task<List<T>> FilterUserAsync(string filterCriteria);
         Task<List<T>> GetAllUsersAsync();
     }
 }

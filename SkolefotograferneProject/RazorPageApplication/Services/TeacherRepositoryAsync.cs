@@ -15,7 +15,7 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
-        public Task<List<Teacher>> FilterUserAsync(Teacher user)
+        public Task<List<Teacher>> FilterUserAsync(string filterCriteria)
         {
             throw new NotImplementedException();
         }

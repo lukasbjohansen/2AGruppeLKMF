@@ -20,7 +20,7 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
-        public async Task FilterUserAsync(Student user)
+        public async Task<List<Student>> FilterUserAsync(string filterCriteria)
         {
             throw new NotImplementedException();
         }
@@ -31,11 +31,6 @@ namespace RazorPageApplication.Services
         }
 
         public async Task UpdateUserAsync(Student user)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<List<Student>> IUserRepositoryAsync<Student>.FilterUserAsync(Student user)
         {
             throw new NotImplementedException();
         }

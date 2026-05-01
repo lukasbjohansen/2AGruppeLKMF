@@ -9,6 +9,6 @@ namespace RazorPageApplication.Interfaces
         Task<List<School>> GetAllSchoolsAsync();
         Task UpdateSchoolAsync(School school);
         Task DeleteSchoolAsync(School school);
-        Task<List<School>> FilterSchoolAsync(School school);
+        Task<List<School>> FilterSchoolAsync(string filterCriteria);
     }
 }
