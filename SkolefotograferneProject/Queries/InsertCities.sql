@@ -1,8 +1,3 @@
--- Insert-script til PostalCodeCity
--- 710 unikke postnumre
--- BEMÆRK: Et eller flere bynavne kan være længere end NVARCHAR(20).
--- Overvej at udvide kolonnen til NVARCHAR(50) for sikkerheds skyld.
-
 INSERT INTO PostalCodeCity (PostalCode, City) VALUES
     ('1050', N'København K'),
     ('1051', N'København K'),
