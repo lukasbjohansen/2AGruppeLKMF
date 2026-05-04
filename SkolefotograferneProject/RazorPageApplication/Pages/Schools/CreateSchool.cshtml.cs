@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
@@ -36,7 +37,9 @@ namespace RazorPageApplication.Pages.Schools
             catch (Exception ex)
             {
                 ViewData["ErrorMessage"] = ex.Message;
+                ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
+
             }
             
         }

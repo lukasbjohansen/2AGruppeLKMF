@@ -6,5 +6,10 @@
         {
             Console.WriteLine(ex.GetType() + ": " + ex.Message);
         }
+
+        public static string GetFullMessage(this Exception ex)
+        {
+            return ex.GetType() + ": " + ex.Message;
+        }
     }
 }

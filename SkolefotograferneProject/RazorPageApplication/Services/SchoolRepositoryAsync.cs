@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using RazorPageApplication.Exceptions;
 using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
@@ -21,11 +22,18 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@PostalCode", school.PostalCode);
                     await command.ExecuteNonQueryAsync();
                 }
+                catch (SqlException sEx)
+                {
+                    sEx.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Create, "Ugyldigt input");
+                }
                 catch (Exception ex)
                 {
                     //ExceptionHelpers.PrintWithType(ex);
                     ex.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Create, ex.GetFullMessage());
                 }
+
             }
         }
 
@@ -42,6 +50,11 @@ namespace RazorPageApplication.Services
         public async Task<List<School>> GetAllSchoolsAsync()
         {
             throw new NotImplementedException();
+            //string query = "SELECT * FROM School";
+            //using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            //{
+
+            //}
         }
 
         public async Task UpdateSchoolAsync(School school)
