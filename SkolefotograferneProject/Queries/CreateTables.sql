@@ -1,0 +1,106 @@
+CREATE TABLE PostalCodeCity(
+	PostalCode VARCHAR(4) NOT NULL PRIMARY KEY,
+	City NVARCHAR(20) NOT NULL
+);
+CREATE TABLE School(
+	SchoolID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	SchoolName NVARCHAR(20) NOT NULL,
+	SchoolAddress NVARCHAR(50) NOT NULL,
+	PostalCode CHAR(4) NOT NULL,
+	FOREIGN KEY (PostalCode) REFERENCES PostalCodeCity (PostalCode)
+);
+CREATE TABLE Secretary(
+	SecretaryID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	SecretaryName NVARCHAR(50) NOT NULL,
+	PhoneNumber VARCHAR(11) NOT NULL,
+	Mail NVARCHAR(30) NOT NULL,
+	SecretaryPassword NVARCHAR(30) NOT NULL,
+	SchoolID INT NOT NULL,
+	FOREIGN KEY (SchoolID) REFERENCES School (SchoolID)
+);
+CREATE TABLE Teacher(
+	TeacherID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	TeacherName NVARCHAR(50) NOT NULL,
+	Mail NVARCHAR(30) NOT NULL,
+	TeacherPassword NVARCHAR(30) NOT NULL,
+	PhoneNumber VARCHAR(11) NOT NULL
+);
+CREATE TABLE SchoolClass(
+	SchoolClassID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	SchoolClassName NVARCHAR(5) NOT NULL,
+	SchoolClassYear INT NOT NULL,
+	SchoolID INT NOT NULL,
+	TeacherID INT NOT NULL,
+	FOREIGN KEY (SchoolID) REFERENCES School (SchoolID),
+	FOREIGN KEY (TeacherID) REFERENCES Teacher (TeacherID)
+);
+CREATE TABLE Student(
+	StudentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	StudentName NVARCHAR(50) NOT NULL,
+	PhotoCode NVARCHAR(15) NOT NULL,
+	SchoolClassID INT NOT NULL,
+	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
+);
+CREATE TABLE Parent(
+	ParentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	ParentName NVARCHAR(50) NOT NULL,
+	Mail NVARCHAR(30) NOT NULL,
+	PhoneNumber VARCHAR(11) NOT NULL,
+	ParentAddress NVARCHAR(50) NOT NULL,
+	ParentPassword NVARCHAR(30) NOT NULL,
+	PostalCode CHAR(4) NOT NULL,
+	FOREIGN KEY (PostalCode) REFERENCES PostalCodeCity (PostalCode)
+);
+CREATE TABLE ParentStudent(
+	StudentID INT NOT NULL,
+	ParentID INT NOT NULL,
+	PRIMARY KEY (StudentID, ParentID),
+	FOREIGN KEY (StudentID) REFERENCES Student (StudentID),
+	FOREIGN KEY (ParentID) REFERENCES Parent (ParentID)
+);
+CREATE TABLE Photographer(
+	PhotographerID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	PhotographerName NVARCHAR(50) NOT NULL,
+	Mail NVARCHAR(30) NOT NULL,
+	PhoneNumber VARCHAR(11) NOT NULL,
+	CVR CHAR(8) NOT NULL,
+	PhotographerPassword NVARCHAR(30) NOT NULL
+);
+CREATE TABLE Photo(
+	PhotoID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	FilePath NVARCHAR(MAX) NOT NULL,
+	PhotoDate DATE NOT NULL,
+	PhotographerID INT NOT NULL,
+	StudentID INT NOT NULL,
+	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID),
+	FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
+);
+CREATE TABLE PhotoEvent(
+	PhotoEventID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	StartDate DATE NOT NULL,
+	EndDate DATE NOT NULL,
+	PhotoEventLocation NVARCHAR(50) NOT NULL,
+	PhotographerID INT NOT NULL,
+	SchoolClassID INT NOT NULL,
+	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID),
+	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
+);
+CREATE TABLE PhotoOrder(
+	PhotoOrderID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	PhotoOrderDate DATE NOT NULL,
+	TotalPrice FLOAT NOT NULL,
+	ParentID INT NOT NULL,
+	FOREIGN KEY (ParentID) REFERENCES Parent (ParentID)
+);
+CREATE TABLE OrderLine(
+	OrderLineID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	PhotoType INT NOT NULL,
+	PhotoColorFormat INT NOT NULL,
+	Price FLOAT NOT NULL,
+	PhotoDimensions INT NOT NULL,
+	Quantity INT NOT NULL,
+	PhotoOrderID INT NOT NULL,
+	PhotoID INT NOT NULL,
+	FOREIGN KEY (PhotoOrderID) REFERENCES PhotoOrder (PhotoOrderID),
+	FOREIGN KEY (PhotoID) REFERENCES Photo (PhotoID)
+);
