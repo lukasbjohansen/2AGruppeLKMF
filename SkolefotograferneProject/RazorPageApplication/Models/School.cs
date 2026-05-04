@@ -8,13 +8,14 @@
         public string Address { get; set; }
         public string PostalCode { get; set; }
         public List<SchoolClass> SchoolClasses { get; set; }
-        public Secretary Secretary { get; set; }
+        public Secretary? Secretary { get; set; }
         #endregion
 
         #region Constructors
         public School()
         {
-
+            SchoolClasses = new List<SchoolClass>();
+           
         }
 
         public School(int id, string name, string address, string postalCode, List<SchoolClass> schoolClasses, Secretary secretary)
