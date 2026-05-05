@@ -27,6 +27,14 @@
             SchoolClasses = schoolClasses;
             Secretary = secretary;
         }
+
+        public School(int id, string name, string address, string postalCode)
+        {
+            Id = id;
+            Name = name;
+            Address = address;
+            PostalCode = postalCode;
+        }
         #endregion
 
         #region Methods
