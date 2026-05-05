@@ -56,7 +56,7 @@
                 <td>@item.Address</td>
                 <td>@item.PostalCode</td>
                 <td>
-                    @* <a asp-page="DeleteMember" asp-route-phoneNumber="@item.PhoneNumber">Delete</a> | *@
+                    <a asp-page="DeleteSchool" asp-route-id="@item.Id">Slet skole</a> |
                     <a asp-page="EditSchool" asp-route-id="@item.Id">Redigér skole</a>
                 </td>
             </tr>
