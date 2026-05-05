@@ -109,16 +109,17 @@ namespace RazorPageApplication.Services
 
         public async Task UpdateSchoolAsync(School school)
         {
-            string query = "UPDATE School SET SchoolName = @SchoolName, SchoolAddress = @SchoolAddress, PostalCode = @PostalCode";
+            string query = "UPDATE School SET SchoolName = @SchoolName, SchoolAddress = @SchoolAddress, PostalCode = @PostalCode WHERE SchoolID = @SchoolID";
             using(SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@SchoolID", school.Id);
                     command.Parameters.AddWithValue("@SchoolName", school.Name);
                     command.Parameters.AddWithValue("@SchoolAddress", school.Address);
-                    command.Parameters.AddWithValue("@SchoolPostalCode", school.PostalCode);
+                    command.Parameters.AddWithValue("@PostalCode", school.PostalCode);
                     await command.ExecuteNonQueryAsync();
 
                 }
