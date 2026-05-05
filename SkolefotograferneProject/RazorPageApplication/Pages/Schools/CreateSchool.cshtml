@@ -8,16 +8,16 @@
     <div asp-validation-summary="All" class="text-danger"></div>
     <input type="hidden" asp-for="@Model.NewSchool.Id" />
     <div class="form-group">
-        <label asp-for="@Model.NewSchool.Name" class="control-label"></label>
+        <label asp-for="@Model.NewSchool.Name" class="control-label">Navn</label>
         <input asp-for="@Model.NewSchool.Name" class="form-control" />
     </div>
 
     <div class="form-group">
-        <label asp-for="@Model.NewSchool.Address" class="control-label"></label>
+        <label asp-for="@Model.NewSchool.Address" class="control-label">Adresse</label>
         <input asp-for="@Model.NewSchool.Address" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.NewSchool.PostalCode" class="control-label"></label>
+        <label asp-for="@Model.NewSchool.PostalCode" class="control-label">Postnummer</label>
         <input asp-for="@Model.NewSchool.PostalCode" class="form-control" />
     </div>
     
