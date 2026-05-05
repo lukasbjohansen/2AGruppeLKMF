@@ -40,7 +40,29 @@ namespace RazorPageApplication.Services
 
         public async Task DeleteSchoolAsync(School school)
         {
-            throw new NotImplementedException();
+            string query = "DELETE FROM School WHERE SchoolID = @SchoolID";
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    await connection.OpenAsync();
+                    command.Parameters.AddWithValue("@SchoolID", school.Id);
+                    await command.ExecuteNonQueryAsync();
+
+                }
+                catch (SqlException sEx)
+                {
+                    sEx.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Delete, "Ugyldig ID");
+                }
+                catch (Exception ex)
+                {
+                    //ExceptionHelpers.PrintWithType(ex);
+                    ex.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Delete, ex.GetFullMessage());
+                }
+            }
         }
 
         public async Task<List<School>> FilterSchoolAsync(string filterCriteria)
