@@ -50,12 +50,13 @@ namespace RazorPageApplication.Services
 
         public async Task<School?> GetSchoolAsync(int id)
         {
-            string query = "SELECT * FROM School WHERE Id = @Id";
-            using(SqlConnection connection = new SqlConnection())
+            string query = "SELECT * FROM School WHERE SchoolID = @SchoolID";
+            using(SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
-                await connection.OpenAsync();
+                
                 SqlCommand command = new SqlCommand(query, connection);
-                command.Parameters.AddWithValue("@Id", id);
+                command.Parameters.AddWithValue("@SchoolID", id);
+                await connection.OpenAsync();
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if(await reader.ReadAsync())
                 {
@@ -64,6 +65,7 @@ namespace RazorPageApplication.Services
                         reader.GetString("SchoolAddress"),
                         reader.GetString("PostalCode"));
                 }
+                await reader.CloseAsync();
             }
             return null;
         }
@@ -119,7 +121,8 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@SchoolPostalCode", school.PostalCode);
                     await command.ExecuteNonQueryAsync();
 
-                } catch(SqlException e)
+                }
+                catch (SqlException e)
                 {
                     e.PrintWithType();
                     throw new RepositoryException(RepositoryExceptionType.Update, "Ugyldigt input");
