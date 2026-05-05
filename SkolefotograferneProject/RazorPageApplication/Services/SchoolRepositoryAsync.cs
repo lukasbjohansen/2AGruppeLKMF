@@ -67,7 +67,45 @@ namespace RazorPageApplication.Services
 
         public async Task<List<School>> FilterSchoolAsync(string filterCriteria)
         {
-            throw new NotImplementedException();
+            string query = @"
+                SELECT * FROM School 
+                WHERE SchoolID LIKE @filterCriteria 
+                OR SchoolName LIKE @filterCriteria 
+                OR SchoolAddress LIKE @filterCriteria
+                OR PostalCode LIKE @filterCriteria";
+            List<School> schools = new List<School>();
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@filterCriteria", $"%{filterCriteria}%");
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        int schoolId = reader.GetInt32("SchoolID");
+                        string schoolName = reader.GetString("SchoolName");
+                        string schoolAddress = reader.GetString("SchoolAddress");
+                        string postalCode = reader.GetString("PostalCode");
+                        School school = new School(schoolId, schoolName, schoolAddress, postalCode);
+                        schools.Add(school);
+                    }
+                    reader.CloseAsync();
+                }
+                catch (SqlException sEx)
+                {
+                    sEx.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Read, "Kan ikke indlæses");
+                }
+                catch (Exception ex)
+                {
+                    //ExceptionHelpers.PrintWithType(ex);
+                    ex.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Read, ex.GetFullMessage());
+                }
+                return schools;
+            }
         }
 
         public async Task<School?> GetSchoolAsync(int id)
