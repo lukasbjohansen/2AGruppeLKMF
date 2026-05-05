@@ -21,6 +21,7 @@ namespace RazorPageApplication.Pages.Schools
         }
         public async Task<IActionResult> OnPostDelete(int id)
         {
+            DeleteSchool = await _repo.GetSchoolAsync(id);
             await _repo.DeleteSchoolAsync(DeleteSchool);
             return RedirectToPage("Index");
         }
