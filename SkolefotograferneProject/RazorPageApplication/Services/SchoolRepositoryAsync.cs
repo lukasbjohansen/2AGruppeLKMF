@@ -48,6 +48,26 @@ namespace RazorPageApplication.Services
             throw new NotImplementedException();
         }
 
+        public async Task<School?> GetSchoolAsync(int id)
+        {
+            string query = "SELECT * FROM School WHERE Id = @Id";
+            using(SqlConnection connection = new SqlConnection())
+            {
+                await connection.OpenAsync();
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@Id", id);
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if(await reader.ReadAsync())
+                {
+                    return new School(id,
+                        reader.GetString("SchoolName"),
+                        reader.GetString("SchoolAddress"),
+                        reader.GetString("PostalCode"));
+                }
+            }
+            return null;
+        }
+
         public async Task<List<School>> GetAllSchoolsAsync()
         {
             string query = "SELECT * FROM School";
@@ -87,7 +107,24 @@ namespace RazorPageApplication.Services
 
         public async Task UpdateSchoolAsync(School school)
         {
-            throw new NotImplementedException();
+            string query = "UPDATE School SET SchoolName = @SchoolName, SchoolAddress = @SchoolAddress, PostalCode = @PostalCode";
+            using(SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@SchoolName", school.Name);
+                    command.Parameters.AddWithValue("@SchoolAddress", school.Address);
+                    command.Parameters.AddWithValue("@SchoolPostalCode", school.PostalCode);
+                    await command.ExecuteNonQueryAsync();
+
+                } catch(SqlException e)
+                {
+                    e.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Update, "Ugyldigt input");
+                }
+            }
         }
     }
 }

@@ -5,7 +5,7 @@ namespace RazorPageApplication.Interfaces
     public interface ISchoolRepositoryAsync
     {
         Task CreateSchoolAsync(School school);
-        //Task<School> GetSchool();
+        Task<School?> GetSchoolAsync(int id);
         Task<List<School>> GetAllSchoolsAsync();
         Task UpdateSchoolAsync(School school);
         Task DeleteSchoolAsync(School school);

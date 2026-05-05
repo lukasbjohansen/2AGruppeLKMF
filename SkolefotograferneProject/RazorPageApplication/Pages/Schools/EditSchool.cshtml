@@ -1,0 +1,31 @@
+﻿@page
+@model RazorPageApplication.Pages.Schools.EditSchoolModel
+@{
+}
+<h1>Redigér skole</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.SchoolToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.SchoolToUpdate.Id" readonly class="form-control"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolToUpdate.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.SchoolToUpdate.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolToUpdate.Address" class="control-label">Adresse</label>
+        <input asp-for="@Model.SchoolToUpdate.Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolToUpdate.PostalCode" class="control-label">Postnummer</label>
+        <input asp-for="@Model.SchoolToUpdate.PostalCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater skole" class="btn btn-primary" />
+    </div>
+
+    <div>
+        <a asp-page="index">Tilbage til skoleoversigt</a>
+    </div>
+</form>
