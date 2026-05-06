@@ -1,8 +1,9 @@
 ﻿using RazorPageApplication.Enums;
+using RazorPageApplication.Interfaces;
 
 namespace RazorPageApplication.Models
 {
-    public class OrderLine
+    public class OrderLine : IIdAble
     {
         #region Properties
         public int Id { get; set; }

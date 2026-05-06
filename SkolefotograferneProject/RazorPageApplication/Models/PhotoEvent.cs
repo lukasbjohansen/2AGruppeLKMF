@@ -1,9 +1,10 @@
-﻿using System.Runtime.ConstrainedExecution;
+﻿using RazorPageApplication.Interfaces;
+using System.Runtime.ConstrainedExecution;
 using System.Xml.Linq;
 
 namespace RazorPageApplication.Models
 {
-    public class PhotoEvent
+    public class PhotoEvent : IIdAble
     {
         #region Properties
         public int Id { get; set; }

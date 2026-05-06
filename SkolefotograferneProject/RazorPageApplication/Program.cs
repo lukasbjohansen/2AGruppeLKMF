@@ -1,11 +1,12 @@
 using RazorPageApplication.Interfaces;
+using RazorPageApplication.Models;
 using RazorPageApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddTransient<ISchoolRepositoryAsync, SchoolRepositoryAsync>();
+builder.Services.AddTransient<IRepository<School>, SchoolRepositoryAsync>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

@@ -4,17 +4,18 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
+using RazorPageApplication.Services;
 
 namespace RazorPageApplication.Pages.Schools
 {
     public class CreateSchoolModel : PageModel
     {
-        private ISchoolRepositoryAsync _repo;
+        private IRepository<School> _repo;
 
         [BindProperty]
         public School NewSchool { get; set; }
 
-        public CreateSchoolModel(ISchoolRepositoryAsync schoolRepository)
+        public CreateSchoolModel(IRepository<School> schoolRepository)
         {
             _repo = schoolRepository;
         }
@@ -30,7 +31,7 @@ namespace RazorPageApplication.Pages.Schools
             }
             try
             {
-                await _repo.CreateSchoolAsync(NewSchool);
+                await _repo.CreateAsync(NewSchool);
                 return RedirectToPage("Index");
             }
 

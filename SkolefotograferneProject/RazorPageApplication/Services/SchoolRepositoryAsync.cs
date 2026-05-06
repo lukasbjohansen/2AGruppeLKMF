@@ -7,9 +7,9 @@ using System.Data;
 
 namespace RazorPageApplication.Services
 {
-    public class SchoolRepositoryAsync : ISchoolRepositoryAsync
+    public class SchoolRepositoryAsync : IRepository<School>
     {
-        public async Task CreateSchoolAsync(School school)
+        public async Task CreateAsync(School school)
         {
             string query = "INSERT INTO School(SchoolName,SchoolAddress,PostalCode) Values(@SchoolName,@SchoolAddress,@PostalCode)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -38,7 +38,7 @@ namespace RazorPageApplication.Services
             }
         }
 
-        public async Task DeleteSchoolAsync(School school)
+        public async Task DeleteAsync(School school)
         {
             string query = "DELETE FROM School WHERE SchoolID = @SchoolID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -65,7 +65,7 @@ namespace RazorPageApplication.Services
             }
         }
 
-        public async Task<List<School>> FilterSchoolAsync(string filterCriteria)
+        public async Task<List<School>> FilterAsync(string filterCriteria)
         {
             string query = @"
                 SELECT * FROM School 
@@ -108,7 +108,7 @@ namespace RazorPageApplication.Services
             }
         }
 
-        public async Task<School?> GetSchoolAsync(int id)
+        public async Task<School?> GetAsync(int id)
         {
             string query = "SELECT * FROM School WHERE SchoolID = @SchoolID";
             using(SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -130,7 +130,7 @@ namespace RazorPageApplication.Services
             return null;
         }
 
-        public async Task<List<School>> GetAllSchoolsAsync()
+        public async Task<List<School>> GetAllAsync()
         {
             string query = "SELECT * FROM School";
             List<School> schools = new List<School>();
@@ -167,7 +167,7 @@ namespace RazorPageApplication.Services
             }
         }
 
-        public async Task UpdateSchoolAsync(School school)
+        public async Task UpdateAsync(School school)
         {
             string query = "UPDATE School SET SchoolName = @SchoolName, SchoolAddress = @SchoolAddress, PostalCode = @PostalCode WHERE SchoolID = @SchoolID";
             using(SqlConnection connection = new SqlConnection(Secret.ConnectionString))

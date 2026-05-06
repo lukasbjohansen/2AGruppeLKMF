@@ -20,7 +20,12 @@ namespace RazorPageApplication.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<List<SchoolClass>> GetAllAsync()
+        public Task<SchoolClass> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<SchoolClass>> GetAllAsync()
 		{
 			throw new NotImplementedException();
 		}

@@ -1,8 +1,9 @@
 ﻿using RazorPageApplication.Interfaces;
+using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-	public class PhotoRepositoryAsync : IRepository<Photo>
+    public class PhotoRepositoryAsync : IRepository<Photo>
 	{
 		public Task CreateAsync(Photo item)
 		{
@@ -19,7 +20,12 @@ namespace RazorPageApplication.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<List<Photo>> GetAllAsync()
+        public Task<Photo> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Photo>> GetAllAsync()
 		{
 			throw new NotImplementedException();
 		}

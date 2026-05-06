@@ -7,22 +7,22 @@ namespace RazorPageApplication.Pages.Schools
 {
     public class DeleteSchoolModel : PageModel
     {
-        private readonly ISchoolRepositoryAsync _repo;
+        private readonly IRepository<School> _repo;
         public School DeleteSchool { get; set; }
-        public DeleteSchoolModel (ISchoolRepositoryAsync repo)
+        public DeleteSchoolModel (IRepository<School> repo)
         {
             _repo = repo;
         }
 
         public async Task<IActionResult> OnGet(int id)
         {
-            DeleteSchool = await _repo.GetSchoolAsync(id);
+            DeleteSchool = await _repo.GetAsync(id);
             return Page();
         }
         public async Task<IActionResult> OnPostDelete(int id)
         {
-            DeleteSchool = await _repo.GetSchoolAsync(id);
-            await _repo.DeleteSchoolAsync(DeleteSchool);
+            DeleteSchool = await _repo.GetAsync(id);
+            await _repo.DeleteAsync(DeleteSchool);
             return RedirectToPage("Index");
         }
         public IActionResult OnPost()

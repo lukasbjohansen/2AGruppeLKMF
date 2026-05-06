@@ -20,7 +20,12 @@ namespace RazorPageApplication.Services
 			throw new NotImplementedException();
 		}
 
-		public Task<List<Photographer>> GetAllAsync()
+        public Task<Photographer> GetAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<Photographer>> GetAllAsync()
 		{
 			throw new NotImplementedException();
 		}

@@ -1,6 +1,8 @@
-﻿namespace RazorPageApplication.Models
+﻿using RazorPageApplication.Interfaces;
+
+namespace RazorPageApplication.Models
 {
-    public class Photo
+    public class Photo : IIdAble
     {
         #region Properties
         public int Id { get; set; }

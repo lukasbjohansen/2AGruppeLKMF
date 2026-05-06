@@ -1,6 +1,8 @@
-﻿namespace RazorPageApplication.Models
+﻿using RazorPageApplication.Interfaces;
+
+namespace RazorPageApplication.Models
 {
-    public class School
+    public class School : IIdAble
     {
         #region Properties
         public int Id { get; set; }

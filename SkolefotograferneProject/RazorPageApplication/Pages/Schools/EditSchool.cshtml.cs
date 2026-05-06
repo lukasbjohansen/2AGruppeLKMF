@@ -8,19 +8,19 @@ namespace RazorPageApplication.Pages.Schools
 {
     public class EditSchoolModel : PageModel
     {
-        private readonly ISchoolRepositoryAsync _repo;
+        private readonly IRepository<School> _repo;
 
         [BindProperty]
         public School? SchoolToUpdate { get; set; }
 
-        public EditSchoolModel(ISchoolRepositoryAsync repo)
+        public EditSchoolModel(IRepository<School> repo)
         {
             _repo = repo;
         }
 
         public async Task OnGet(int id)
         {
-            SchoolToUpdate = await _repo.GetSchoolAsync(id);
+            SchoolToUpdate = await _repo.GetAsync(id);
         }
 
         public async Task<IActionResult> OnPostUpdate()
@@ -31,7 +31,7 @@ namespace RazorPageApplication.Pages.Schools
             }
             try
             {
-                await _repo.UpdateSchoolAsync(SchoolToUpdate);
+                await _repo.UpdateAsync(SchoolToUpdate);
                 return RedirectToPage("Index");
             }
             catch (SqlException e)
