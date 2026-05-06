@@ -2,7 +2,7 @@
 
 namespace RazorPageApplication.Models
 {
-    public class Photographer:IUser
+    public class Photographer : IUser
     {
         #region Properties
         public int Id { get; set; }
