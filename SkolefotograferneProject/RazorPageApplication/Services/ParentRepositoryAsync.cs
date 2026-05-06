@@ -3,36 +3,31 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class ParentRepositoryAsync : IUserRepositoryAsync<Parent>
-    {
-        public ParentRepositoryAsync()
-        {
-            
-        }
+	public class ParentRepositoryAsync : IRepository<Parent>
+	{
+		public Task CreateAsync(Parent item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public async Task CreateUserAsync(Parent user)
-        {
-            throw new NotImplementedException();
-        }
+		public Task DeleteAsync(Parent item)
+		{
+			throw new NotImplementedException();
+		}
 
-        public async Task DeleteUserAsync(Parent user)
-        {
-            throw new NotImplementedException();
-        }
+		public Task<List<Parent>> FilterAsync(string filterCriteria)
+		{
+			throw new NotImplementedException();
+		}
 
-        public async Task<List<Parent>> FilterUserAsync(string filterCriteria)
-        {
-            throw new NotImplementedException();
-        }
+		public Task<List<Parent>> GetAllAsync()
+		{
+			throw new NotImplementedException();
+		}
 
-        public async Task<List<Parent>> GetAllUsersAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task UpdateUserAsync(Parent user)
-        {
-            throw new NotImplementedException();
-        }
-    }
+		public Task UpdateAsync(Parent item)
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

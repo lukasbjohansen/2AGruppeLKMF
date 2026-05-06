@@ -1,6 +1,8 @@
-﻿namespace RazorPageApplication.Models
+﻿using RazorPageApplication.Interfaces;
+
+namespace RazorPageApplication.Models
 {
-    public class Order
+    public class Order : IIdAble
     {
         #region Properties
         public int Id { get; set; }

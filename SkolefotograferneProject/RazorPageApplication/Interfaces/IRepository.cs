@@ -1,12 +1,13 @@
 ﻿namespace RazorPageApplication.Interfaces
 {
     // The DRY way...
-    public interface IRepository<T>
+    public interface IRepository<T> where T : IIdAble
     {
-        Task Create(T t);
-        Task Update(T t);
-        Task Delete(T t);
-        Task<List<T>> Filter(string filterCriteria);
-        Task<List<T>> GetAll();
+        Task CreateAsync(T item);
+        Task UpdateAsync(T item);
+        Task DeleteAsync(T item);
+        Task<T> Get(int id);
+        Task<List<T>> FilterAsync(string filterCriteria);
+        Task<List<T>> GetAllAsync();
     }
 }

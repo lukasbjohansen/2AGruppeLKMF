@@ -1,8 +1,7 @@
 ﻿namespace RazorPageApplication.Interfaces
 {
-    public interface IUser
+    public interface IUser : IIdAble
     {
-        int Id { get; set; }
         string Mail { get; set; }
         string Password { get; set; }
     }
