@@ -1,7 +1,6 @@
 ﻿namespace RazorPageApplication.Interfaces
 {
-    // The DRY way...
-    public interface IRepository<T> where T : IIdAble
+    public interface IRepositoryAsync<T> where T : IIdAble
     {
         Task CreateAsync(T item);
         Task UpdateAsync(T item);

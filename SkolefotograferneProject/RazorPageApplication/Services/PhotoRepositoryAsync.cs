@@ -3,7 +3,7 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class PhotoRepositoryAsync : IRepository<Photo>
+    public class PhotoRepositoryAsync : IRepositoryAsync<Photo>
 	{
 		public Task CreateAsync(Photo item)
 		{

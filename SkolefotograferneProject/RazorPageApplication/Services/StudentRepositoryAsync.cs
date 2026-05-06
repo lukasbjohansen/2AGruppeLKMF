@@ -3,7 +3,7 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class StudentRepositoryAsync : IRepository<Student>
+    public class StudentRepositoryAsync : IRepositoryAsync<Student>
     {
         public StudentRepositoryAsync()
         {

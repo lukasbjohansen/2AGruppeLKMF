@@ -8,12 +8,12 @@ namespace RazorPageApplication.Pages.Schools
 {
     public class EditSchoolModel : PageModel
     {
-        private readonly IRepository<School> _repo;
+        private readonly IRepositoryAsync<School> _repo;
 
         [BindProperty]
         public School? SchoolToUpdate { get; set; }
 
-        public EditSchoolModel(IRepository<School> repo)
+        public EditSchoolModel(IRepositoryAsync<School> repo)
         {
             _repo = repo;
         }

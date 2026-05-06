@@ -3,7 +3,7 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-	public class PhotoEventRepositoryAsync : IRepository<PhotoEvent>
+	public class PhotoEventRepositoryAsync : IRepositoryAsync<PhotoEvent>
 	{
 		public Task CreateAsync(PhotoEvent item)
 		{

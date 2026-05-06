@@ -3,7 +3,7 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-	public class OrderLineRepositoryAsync : IRepository<OrderLine>
+	public class OrderLineRepositoryAsync : IRepositoryAsync<OrderLine>
 	{
 		public Task CreateAsync(OrderLine t)
 		{

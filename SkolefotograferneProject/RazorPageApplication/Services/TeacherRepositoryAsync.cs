@@ -3,7 +3,7 @@ using RazorPageApplication.Models;
 
 namespace RazorPageApplication.Services
 {
-    public class TeacherRepositoryAsync : IRepository<Teacher>
+    public class TeacherRepositoryAsync : IRepositoryAsync<Teacher>
     {
         public async Task CreateAsync(Teacher user)
         {

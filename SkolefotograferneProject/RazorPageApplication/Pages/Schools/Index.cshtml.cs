@@ -7,10 +7,10 @@ namespace RazorPageApplication.Pages.Schools
 {
     public class IndexModel : PageModel
     {
-        private IRepository<School> _repo;
+        private IRepositoryAsync<School> _repo;
         public List<School> Schools { get; set; }
 
-        public IndexModel(IRepository<School> schoolRepository)
+        public IndexModel(IRepositoryAsync<School> schoolRepository)
         {
             _repo = schoolRepository;
         }

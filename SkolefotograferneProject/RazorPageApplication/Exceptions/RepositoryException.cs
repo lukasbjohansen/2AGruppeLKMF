@@ -1,4 +1,6 @@
-﻿namespace RazorPageApplication.Exceptions
+﻿using RazorPageApplication.Helpers;
+
+namespace RazorPageApplication.Exceptions
 {
     public class RepositoryException : Exception
     {
@@ -9,7 +11,8 @@
             Type = type;
         }
 
-        public override string Message { get { return $"{base.Message}"; } }
+        public override string Message { get { return base.Message; } }
+        public string FullMessage { get { return $"Repository exception ({Type}): {this.GetFullMessage()}"; } }
     }
 
     public enum RepositoryExceptionType

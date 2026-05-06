@@ -6,17 +6,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddTransient<IRepository<School>, SchoolRepositoryAsync>();
-builder.Services.AddTransient<IRepository<SchoolClass>, SchoolClassRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Teacher>, TeacherRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Secretary>, SecretaryRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Parent>, ParentRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Student>, StudentRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Photographer>, PhotographerRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Photo>, PhotoRepositoryAsync>();
-builder.Services.AddTransient<IRepository<PhotoEvent>, PhotoEventRepositoryAsync>();
-builder.Services.AddTransient<IRepository<Order>, OrderRepositoryAsync>();
-builder.Services.AddTransient<IRepository<OrderLine>, OrderLineRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<School>, SchoolRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<SchoolClass>, SchoolClassRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Teacher>, TeacherRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Secretary>, SecretaryRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Parent>, ParentRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Student>, StudentRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Photographer>, PhotographerRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Photo>, PhotoRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<PhotoEvent>, PhotoEventRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<Order>, OrderRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<OrderLine>, OrderLineRepositoryAsync>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

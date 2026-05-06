@@ -7,9 +7,9 @@ namespace RazorPageApplication.Pages.Schools
 {
     public class DeleteSchoolModel : PageModel
     {
-        private readonly IRepository<School> _repo;
+        private readonly IRepositoryAsync<School> _repo;
         public School DeleteSchool { get; set; }
-        public DeleteSchoolModel (IRepository<School> repo)
+        public DeleteSchoolModel (IRepositoryAsync<School> repo)
         {
             _repo = repo;
         }

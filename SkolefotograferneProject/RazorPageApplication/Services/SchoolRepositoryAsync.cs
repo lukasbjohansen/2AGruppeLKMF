@@ -7,7 +7,7 @@ using System.Data;
 
 namespace RazorPageApplication.Services
 {
-    public class SchoolRepositoryAsync : IRepository<School>
+    public class SchoolRepositoryAsync : IRepositoryAsync<School>
     {
         public async Task CreateAsync(School school)
         {

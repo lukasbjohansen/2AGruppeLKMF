@@ -10,12 +10,12 @@ namespace RazorPageApplication.Pages.Schools
 {
     public class CreateSchoolModel : PageModel
     {
-        private IRepository<School> _repo;
+        private IRepositoryAsync<School> _repo;
 
         [BindProperty]
         public School NewSchool { get; set; }
 
-        public CreateSchoolModel(IRepository<School> schoolRepository)
+        public CreateSchoolModel(IRepositoryAsync<School> schoolRepository)
         {
             _repo = schoolRepository;
         }
