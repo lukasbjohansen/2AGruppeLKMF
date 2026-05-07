@@ -7,8 +7,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddTransient<IRepositoryAsync<School>, SchoolRepositoryAsync>();
-builder.Services.AddTransient<IRepositoryAsync<SchoolClass>, SchoolClassRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<Teacher>, TeacherRepositoryAsync>();
+builder.Services.AddTransient<IRepositoryAsync<SchoolClass>, SchoolClassRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<Secretary>, SecretaryRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<Parent>, ParentRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<Student>, StudentRepositoryAsync>();

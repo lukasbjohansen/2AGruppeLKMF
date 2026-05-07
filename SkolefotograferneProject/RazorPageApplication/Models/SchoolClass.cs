@@ -7,8 +7,8 @@ namespace RazorPageApplication.Models
         #region Properties
         public int Id { get; set; }
         public string Name { get; set; }
-        public School School { get; set; }
-        public Teacher Teacher { get; set; }
+        public School? School { get; set; }
+        public Teacher? Teacher { get; set; }
         public int Year { get; set; }
         #endregion
 
@@ -18,7 +18,7 @@ namespace RazorPageApplication.Models
 
         }
 
-        public SchoolClass(int id, string name, School school, Teacher teacher, int year)
+        public SchoolClass(int id, string name, School? school, Teacher? teacher, int year)
         {
             Id = id;
             Name = name;

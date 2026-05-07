@@ -9,7 +9,14 @@ namespace RazorPageApplication.Services
 {
 	public class SchoolClassRepositoryAsync : IRepositoryAsync<SchoolClass>
 	{
-		public async Task CreateAsync(SchoolClass item)
+        private IRepositoryAsync<School> _schoolRepo;
+        private IRepositoryAsync<Teacher> _teacherRepo;
+        public SchoolClassRepositoryAsync(IRepositoryAsync<School>schoolRepository,IRepositoryAsync<Teacher>teacherRepository)
+        {
+            _schoolRepo = schoolRepository;
+            _teacherRepo = teacherRepository;
+        }
+        public async Task CreateAsync(SchoolClass item)
 		{
             string query = "INSERT INTO SchoolClass(SchoolClassName,SchoolClassYear,SchoolID,TeacherID) Values(@SchoolClassName,@SchoolClassYear,@SchoolID,@TeacherID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -20,8 +27,8 @@ namespace RazorPageApplication.Services
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@SchoolClassName", item.Name);
                     command.Parameters.AddWithValue("@SchoolClassYear", item.Year);
-                    command.Parameters.AddWithValue("@SchoolID", item.School);
-                    command.Parameters.AddWithValue("@TeacherID", item.Teacher);
+                    command.Parameters.AddWithValue("@SchoolID", item.School.Id);
+                    command.Parameters.AddWithValue("@TeacherID", item.Teacher.Id);
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (SqlException sEx)
@@ -73,17 +80,18 @@ namespace RazorPageApplication.Services
                     {
                         int schoolClassId = reader.GetInt32("SchoolClassID");
                         string schoolClassName = reader.GetString("SchoolClassName");
-                        string schoolClassYear = reader.GetString("SchoolClassYear");
                         int schoolId = reader.GetInt32("SchoolID");
                         int teacherId = reader.GetInt32("TeacherID");
-                        
-                        
-                        SchoolClass schoolClass= new SchoolClass(schoolId,schoolClassName,)
-                        
-                        
+                        int schoolClassYear = reader.GetInt32("SchoolClassYear");
+
+
+                        SchoolClass schoolClass = new SchoolClass(schoolClassId, schoolClassName, await _schoolRepo.GetAsync(schoolId),await _teacherRepo.GetAsync(teacherId), schoolClassYear);
+
+                        schoolClasses.Add(schoolClass);
                         
                     }
                     await reader.CloseAsync();
+                    
                 }
                 catch (SqlException sEx)
                 {

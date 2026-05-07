@@ -10,6 +10,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
         
             private IRepositoryAsync<SchoolClass> _repo;
             public List<SchoolClass> SchoolClasses { get; set; }
+            
 
             public IndexModel(IRepositoryAsync<SchoolClass> schoolClassRepository)
             {

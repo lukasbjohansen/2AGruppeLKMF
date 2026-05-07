@@ -2,20 +2,33 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Pages.SchoolClasses
 {
     public class CreateSchoolClassModel : PageModel
     {
-        
-        private IRepositoryAsync<SchoolClass> _repo;
+
+        private IRepositoryAsync<SchoolClass> _schoolClassRepo;
+        private IRepositoryAsync<Teacher> _teacherRepo;
+        private IRepositoryAsync<School> _schoolRepo;
 
         [BindProperty]
         public SchoolClass NewSchoolClass { get; set; }
 
-        public CreateSchoolClassModel(IRepositoryAsync<SchoolClass> schoolClassRepository)
+        [BindProperty]
+        [Required]
+        public int TeacherId { get; set; }
+
+        [BindProperty]
+        [Required]
+        public int SchoolId { get; set; }
+
+        public CreateSchoolClassModel(IRepositoryAsync<SchoolClass> schoolClassRepository,IRepositoryAsync<Teacher>teacherRepository,IRepositoryAsync<School>schoolRepository)
         {
-            _repo = schoolClassRepository;
+            _schoolClassRepo = schoolClassRepository;
+            _teacherRepo = teacherRepository;
+            _schoolRepo = schoolRepository;
         }
         public void OnGet()
         {
@@ -23,13 +36,16 @@ namespace RazorPageApplication.Pages.SchoolClasses
         }
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid)
+            
+            if (!ModelState.IsValid||TeacherId<1||SchoolId<1)
             {
                 return Page();
             }
+            NewSchoolClass.School = await _schoolRepo.GetAsync(SchoolId);
+            NewSchoolClass.Teacher = await _teacherRepo.GetAsync(TeacherId);
             try
             {
-                await _repo.CreateAsync(NewSchoolClass);
+                await _schoolClassRepo.CreateAsync(NewSchoolClass);
                 return RedirectToPage("Index");
             }
 
