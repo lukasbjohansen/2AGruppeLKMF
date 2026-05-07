@@ -1,0 +1,36 @@
+﻿@page
+@model RazorPageApplication.Pages.SchoolClasses.CreateSchoolClassModel
+@{
+}
+<h1>Opret ny klasse</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewSchoolClass.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewSchoolClass.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.NewSchoolClass.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.NewSchoolClass.Year" class="control-label">Årgang</label>
+        <input asp-for="@Model.NewSchoolClass.Year" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewSchoolClass.School" class="control-label">Skole</label>
+        <input asp-for="@Model.NewSchoolClass.School" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewSchoolClass.Teacher" class="control-label">Lærer</label>
+        <input asp-for="@Model.NewSchoolClass.Teacher" class="form-control" />
+    </div>
+
+
+    <div class="form-group">
+        <input type="submit" value="Opret en skole" class="btn btn-success btn-sm" />
+    </div>
+
+    <div>
+        <a asp-page="index">Gå tilbage til listen af klasser</a>
+    </div>
+</form>
