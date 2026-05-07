@@ -87,11 +87,11 @@ namespace RazorPageApplication.Services
                     while (await reader.ReadAsync())
                     {
                         int teacherID = reader.GetInt32("TeacherID");
-                        string teacherName = reader.GetString("TeacherName");
                         string mail = reader.GetString("Mail");
                         string teacherPassword = reader.GetString("TeacherPassword");
+                        string teacherName = reader.GetString("TeacherName");
                         string phoneNumber = reader.GetString("PhoneNumber");
-                        Teacher teacher = new Teacher(teacherID, teacherName, mail, teacherPassword, phoneNumber);
+                        Teacher teacher = new Teacher(id:teacherID, mail:mail, name:teacherName, password:teacherPassword, phoneNumber:phoneNumber);
                         teachers.Add(teacher);
                     }
                     reader.CloseAsync();
@@ -103,7 +103,6 @@ namespace RazorPageApplication.Services
                 }
                 catch (Exception ex)
                 {
-                    //ExceptionHelpers.PrintWithType(ex);
                     ex.PrintWithType();
                     throw new RepositoryException(RepositoryExceptionType.Read, ex.GetFullMessage());
                 }
