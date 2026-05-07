@@ -1,0 +1,37 @@
+﻿@page
+@model RazorPageApplication.Pages.Photos.CreatePhotoModel
+@{
+    ViewData["Title"] = "Opret foto";
+}
+
+<h1>Opret Foto</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewPhoto.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewPhoto.FilePath" class="control-label">Filnavn</label>
+        <input asp-for="@Model.NewPhoto.FilePath" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhoto.Date" class="control-label">Dato</label>
+        <input asp-for="@Model.NewPhoto.Date" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhoto.Photographer.Name" class="control-label">Fotograf</label>
+        <input asp-for="@Model.NewPhoto.Photographer.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.NewPhoto.Student.Name" class="control-label">Elev</label>
+        <input asp-for="@Model.NewPhoto.Student.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Opret foto" class="btn btn-success btn-sm" />
+    </div>
+
+    <div>
+        <a asp-page="index">Gå tilbage til listen af fotos</a>
+    </div>
+</form>
