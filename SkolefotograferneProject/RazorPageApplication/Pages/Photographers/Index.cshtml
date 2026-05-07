@@ -1,0 +1,39 @@
+﻿@page
+@using RazorPageApplication.Models
+@model RazorPageApplication.Pages.Photographers.IndexModel
+@{
+}
+<h1>Liste over fotografer</h1>
+<p>
+    <a asp-page="CreatePhotographer" class="btn btn-success btn-sm">Opret ny fotograf</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Navn</th>
+            <th>Mail</th>
+            <th>Password</th>
+            <th>PhoneNumber</th>
+            <th>CVR</th>
+            <th>Slet | Redigér</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Photographer photographer in Model.Photographers) //Vi vil gerne løbe alle vores (public property) Member igennem og tage ét member ud af gangen (item) som vi smider ind i en række. Det gør vi ved at blande C# med html ved at bruge @
+        {
+            <tr>
+                <td>@photographer.Id</td>
+                <td>@photographer.Name</td>
+                <td>@photographer.Mail</td>
+                <td>@photographer.Password</td>
+                <td>@photographer.PhoneNumber</td>
+                <td>@photographer.CVR</td>
+                <td>
+                    <a asp-page="DeletePhotographer" asp-route-id="@photographer.Id">Slet fotograf</a> |
+                    <a asp-page="EditPhotographer" asp-route-id="@photographer.Id">Redigér fotograf</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

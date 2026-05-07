@@ -1,0 +1,37 @@
+﻿@page
+@model RazorPageApplication.Pages.Photographers.EditPhotographerModel
+@{
+}
+<h1>Redigér fotograf</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.PhotographerToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerToUpdate.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.PhotographerToUpdate.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerToUpdate.Mail" class="control-label">Mail</label>
+        <input asp-for="@Model.PhotographerToUpdate.Mail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerToUpdate.Password" class="control-label">Password</label>
+        <input asp-for="@Model.PhotographerToUpdate.Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerToUpdate.PhoneNumber" class="control-label">Telefonnummer</label>
+        <input asp-for="@Model.PhotographerToUpdate.PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerToUpdate.CVR" class="control-label">CVR</label>
+        <input asp-for="@Model.PhotographerToUpdate.CVR" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater fotograf" class="btn btn-primary" />
+    </div>
+    <div>
+        <a asp-page="index">Tilbage til fotografoversigt</a>
+    </div>
+</form>
