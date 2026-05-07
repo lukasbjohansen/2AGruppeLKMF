@@ -1,0 +1,44 @@
+﻿@page
+@model RazorPageApplication.Pages.Parents.EditParentModel
+@{
+    ViewData["Title"] = "Redigér forælder";
+}
+<h1>Redigér forælder</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.ParentToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.ParentToUpdate.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.Mail" class="control-label">Mail</label>
+        <input asp-for="@Model.ParentToUpdate.Mail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.PhoneNumber" class="control-label">Telefonnummer</label>
+        <input asp-for="@Model.ParentToUpdate.PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.Address" class="control-label">Adresse</label>
+        <input asp-for="@Model.ParentToUpdate.Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.Password" class="control-label">Adgangskode</label>
+        <input asp-for="@Model.ParentToUpdate.Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentToUpdate.PostalCode" class="control-label">Postnummer</label>
+        <input asp-for="@Model.ParentToUpdate.PostalCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater forælder" class="btn btn-primary" />
+    </div>
+
+    <div>
+        <a asp-page="index">Tilbage til forælderoversigt</a>
+    </div>
+</form>
