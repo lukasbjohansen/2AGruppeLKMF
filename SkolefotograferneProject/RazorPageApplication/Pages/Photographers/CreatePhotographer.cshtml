@@ -1,0 +1,35 @@
+﻿@page
+@model RazorPageApplication.Pages.Photographers.CreatePhotographerModel
+@{
+}
+<h1>Opret fotograf</h1>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewPhotographer.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotographer.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.NewPhotographer.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotographer.Mail" class="control-label">Mail</label>
+        <input asp-for="@Model.NewPhotographer.Mail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotographer.Password" class="control-label">Password</label>
+        <input asp-for="@Model.NewPhotographer.Password" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotographer.PhoneNumber" class="control-label">Telefonnummer</label>
+        <input asp-for="@Model.NewPhotographer.PhoneNumber" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotographer.CVR" class="control-label">CVR</label>
+        <input asp-for="@Model.NewPhotographer.CVR" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Opret en fotograf" class="btn btn-success btn-sm" />
+    </div>
+    <div>
+        <a asp-page="index">Gå tilbage til listen af fotografer</a>
+    </div>
+</form>

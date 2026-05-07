@@ -1,0 +1,15 @@
+﻿@page
+@model RazorPageApplication.Pages.Photographers.DeletePhotographerModel
+@{
+}
+<h1>Slet fotograf</h1>
+<form method="post">
+    <label>ID</label>: @Model.DeletePhotographer.Id<br />
+    <label>Navn</label>: @Model.DeletePhotographer.Name<br />
+    <label>Mail</label>: @Model.DeletePhotographer.Mail<br />
+    <label>Password</label>: @Model.DeletePhotographer.Password<br />
+    <label>Telefonnummer</label>: @Model.DeletePhotographer.PhoneNumber<br />
+    <label>CVR</label>: @Model.DeletePhotographer.CVR<br />
+    <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeletePhotographer.Id" class="btn btn-danger" value="Slet fotograf" />
+    <input type="submit" class="btn btn-warning" value="Annullér" />
+</form>
