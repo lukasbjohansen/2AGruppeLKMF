@@ -1,0 +1,45 @@
+﻿@page
+@model RazorPageApplication.Pages.Parents.CreateParentModel
+@{
+    ViewData["Title"] = "Opret forælder";
+}
+
+<h1>Opret forælder</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewParent.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewParent.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.NewParent.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewParent.Mail" class="control-label">Mail</label>
+        <input asp-for="@Model.NewParent.Mail" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewParent.PhoneNumber" class="control-label">Telefonnummer</label>
+        <input asp-for="@Model.NewParent.PhoneNumber" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.NewParent.Address" class="control-label">Adresse</label>
+        <input asp-for="@Model.NewParent.Address" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewParent.PostalCode" class="control-label">Postnummer</label>
+        <input asp-for="@Model.NewParent.PostalCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewParent.Password" class="control-label">Adgangskode</label>
+        <input asp-for="@Model.NewParent.Password" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Opret forælder" class="btn btn-success btn-sm" />
+    </div>
+
+    <div>
+        <a asp-page="index">Gå tilbage til listen af forældre</a>
+    </div>
+</form>
