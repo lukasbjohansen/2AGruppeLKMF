@@ -122,11 +122,11 @@ namespace RazorPageApplication.Services
                 SqlDataReader reader = await command.ExecuteReaderAsync();
                 if (await reader.ReadAsync())
                 {
-                    return new Teacher(id,
-                        reader.GetString("TeacherName"),
-                        reader.GetString("Mail"),
-                        reader.GetString("TeacherPassword"),
-                        reader.GetString("PhoneNumber"));
+                    return new Teacher(id:id,
+                        name:reader.GetString("TeacherName"),
+                        mail:reader.GetString("Mail"),
+                        password:reader.GetString("TeacherPassword"),
+                        phoneNumber:reader.GetString("PhoneNumber"));
                 }
                 await reader.CloseAsync();
             }
@@ -151,7 +151,7 @@ namespace RazorPageApplication.Services
                         string mail = reader.GetString("Mail");
                         string teacherPassword = reader.GetString("TeacherPassword");
                         string phoneNumber = reader.GetString("PhoneNumber");
-                        Teacher teacher = new Teacher(teacherID, teacherName, mail, teacherPassword, phoneNumber);
+                        Teacher teacher = new Teacher(id:teacherID, name:teacherName, mail:mail, password:teacherPassword, phoneNumber:phoneNumber);
                         teachers.Add(teacher);
                     }
                     reader.CloseAsync();
