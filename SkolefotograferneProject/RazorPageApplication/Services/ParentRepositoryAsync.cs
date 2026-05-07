@@ -68,10 +68,54 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public Task<List<Parent>> FilterAsync(string filterCriteria)
+		public async Task<List<Parent>> FilterAsync(string filterCriteria)
 		{
-			throw new NotImplementedException();
-		}
+            string query = @"
+                SELECT * FROM Parent 
+                WHERE ParentID LIKE @filterCriteria 
+                OR ParentName LIKE @filterCriteria 
+                OR Mail LIKE @filterCriteria
+                OR PhoneNumber LIKE @filterCriteria
+                OR ParentAddress LIKE @filterCriteria
+                OR ParentPassword LIKE @filterCriteria
+                OR PostalCode LIKE @filterCriteria";
+            List<Parent> parents = new List<Parent>();
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@filterCriteria", $"%{filterCriteria}%");
+                    SqlDataReader reader = await command.ExecuteReaderAsync();
+                    while (await reader.ReadAsync())
+                    {
+                        int parentId = reader.GetInt32("ParentID");
+                        string parentName = reader.GetString("ParentName");
+                        string mail = reader.GetString("Mail");
+                        string phoneNumber = reader.GetString("PhoneNumber");
+                        string ParentAddress = reader.GetString("ParentAddress");
+                        string ParentPassword = reader.GetString("ParentPassword");
+                        string postalCode = reader.GetString("PostalCode");
+                        Parent parent = new Parent(parentId, mail, ParentPassword, parentName, phoneNumber, ParentAddress, postalCode);
+                        parents.Add(parent);
+                    }
+                    reader.CloseAsync();
+                }
+                catch (SqlException sEx)
+                {
+                    sEx.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Read, "Kan ikke indlæses");
+                }
+                catch (Exception ex)
+                {
+                    //ExceptionHelpers.PrintWithType(ex);
+                    ex.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Read, ex.GetFullMessage());
+                }
+                return parents;
+            }
+        }
 
         public async Task<Parent> GetAsync(int id)
         {
