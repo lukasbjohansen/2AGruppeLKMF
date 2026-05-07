@@ -1,7 +1,3 @@
--- PostalCodeCity
-INSERT INTO PostalCodeCity (PostalCode, City) VALUES ('4000', 'Roskilde');
-INSERT INTO PostalCodeCity (PostalCode, City) VALUES ('2100', 'København Ø');
-
 -- School
 INSERT INTO School (SchoolName, SchoolAddress, PostalCode) VALUES ('Roskilde Skole', 'Skolevej 1', '4000');
 INSERT INTO School (SchoolName, SchoolAddress, PostalCode) VALUES ('Østerbro Skole', 'Østerbrogade 10', '2100');
