@@ -1,0 +1,14 @@
+﻿@page
+@model RazorPageApplication.Pages.PhotoEvents.DeletePhotoEventModel
+@{
+}
+<h1>Slet fotoevent</h1>
+<form method="post">
+    <label>ID</label>: @Model.DeletePhotoEvent.Id<br />
+    <label>Starttid</label>: @Model.DeletePhotoEvent.StartTime<br />
+    <label>Sluttid</label>: @Model.DeletePhotoEvent.EndTime<br />
+    <label>Fotograf id</label>: @Model.DeletePhotoEvent.Photographer.Id<br />
+    <label>Skoleklasse id</label>: @Model.DeletePhotoEvent.SchoolClass.Id<br />
+    <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeletePhotoEvent.Id" class="btn btn-danger" value="Slet fotoevent" />
+    <input type="submit" class="btn btn-warning" value="Annullér" />
+</form>
