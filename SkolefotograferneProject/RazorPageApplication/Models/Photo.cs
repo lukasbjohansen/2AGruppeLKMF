@@ -13,11 +13,13 @@ namespace RazorPageApplication.Models
         #endregion
 
         #region Constructors
-        public Photo(int id, string filePath, DateTime date)
+        public Photo(int id, string filePath, DateTime date, Photographer photographer, Student student)
         {
             Id = id;
             FilePath = filePath;
             Date = date;
+            Photographer = photographer;
+            Student = student;
         }
 
         public Photo()
@@ -29,7 +31,7 @@ namespace RazorPageApplication.Models
         #region Methods
         public override string ToString()
         {
-            return $"Id: {Id}\n\tFilePath: {FilePath}\n\tDate: {Date}";
+            return $"Id: {Id}\n\tFilePath: {FilePath}\n\tDate: {Date}\n\tPhotographer: {Photographer.Name}\n\tStudent: {Student.Name}";
         }
         #endregion
     }

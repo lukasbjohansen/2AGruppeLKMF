@@ -1,0 +1,15 @@
+﻿@page
+@model RazorPageApplication.Pages.SchoolClasses.DeleteSchoolClassModel
+@{
+    ViewData["Title"] = "Slet skoleklasse";
+}
+<h1>Slet skoleklasse</h1>
+<form method="post">
+    <label>ID</label>: @Model.DeleteSchoolClass.Id<br />
+    <label>Navn</label>: @Model.DeleteSchoolClass.Name<br />
+    <label>Skole</label>: @Model.DeleteSchoolClass.School.Name<br />
+    <label>Lærer</label>: @Model.DeleteSchoolClass.Teacher.Name<br />
+    <label>Årgang</label>: @Model.DeleteSchoolClass.Year<br />
+    <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeleteSchoolClass.Id" class="btn btn-danger" value="Slet skole" />
+    <input type="submit" class="btn btn-warning" value="Annullér" />
+</form>

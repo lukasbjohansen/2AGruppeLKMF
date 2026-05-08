@@ -1,0 +1,37 @@
+﻿@page
+@model RazorPageApplication.Pages.PhotoEvents.EditPhotoEventModel
+@{
+}
+<h1>Redigér fotoevent</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.PhotoEventToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.PhotoEventToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoEventToUpdate.StartTime" class="control-label">Starttid</label>
+        <input asp-for="@Model.PhotoEventToUpdate.StartTime" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoEventToUpdate.EndTime" class="control-label">Sluttid</label>
+        <input asp-for="@Model.PhotoEventToUpdate.EndTime" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoEventToUpdate.Location" class="control-label">Lokation</label>
+        <input asp-for="@Model.PhotoEventToUpdate.Location" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoEventToUpdate.Photographer.Id" class="control-label">Fotograf id</label>
+        <input asp-for="@Model.PhotoEventToUpdate.Photographer.Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoEventToUpdate.SchoolClass.Id" class="control-label">Skoleklasse id</label>
+        <input asp-for="@Model.PhotoEventToUpdate.SchoolClass.Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater fotoevent" class="btn btn-primary" />
+    </div>
+    <div>
+        <a asp-page="index">Tilbage til fotoeventoversigt</a>
+    </div>
+</form>

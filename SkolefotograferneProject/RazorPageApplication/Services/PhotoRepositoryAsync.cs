@@ -47,23 +47,68 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public Task DeleteAsync(Photo item)
+		public async Task DeleteAsync(Photo item)
 		{
-			throw new NotImplementedException();
-		}
+            string query = "DELETE FROM Photo WHERE PhotoID = @PhotoID";
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+                try
+                {
+                    SqlCommand command = new SqlCommand(query, connection);
+                    await connection.OpenAsync();
+                    command.Parameters.AddWithValue("@PhotoID", item.Id);
+                    await command.ExecuteNonQueryAsync();
+
+                }
+                catch (SqlException sEx)
+                {
+                    sEx.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Delete, "Ugyldig ID");
+                }
+                catch (Exception ex)
+                {
+                    //ExceptionHelpers.PrintWithType(ex);
+                    ex.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Delete, ex.GetFullMessage());
+                }
+            }
+        }
 
 		public Task<List<Photo>> FilterAsync(string filterCriteria)
 		{
 			throw new NotImplementedException();
 		}
 
-        public Task<Photo> GetAsync(int id)
+        public async Task<Photo> GetAsync(int id)
         {
-            throw new NotImplementedException();
+            string query = "SELECT * FROM Photo WHERE PhotoID = @PhotoID";
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+
+                SqlCommand command = new SqlCommand(query, connection);
+                command.Parameters.AddWithValue("@PhotoID", id);
+                await connection.OpenAsync();
+                SqlDataReader reader = await command.ExecuteReaderAsync();
+                if (await reader.ReadAsync())
+                {
+                    string filePath = reader.GetString("FilePath");
+                    DateTime date = reader.GetDateTime("DateTime");
+                    int photographerId = reader.GetInt32("PhotographerID");
+                    int studentId = reader.GetInt32("StudentID");
+                    Photographer photographer = await _photographerRepo.GetAsync(photographerId);
+                    Student student = await _studentRepo.GetAsync(studentId);
+
+                    return new Photo(id, filePath, date, photographer, student);
+                }
+                await reader.CloseAsync();
+
+            }
+            return null;
         }
 
         public async Task<List<Photo>> GetAllAsync()
 		{
+            //throw new NotImplementedException();
             string query = "SELECT * FROM Photo";
             List<Photo> photos = new List<Photo>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -80,7 +125,7 @@ namespace RazorPageApplication.Services
                         DateTime date = reader.GetDateTime("PhotoDate");
                         int photographerId = reader.GetInt32("PhotographerID");
                         int studentId = reader.GetInt32("StudentID");
-                        Photo photo = new Photo(photoId, filePath, date);
+                        Photo photo = new Photo(photoId, filePath, date, await _photographerRepo.GetAsync(photographerId), await _studentRepo.GetAsync(studentId));
                         photos.Add(photo);
                     }
                     reader.CloseAsync();

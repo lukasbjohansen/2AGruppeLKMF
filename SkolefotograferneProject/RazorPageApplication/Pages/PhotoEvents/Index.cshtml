@@ -1,0 +1,39 @@
+﻿@page
+@using RazorPageApplication.Models
+@model RazorPageApplication.Pages.PhotoEvents.IndexModel
+@{
+}
+<h1>Liste over fotoevents</h1>
+<p>
+    <a asp-page="CreatePhotoEvent" class="btn btn-success btn-sm">Opret ny fotoevent</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Starttid</th>
+            <th>Sluttid</th>
+            <th>Lokation</th>
+            <th>Fotograf id</th>
+            <th>Skoleklasse id</th>
+            <th>Slet | Redigér</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (PhotoEvent pe in Model.PhotoEvents)
+        {
+            <tr>
+                <td>@pe.Id</td>
+                <td>@pe.StartTime</td>
+                <td>@pe.EndTime</td>
+                <td>@pe.Location</td>
+                <td>@pe.Photographer.Id</td>
+                <td>@pe.SchoolClass.Id</td>
+                <td>
+                    <a asp-page="DeletePhotoEvent" asp-route-id="@pe.Id">Slet fotoevent</a> |
+                    <a asp-page="EditPhotoEvent" asp-route-id="@pe.Id">Redigér fotoevent</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

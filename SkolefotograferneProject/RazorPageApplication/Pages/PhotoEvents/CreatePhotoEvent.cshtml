@@ -1,0 +1,35 @@
+﻿@page
+@model RazorPageApplication.Pages.PhotoEvents.CreatePhotoEventModel
+@{
+}
+<h1>Opret fotoevent</h1>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewPhotoEvent.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotoEvent.StartTime" class="control-label">Starttid</label>
+        <input asp-for="@Model.NewPhotoEvent.StartTime" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotoEvent.EndTime" class="control-label">Sluttid</label>
+        <input asp-for="@Model.NewPhotoEvent.EndTime" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotoEvent.Location" class="control-label">Lokation</label>
+        <input asp-for="@Model.NewPhotoEvent.Location" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotoEvent.Photographer.Id" class="control-label">Fotograf id</label>
+        <input asp-for="@Model.NewPhotoEvent.Photographer.Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewPhotoEvent.SchoolClass.Id" class="control-label">Skoleklasse id</label>
+        <input asp-for="@Model.NewPhotoEvent.SchoolClass.Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Opret en fotoevent" class="btn btn-success btn-sm" />
+    </div>
+    <div>
+        <a asp-page="index">Gå tilbage til listen af fotoevents</a>
+    </div>
+</form>
