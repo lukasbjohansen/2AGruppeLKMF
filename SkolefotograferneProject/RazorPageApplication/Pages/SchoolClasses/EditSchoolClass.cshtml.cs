@@ -35,22 +35,20 @@ namespace RazorPageApplication.Pages.SchoolClasses
         {
             SchoolClassToUpdate = await _repo.GetAsync(id);
 
-            TeacherId = SchoolClassToUpdate.Teacher.Id;
-            SchoolId = SchoolClassToUpdate.School.Id;
+           
 
         }
 
         public async Task<IActionResult> OnPostUpdate()
         {
-            if (!ModelState.IsValid || TeacherId < 1 || SchoolId < 1)
-            {
-                return Page();
-            }
-                var teacher = await _teacherRepo.GetAsync(TeacherId);
-                var school = await _schoolRepo.GetAsync(SchoolId);
+            //if (!ModelState.IsValid || TeacherId < 1 || SchoolId < 1)
+            //{
+            //    return Page();
+            //}
+            SchoolClassToUpdate.School = await _schoolRepo.GetAsync(SchoolId);
+            SchoolClassToUpdate.Teacher = await _teacherRepo.GetAsync(TeacherId);
 
-            SchoolClassToUpdate.Teacher = teacher;
-            SchoolClassToUpdate.School = school;
+
 
             try
             {

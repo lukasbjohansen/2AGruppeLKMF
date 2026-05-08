@@ -1,4 +1,42 @@
 ﻿@page
+@using RazorPageApplication.Models
 @model RazorPageApplication.Pages.Students.IndexModel
 @{
+    ViewData["Title"] = "Opret elev";
 }
+<h1>Liste over elever</h1>
+
+<p>
+    <a asp-page="CreateStudent" class="btn btn-success btn-sm">Opret ny elev</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Navn</th>
+            <th>Skoleklasse</th>
+            <th>Forældre</th>
+            <th>Fotokode</th>
+            <th>Slet | Redigér</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Student item in Model.Students) //Vi vil gerne løbe alle vores (public property) Students igennem og tage ét member ud af gangen (item) som vi smider ind i en række. Det gør vi ved at blande C# med html ved at bruge @
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.SchoolClass.Name</td>
+                <td>@item.Parents</td>
+                <td>@item.PhotoCode</td>
+                <td>
+                    <a asp-page="DeleteSchoolClass" asp-route-id="@item.Id">Slet skoleklasse</a> |
+                    <a asp-page="EditSchoolClass" asp-route-id="@item.Id">Redigér skoleklasse</a>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
