@@ -1,0 +1,40 @@
+﻿@page
+@model RazorPageApplication.Pages.SchoolClasses.EditSchoolClassModel
+@{
+    ViewData["Title"] = "Redigér skoleklasse";
+}
+<h1>Redigér skoleklasse</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.SchoolClassToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.SchoolClassToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolClassToUpdate.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.SchoolClassToUpdate.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolClassToUpdate.Year" class="control-label">Årgang</label>
+        <input asp-for="@Model.SchoolClassToUpdate.Year" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolClassToUpdate.School.Name" class="control-label">Skole</label>
+        <input asp-for="@Model.SchoolClassToUpdate.School.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.SchoolClassToUpdate.Teacher.Name" class="control-label">Lærer</label>
+        <input asp-for="@Model.SchoolClassToUpdate.Teacher.Name" class="form-control" />
+    </div>
+
+    
+
+
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater skoleklasse" class="btn btn-primary" />
+    </div>
+
+    <div>
+        <a asp-page="index">Tilbage til skoleklasseoversigt</a>
+    </div>
+</form>

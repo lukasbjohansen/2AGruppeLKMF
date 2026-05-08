@@ -2,6 +2,7 @@
 @using RazorPageApplication.Models
 @model RazorPageApplication.Pages.SchoolClasses.IndexModel
 @{
+    ViewData["Title"] = "Opret skoleklasse";
 }
 <h1>Liste over klasser</h1>
 
@@ -47,7 +48,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (SchoolClass item in Model.SchoolClasses) //Vi vil gerne løbe alle vores (public property) Member igennem og tage ét member ud af gangen (item) som vi smider ind i en række. Det gør vi ved at blande C# med html ved at bruge @
+        @foreach (SchoolClass item in Model.SchoolClasses) //Vi vil gerne løbe alle vores (public property) SchoolClass igennem og tage ét member ud af gangen (item) som vi smider ind i en række. Det gør vi ved at blande C# med html ved at bruge @
         {
             <tr>
                 <td>@item.Id</td>
@@ -55,10 +56,10 @@
                 <td>@item.Year</td>
                 <td>@item.School.Name</td>
                 <td>@item.Teacher.Name</td>
-                @* <td>
-                    <a asp-page="DeleteSchool" asp-route-id="@item.Id">Slet skole</a> |
-                    <a asp-page="EditSchool" asp-route-id="@item.Id">Redigér skole</a>
-                </td> *@
+                <td>
+                    <a asp-page="DeleteSchoolClass" asp-route-id="@item.Id">Slet skoleklasse</a> |
+                    <a asp-page="EditSchoolClass" asp-route-id="@item.Id">Redigér skoleklasse</a>
+                </td>
             </tr>
         }
         

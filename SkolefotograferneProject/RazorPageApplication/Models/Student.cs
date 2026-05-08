@@ -7,8 +7,8 @@ namespace RazorPageApplication.Models
         #region Properties
         public int Id { get; set; }
         public string Name { get; set; }
-        public SchoolClass SchoolClass { get; set; }
-        public List<Parent> Parents { get; set; }
+        public SchoolClass? SchoolClass { get; set; }
+        public List<Parent>? Parents { get; set; }
         public string PhotoCode { get; set; }
         #endregion
 
@@ -18,7 +18,7 @@ namespace RazorPageApplication.Models
 
         }
 
-        public Student(int id, string name, SchoolClass schoolClass, List<Parent> parents, string photoCode)
+        public Student(int id, string name, SchoolClass? schoolClass, List<Parent>? parents, string photoCode)
         {
             Id = id;
             Name = name;
