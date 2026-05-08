@@ -26,9 +26,10 @@ namespace RazorPageApplication.Services
                 {
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@SchoolClassName", user.SchoolClass.Name);
-                    command.Parameters.AddWithValue("@SchoolClassYear", user.SchoolClass.Year);
-                    command.Parameters.AddWithValue("@SchoolID", user.SchoolClass.Id);
+                    command.Parameters.AddWithValue("@StudentName", user.Name);
+                    command.Parameters.AddWithValue("@PhotoCode", user.PhotoCode);
+                    command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass.Id);
+                    //command.Parameters.AddWithValue("@ParentID", user.Parents);
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (SqlException sEx)
@@ -171,9 +172,9 @@ namespace RazorPageApplication.Services
                         int parentId = reader.GetInt32("ParentID");
 
                         SchoolClass schoolClass = await _schoolClassRepo.GetAsync(schoolClassId);
-                        List<Parent> parent = await _parentRepo.GetAllAsync();
+                        List<Parent> parents = await _parentRepo.GetAllAsync();
 
-                        Student student = new Student(studentId, studentName, schoolClass, parent, photoCode);
+                        Student student = new Student(studentId, studentName, schoolClass, parents, photoCode);
                         students.Add(student);
                     }
                     await reader.CloseAsync();

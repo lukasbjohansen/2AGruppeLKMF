@@ -64,6 +64,7 @@ namespace RazorPageApplication.Services
 
         public async Task<List<Photo>> GetAllAsync()
 		{
+            //throw new NotImplementedException();
             string query = "SELECT * FROM Photo";
             List<Photo> photos = new List<Photo>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -80,7 +81,7 @@ namespace RazorPageApplication.Services
                         DateTime date = reader.GetDateTime("PhotoDate");
                         int photographerId = reader.GetInt32("PhotographerID");
                         int studentId = reader.GetInt32("StudentID");
-                        Photo photo = new Photo(photoId, filePath, date);
+                        Photo photo = new Photo(photoId, filePath, date, await _photographerRepo.GetAsync(photographerId), await _studentRepo.GetAsync(studentId));
                         photos.Add(photo);
                     }
                     reader.CloseAsync();
