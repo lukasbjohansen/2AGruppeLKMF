@@ -1,0 +1,34 @@
+﻿@page
+@using RazorPageApplication.Models
+@model RazorPageApplication.Pages.Orders.IndexModel
+@{
+}
+
+<h1>Liste over ordrer</h1>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Dato</th>
+            <th>Total pris</th>
+            <th>Køber</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Order item in Model.Orders)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Date</td>
+                <td>@item.TotalPrice</td>
+                <td>@item.Parent.Name</td>
+                <td>
+                    <a asp-page="DeleteOrder" asp-route-id="@item.Id">Annuller ordre</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

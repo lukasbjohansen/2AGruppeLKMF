@@ -1,0 +1,13 @@
+﻿@page
+@model RazorPageApplication.Pages.Orders.DeleteOrderModel
+@{
+}
+<h1>Annuller ordreenn</h1>
+<form method="post">
+    <label>ID</label>: @Model.DeleteOrder.Id<br />
+    <label>Datoen</label>: @Model.DeleteOrder.Date<br />
+    <label>Total Pris</label>: @Model.DeleteOrder.TotalPrice<br />
+    <label>Køber</label>: @Model.DeleteOrder.Parent.Name<br />
+    @* <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeleteOrder.Id" class="btn btn-danger" value="Annuller ordre" /> *@
+   @*  <input type="submit" class="btn btn-warning" value="Annullér" /> *@
+</form>
