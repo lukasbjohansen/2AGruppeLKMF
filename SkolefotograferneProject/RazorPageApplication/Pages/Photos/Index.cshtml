@@ -1,0 +1,43 @@
+﻿@page
+@using RazorPageApplication.Models
+@model RazorPageApplication.Pages.Photos.IndexModel
+@{
+    ViewData["Title"] = "Liste over fotos";
+}
+
+<h1>Liste over fotos</h1>
+
+<p>
+    <a asp-page="CreatePhoto" class="btn btn-success btn-sm">Opret nyt foto</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Filnavn</th>
+            <th>Dato</th>
+            <th>Fotograf</th>
+            <th>Elev</th>
+            <th>Redigér | Slet</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Photo item in Model.Photos)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.FilePath</td>
+                <td>@item.Date</td>
+                <td>@item.Photographer.Name</td>
+                <td>@item.Student.Name</td>
+                <td>
+                    <a asp-page="EditParent" asp-route-id="@item.Id">Redigér</a> | 
+                    <a asp-page="DeleteParent" asp-route-id="@item.Id">Slet</a>
+                </td>
+            </tr>
+        }
+
+    </tbody>
+
+</table>
