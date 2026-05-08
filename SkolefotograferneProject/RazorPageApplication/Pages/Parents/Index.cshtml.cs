@@ -27,7 +27,7 @@ namespace RazorPageApplication.Pages.Parents
         //    Parents = await _repo.GetAllAsync();
         //}
 
-        public async Task OnGet() //Vi vil fylde vores Members op, til det bruger vi vores metode GetAllMembers fra vores SailClubLibrary
+        public async Task OnGet()
         {
             if (!string.IsNullOrEmpty(FilterCriteria))
             {
