@@ -11,6 +11,12 @@ namespace RazorPageApplication.Pages.Photographers
 
         public List<Photographer> Photographers { get; set; }
 
+        [BindProperty(SupportsGet = true)]
+        public string FilterCriteria { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FilterBy { get; set; }
+
         public IndexModel(IRepositoryAsync<Photographer> repo)
         {
             _repo = repo;
@@ -18,7 +24,14 @@ namespace RazorPageApplication.Pages.Photographers
 
         public async Task OnGet()
         {
-            Photographers = await _repo.GetAllAsync();
+            if (string.IsNullOrEmpty(FilterCriteria))
+            {
+                Photographers = await _repo.GetAllAsync();
+            }
+            else
+            {
+                Photographers = await _repo.FilterAsync(FilterCriteria);
+            }
         }
     }
 }

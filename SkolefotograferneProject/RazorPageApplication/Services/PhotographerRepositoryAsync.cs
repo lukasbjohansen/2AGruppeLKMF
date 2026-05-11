@@ -69,17 +69,17 @@ namespace RazorPageApplication.Services
         {
             string query =
                 @"SELECT * FROM Photographer
-                WHERE PhotographerName LIKE %@PhotographerName@%
-                OR Mail LIKE %@Mail@%
-                OR PhotographerPassword LIKE %@PhotographerPassword@%
-                OR PhoneNumber LIKE %@PhotographerPassword@%
-                OR CVR LIKE %@CVR@%";
+                WHERE PhotographerName LIKE @filterCriteria
+                OR Mail LIKE @filterCriteria
+                OR PhotographerPassword LIKE @filterCriteria
+                OR PhoneNumber LIKE @filterCriteria
+                OR CVR LIKE @filterCriteria";
             List<Photographer> photographers = new();
             try
             {
                 using SqlConnection connection = new(Secret.ConnectionString);
                 await connection.OpenAsync();
-                using SqlCommand command = new(query, connection);  
+                using SqlCommand command = new(query, connection);
                 command.Parameters.AddWithValue("@filterCriteria", $"%{filterCriteria}%");
                 using SqlDataReader reader = await command.ExecuteReaderAsync();
                 while (await reader.ReadAsync())
@@ -183,7 +183,11 @@ namespace RazorPageApplication.Services
         {
             string query =
                 @"UPDATE Photographer
-                SET PhotographerName = @PhotographerName, Mail = @Mail, PhotographerPassword = @PhotographerPassword, PhoneNumber = @PhoneNumber, CVR = @CVR
+                SET PhotographerName = @PhotographerName,
+                    Mail = @Mail,
+                    PhotographerPassword = @PhotographerPassword,
+                    PhoneNumber = @PhoneNumber,
+                    CVR = @CVR
                 WHERE PhotographerID = @PhotographerID";
             try
             {
