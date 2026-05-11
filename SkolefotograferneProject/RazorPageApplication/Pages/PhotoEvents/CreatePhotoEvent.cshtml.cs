@@ -28,6 +28,8 @@ namespace RazorPageApplication.Pages.PhotoEvents
                                      IRepositoryAsync<SchoolClass> schoolClassRepo)
         {
             _repo = repo;
+            _photographerRepo = photographerRepo;
+            _schoolClassRepo = schoolClassRepo;
         }
 
         public void OnGet()
