@@ -11,8 +11,8 @@ namespace RazorPageApplication.Models
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
         public string Location { get; set; }
-        public Photographer Photographer { get; set; }
-        public SchoolClass SchoolClass { get; set; } 
+        public Photographer? Photographer { get; set; }
+        public SchoolClass? SchoolClass { get; set; } 
         #endregion
 
         #region Constructors
@@ -20,7 +20,7 @@ namespace RazorPageApplication.Models
         {
 
         }
-        public PhotoEvent(int id, DateTime startTime, DateTime endTime, string location, Photographer photographer, SchoolClass schoolClass)
+        public PhotoEvent(int id, DateTime startTime, DateTime endTime, string location, Photographer? photographer, SchoolClass? schoolClass)
         {
             Id = id;
             StartTime = startTime;

@@ -39,7 +39,7 @@ namespace RazorPageApplication.Pages.PhotoEvents
 
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid)
+            if (!ModelState.IsValid || PhotographerId < 1 || SchoolClassId < 1)
             {
                 return Page();
             }

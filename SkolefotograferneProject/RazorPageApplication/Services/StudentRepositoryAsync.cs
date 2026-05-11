@@ -20,6 +20,7 @@ namespace RazorPageApplication.Services
         public async Task CreateAsync(Student user)
         {
             string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID) Values(@StudentName,@PhotoCode,@SchoolClassID)";
+            //string query2 = "INSERT INTO ParentStudent(StudentID,ParentID) Values(@StudentID,@ParentID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -30,6 +31,15 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@PhotoCode", user.PhotoCode);
                     command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass.Id);
                     //command.Parameters.AddWithValue("@ParentID", user.Parents);
+
+                    //foreach (Parent p in user.Parents)
+                    //{
+                    //    SqlCommand command2 = new SqlCommand(query2, connection);
+                    //    command.Parameters.AddWithValue("@StudentID", user.Id);
+                    //    command.Parameters.AddWithValue("@ParentID", p.Id);
+                    //    await command2.ExecuteNonQueryAsync();
+                    //}
+
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (SqlException sEx)

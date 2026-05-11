@@ -73,7 +73,8 @@ CREATE TABLE Photo(
 	PhotoDate DATE NOT NULL,
 	PhotographerID INT NOT NULL,
 	StudentID INT NOT NULL,
-	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID),
+	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID)
+	ON DELETE CASCADE,
 	FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
 );
 CREATE TABLE PhotoEvent(
@@ -83,7 +84,8 @@ CREATE TABLE PhotoEvent(
 	PhotoEventLocation NVARCHAR(50) NOT NULL,
 	PhotographerID INT NOT NULL,
 	SchoolClassID INT NOT NULL,
-	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID),
+	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID)
+	ON DELETE CASCADE,
 	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
 );
 CREATE TABLE PhotoOrder(
@@ -105,4 +107,5 @@ CREATE TABLE OrderLine(
 	PhotoID INT NOT NULL,
 	FOREIGN KEY (PhotoOrderID) REFERENCES PhotoOrder (PhotoOrderID),
 	FOREIGN KEY (PhotoID) REFERENCES Photo (PhotoID)
+	ON DELETE CASCADE
 );
