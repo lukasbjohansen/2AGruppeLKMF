@@ -9,6 +9,8 @@ namespace RazorPageApplication.Models
         public DateTime Date { get; set; }
         public double TotalPrice { get; set; }
         public Parent Parent { get; set; }
+
+        public List<OrderLine> OrderLines = new List<OrderLine>();
         #endregion
 
         #region constructor
@@ -17,19 +19,21 @@ namespace RazorPageApplication.Models
             
         }
 
-        public Order(int id, DateTime date, double totalPrice, Parent parent)
+        public Order(int id, DateTime date, double totalPrice, Parent parent, List<OrderLine> orderLines)
         {
             Id = id;
             Date = date;
             TotalPrice = totalPrice;
             Parent = parent;
+            OrderLines = orderLines;
+
         }
         #endregion
 
         #region Methods
         public override string ToString()
         {
-            return $"Order: \n\tID: {Id}\n\tDate: {Date}\n\tTotal Price: {TotalPrice}\n\tParent: {Parent.Name}";
+            return $"Order: \n\tID: {Id}\n\tDate: {Date}\n\tTotal Price: {TotalPrice}\n\tParent: {Parent.Name}\n\t";
         } 
         #endregion
     }
