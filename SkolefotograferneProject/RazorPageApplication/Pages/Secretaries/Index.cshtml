@@ -1,0 +1,42 @@
+﻿@page
+@using RazorPageApplication.Models
+@model RazorPageApplication.Pages.Secretaries.IndexModel
+@{
+}
+
+<h1>Liste over secretaries</h1>
+<p>
+    <a asp-page="CreateSecretary" class="btn btn-success btn-sm">Opret ny secretary</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Navn</th>
+            <th>Telefon nummer</th>
+            <th>Mail</th>
+            <th>Skole</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(Secretary item in Model.Secretaries)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.PhoneNumber</td>
+                <td>@item.Mail</td>
+                <td>@item.School.Name</td>
+                <td>
+                    <a asp-page="DeleteSecretary" asp-route-id="@item.Id">Slet</a>|
+                    <a asp-page="UpdateSecretary" asp-route-id="@item.Id">Opdater</a>
+                </td>
+            </tr>
+        }
+
+
+    </tbody>
+
+</table>
+
