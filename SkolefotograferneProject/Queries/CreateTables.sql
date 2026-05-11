@@ -8,7 +8,6 @@ CREATE TABLE School(
 	SchoolAddress NVARCHAR(50) NOT NULL,
 	PostalCode CHAR(4) NOT NULL,
 	FOREIGN KEY (PostalCode) REFERENCES PostalCodeCity (PostalCode)
-	ON DELETE CASCADE
 );
 CREATE TABLE Secretary(
 	SecretaryID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -18,7 +17,6 @@ CREATE TABLE Secretary(
 	SecretaryPassword NVARCHAR(30) NOT NULL,
 	SchoolID INT NOT NULL,
 	FOREIGN KEY (SchoolID) REFERENCES School (SchoolID)
-	ON DELETE CASCADE
 );
 CREATE TABLE Teacher(
 	TeacherID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -33,10 +31,8 @@ CREATE TABLE SchoolClass(
 	SchoolClassYear INT NOT NULL,
 	SchoolID INT NOT NULL,
 	TeacherID INT NOT NULL,
-	FOREIGN KEY (SchoolID) REFERENCES School (SchoolID)
-	ON DELETE CASCADE,
+	FOREIGN KEY (SchoolID) REFERENCES School (SchoolID),
 	FOREIGN KEY (TeacherID) REFERENCES Teacher (TeacherID)
-	ON DELETE CASCADE
 );
 CREATE TABLE Student(
 	StudentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -44,7 +40,6 @@ CREATE TABLE Student(
 	PhotoCode NVARCHAR(15) NOT NULL,
 	SchoolClassID INT NOT NULL,
 	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
-	ON DELETE CASCADE
 );
 CREATE TABLE Parent(
 	ParentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -55,16 +50,14 @@ CREATE TABLE Parent(
 	ParentPassword NVARCHAR(30) NOT NULL,
 	PostalCode CHAR(4) NOT NULL,
 	FOREIGN KEY (PostalCode) REFERENCES PostalCodeCity (PostalCode)
-	ON DELETE CASCADE
 );
 CREATE TABLE ParentStudent(
 	StudentID INT NOT NULL,
 	ParentID INT NOT NULL,
 	PRIMARY KEY (StudentID, ParentID),
-	FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
-	ON DELETE CASCADE,
+	FOREIGN KEY (StudentID) REFERENCES Student (StudentID),
 	FOREIGN KEY (ParentID) REFERENCES Parent (ParentID)
-	ON DELETE CASCADE
+
 );
 CREATE TABLE Photographer(
 	PhotographerID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -80,10 +73,8 @@ CREATE TABLE Photo(
 	PhotoDate DATE NOT NULL,
 	PhotographerID INT NOT NULL,
 	StudentID INT NOT NULL,
-	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID)
-	ON DELETE CASCADE,
+	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID),
 	FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
-	ON DELETE CASCADE
 );
 CREATE TABLE PhotoEvent(
 	PhotoEventID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -92,10 +83,8 @@ CREATE TABLE PhotoEvent(
 	PhotoEventLocation NVARCHAR(50) NOT NULL,
 	PhotographerID INT NOT NULL,
 	SchoolClassID INT NOT NULL,
-	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID)
-	ON DELETE CASCADE,
+	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID),
 	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
-	ON DELETE CASCADE
 );
 CREATE TABLE PhotoOrder(
 	PhotoOrderID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
@@ -114,8 +103,6 @@ CREATE TABLE OrderLine(
 	Quantity INT NOT NULL,
 	PhotoOrderID INT NOT NULL,
 	PhotoID INT NOT NULL,
-	FOREIGN KEY (PhotoOrderID) REFERENCES PhotoOrder (PhotoOrderID)
-	ON DELETE CASCADE,
+	FOREIGN KEY (PhotoOrderID) REFERENCES PhotoOrder (PhotoOrderID),
 	FOREIGN KEY (PhotoID) REFERENCES Photo (PhotoID)
-	ON DELETE CASCADE
 );
