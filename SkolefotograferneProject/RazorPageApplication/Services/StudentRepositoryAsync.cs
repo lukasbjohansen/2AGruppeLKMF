@@ -159,11 +159,12 @@ namespace RazorPageApplication.Services
         }
 
         public async Task<List<Student>> GetAllAsync()
+        
         {
             string query = "SELECT * FROM Student";
             List<Student> students = new List<Student>();
 
-            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            using ( SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
                 try
@@ -178,16 +179,16 @@ namespace RazorPageApplication.Services
                         int studentId = reader.GetInt32("StudentID");
                         string studentName = reader.GetString("StudentName");
                         string photoCode = reader.GetString("PhotoCode");
-                        int schoolClassId = reader.GetInt32("SchoolClassID");
-                        int parentId = reader.GetInt32("ParentID");
+                        int schoolClassId = reader.GetOrdinal("SchoolClassID");
+                        int parentId = reader.GetOrdinal("ParentID");
 
+                        await reader.CloseAsync();
                         SchoolClass schoolClass = await _schoolClassRepo.GetAsync(schoolClassId);
                         List<Parent> parents = await _parentRepo.GetAllAsync();
 
                         Student student = new Student(studentId, studentName, schoolClass, parents, photoCode);
                         students.Add(student);
                     }
-                    await reader.CloseAsync();
 
                 }
                 catch (SqlException sEx)
