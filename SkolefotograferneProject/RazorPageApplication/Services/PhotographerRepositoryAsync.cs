@@ -65,10 +65,46 @@ namespace RazorPageApplication.Services
             }
         }
 
-        //TODO
         public async Task<List<Photographer>> FilterAsync(string filterCriteria)
         {
-            throw new NotImplementedException();
+            string query =
+                @"SELECT * FROM Photographer
+                WHERE PhotographerName LIKE %@PhotographerName@%
+                OR Mail LIKE %@Mail@%
+                OR PhotographerPassword LIKE %@PhotographerPassword@%
+                OR PhoneNumber LIKE %@PhotographerPassword@%
+                OR CVR LIKE %@CVR@%";
+            List<Photographer> photographers = new();
+            try
+            {
+                using SqlConnection connection = new(Secret.ConnectionString);
+                await connection.OpenAsync();
+                using SqlCommand command = new(query, connection);  
+                command.Parameters.AddWithValue("@filterCriteria", $"%{filterCriteria}%");
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    photographers.Add(new(
+                        reader.GetInt32("PhotographerID"),
+                        reader.GetString("PhotographerName"),
+                        reader.GetString("Mail"),
+                        reader.GetString("PhotographerPassword"),
+                        reader.GetString("PhoneNumber"),
+                        reader.GetString("CVR")
+                    ));
+                }
+                return photographers;
+            }
+            catch (SqlException e)
+            {
+                e.PrintWithType();
+                throw new RepositoryException(RepositoryExceptionType.Read, "Kan ikke indlæses");
+            }
+            catch (Exception e)
+            {
+                e.PrintWithType();
+                throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
+            }
         }
 
         public async Task<Photographer> GetAsync(int id)
@@ -129,6 +165,7 @@ namespace RazorPageApplication.Services
                         reader.GetString("CVR")
                     ));
                 }
+                return photographers;
             }
             catch (SqlException e)
             {
@@ -140,7 +177,6 @@ namespace RazorPageApplication.Services
                 e.PrintWithType();
                 throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
             }
-            return photographers;
         }
 
         public async Task UpdateAsync(Photographer photographer)

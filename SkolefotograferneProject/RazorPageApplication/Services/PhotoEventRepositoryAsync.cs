@@ -164,6 +164,7 @@ namespace RazorPageApplication.Services
                 using SqlConnection connection = new(Secret.ConnectionString);
                 await connection.OpenAsync();
                 using SqlCommand command = new(query, connection);
+                command.Parameters.AddWithValue("@PhotoEventID", photoEvent.Id);
                 command.Parameters.AddWithValue("@StartDate", photoEvent.StartTime);
                 command.Parameters.AddWithValue("@EndDate", photoEvent.EndTime);
                 command.Parameters.AddWithValue("@PhotoEventLocation", photoEvent.Location);
