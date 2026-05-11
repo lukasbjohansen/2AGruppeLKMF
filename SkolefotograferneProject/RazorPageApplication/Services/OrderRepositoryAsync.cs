@@ -96,7 +96,7 @@ namespace RazorPageApplication.Services
 						double totalPrice = reader.GetDouble("TotalPrice");
 						int parentID = reader.GetInt32("ParentID");
 
-						Order order = new Order(orderID, orderDate, totalPrice, await _parentRepo.GetAsync(parentID));
+						Order order = new Order(orderID, orderDate, totalPrice, await _parentRepo.GetAsync(parentID), null);
 						filteredOrder.Add(order);
 					}
 					reader.CloseAsync();
@@ -133,7 +133,7 @@ namespace RazorPageApplication.Services
 						return new Order(id,
 							reader.GetDateTime("PhotoOrderDate"),
 							reader.GetDouble("TotalPrice"),
-							parent); 
+							parent, null); 
 					}
 
 					await reader.CloseAsync();
@@ -171,7 +171,7 @@ namespace RazorPageApplication.Services
 						double totalPrice = reader.GetDouble("TotalPrice");
 						int parentID = reader.GetInt32("ParentID"); 
 						
-						Order order = new Order(orderID, orderDate, totalPrice, await _parentRepo.GetAsync(parentID));
+						Order order = new Order(orderID, orderDate, totalPrice, await _parentRepo.GetAsync(parentID), null);
 						orders.Add(order);
                     }
 					reader.CloseAsync();
