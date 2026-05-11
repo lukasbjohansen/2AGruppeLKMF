@@ -10,7 +10,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
     public class EditSchoolClassModel : PageModel
     {
         private readonly IRepositoryAsync<SchoolClass> _repo;
-        private readonly IRepositoryAsync<Teacher> _teacherRepo;
+        private readonly ITeacherRepository _teacherRepo;
         private readonly IRepositoryAsync<School> _schoolRepo;
 
         [BindProperty]
@@ -24,7 +24,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
         [Required]
         public int SchoolId { get; set; }
 
-        public EditSchoolClassModel(IRepositoryAsync<SchoolClass> repo,IRepositoryAsync<Teacher> teacherRepo,IRepositoryAsync<School> schoolRepo)
+        public EditSchoolClassModel(IRepositoryAsync<SchoolClass> repo, ITeacherRepository teacherRepo,IRepositoryAsync<School> schoolRepo)
         {
             _repo = repo;
             _teacherRepo = teacherRepo;

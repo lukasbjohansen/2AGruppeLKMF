@@ -25,17 +25,19 @@ namespace RazorPageApplication.Models
         /// Full name.
         /// </summary>
         [Required]
+        [Display(Name = "Navn")]
         public string Name { get; set; }
         /// <summary>
         /// Phonenumber. Must be unique.
         /// </summary>
         [Required]
+        [Display(Name = "Telefonnummer")]
         public string PhoneNumber { get; set; }
         /// <summary>
         /// Role. Assigns Teacher role to teacher object
         /// </summary>
         [Required]
-        public UserRole Role { get => UserRole.Teacher; }
+        public UserRole Role { get; set; }
         #endregion
         #region Constructors
         /// <summary>
@@ -49,6 +51,7 @@ namespace RazorPageApplication.Models
             Password = "";
             Name = "";
             PhoneNumber = "";
+            Role = UserRole.Teacher;
         }
 		/// <summary>
 		/// Default constructor.
@@ -65,6 +68,7 @@ namespace RazorPageApplication.Models
             Password = password;
             Name = name;
             PhoneNumber = phoneNumber;
+            Role = UserRole.Teacher;
         }
 		#endregion
 		#region Methods

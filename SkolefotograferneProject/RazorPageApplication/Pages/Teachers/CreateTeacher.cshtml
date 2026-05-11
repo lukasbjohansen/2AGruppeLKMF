@@ -1,0 +1,31 @@
+﻿@page
+@model RazorPageApplication.Pages.Teachers.CreateTeacherModel
+@{
+}
+<h1>Opret lærer</h1>
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewTeacher.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewTeacher.Name" class="control-label"></label>
+        <input asp-for="@Model.NewTeacher.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewTeacher.Mail" class="control-label"></label>
+        <input asp-for="@Model.NewTeacher.Mail" class="form-control" type="email" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewTeacher.Password" class="control-label"></label>
+        <input asp-for="@Model.NewTeacher.Password" class="form-control" type="password" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewTeacher.PhoneNumber" class="control-label"></label>
+        <input asp-for="@Model.NewTeacher.PhoneNumber" class="form-control" type="tel" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Opret lærer" class="btn btn-success btn-sm" />
+    </div>
+    <div>
+        <a asp-page="index">Gå tilbage til listen af lærere</a>
+    </div>
+</form>

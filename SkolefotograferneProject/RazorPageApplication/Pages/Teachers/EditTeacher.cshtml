@@ -1,0 +1,36 @@
+﻿@page
+@model RazorPageApplication.Pages.Teachers.EditTeacherModel
+@{
+}
+<h1>Redigér lærer</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.TeacherToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.TeacherToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.TeacherToUpdate.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.TeacherToUpdate.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.TeacherToUpdate.Mail" class="control-label">Email</label>
+        <input asp-for="@Model.TeacherToUpdate.Mail" class="form-control" type="email" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.TeacherToUpdate.Password" class="control-label">
+            Ny adgangskode (lad være tom for at beholde nuværende)
+        </label>
+        <input asp-for="@Model.TeacherToUpdate.Password" class="form-control" type="password" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.TeacherToUpdate.PhoneNumber" class="control-label">Telefonnummer</label>
+        <input asp-for="@Model.TeacherToUpdate.PhoneNumber" class="form-control" type="tel" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater lærer" class="btn btn-primary" />
+    </div>
+    <div>
+        <a asp-page="index">Tilbage til læreroversigt</a>
+    </div>
+</form>

@@ -10,8 +10,8 @@ namespace RazorPageApplication.Services
 	public class SchoolClassRepositoryAsync : IRepositoryAsync<SchoolClass>
 	{
         private IRepositoryAsync<School> _schoolRepo;
-        private IRepositoryAsync<Teacher> _teacherRepo;
-        public SchoolClassRepositoryAsync(IRepositoryAsync<School>schoolRepository,IRepositoryAsync<Teacher>teacherRepository)
+        private ITeacherRepository _teacherRepo;
+        public SchoolClassRepositoryAsync(IRepositoryAsync<School>schoolRepository,ITeacherRepository teacherRepository)
         {
             _schoolRepo = schoolRepository;
             _teacherRepo = teacherRepository;

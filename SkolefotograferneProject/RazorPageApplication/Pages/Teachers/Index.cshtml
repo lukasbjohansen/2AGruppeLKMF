@@ -1,0 +1,50 @@
+﻿@page
+@using RazorPageApplication.Enums
+@using RazorPageApplication.Models
+@model RazorPageApplication.Pages.Teachers.IndexModel
+@{
+}
+<h1>Liste over lærere</h1>
+
+<p>
+    <a asp-page="CreateTeacher" class="btn btn-success btn-sm">Opret ny lærer</a>
+</p>
+
+<form method="get">
+    Søg: <input type="text" asp-for="@Model.FilterCriteria" />
+
+    <select asp-for="@Model.FilterBy"
+            asp-items="Html.GetEnumSelectList<TeacherFilterBy>()"
+            class="form-select d-inline-block"
+            style="width:auto; margin-left: 8px;">
+    </select>
+
+    <input type="submit" value="Filtrér" class="btn btn-primary btn-sm" />
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Navn</th>
+            <th>Email</th>
+            <th>Telefonnummer</th>
+            <th>Slet | Redigér</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Teacher item in Model.Teachers)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.Name</td>
+                <td>@item.Mail</td>
+                <td>@item.PhoneNumber</td>
+                <td>
+                    <a asp-page="DeleteTeacher" asp-route-id="@item.Id">Slet lærer</a> |
+                    <a asp-page="EditTeacher" asp-route-id="@item.Id">Redigér lærer</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
+using RazorPageApplication.Enums;
 using RazorPageApplication.Exceptions;
 using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
@@ -7,20 +8,19 @@ using System.Data;
 
 namespace RazorPageApplication.Services
 {
-    public class TeacherRepositoryAsync : IRepositoryAsync<Teacher>
+    public class TeacherRepositoryAsync : ITeacherRepository
     {
         public async Task CreateAsync(Teacher item)
         {
             string query = @"INSERT INTO Teacher
-                            (TeacherID, TeacherName, Mail, TeacherPassword, PhoneNumber) 
-                            Values(@TeacherID, @TeacherName, @Mail, @TeacherPassword, @PhoneNumber)";
+                            (TeacherName, Mail, TeacherPassword, PhoneNumber) 
+                            Values(@TeacherName, @Mail, @TeacherPassword, @PhoneNumber)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@TeacherID", item.Id);
                     command.Parameters.AddWithValue("@TeacherName", item.Name);
                     command.Parameters.AddWithValue("@Mail", item.Mail);
                     command.Parameters.AddWithValue("@TeacherPassword", item.Password);
@@ -66,15 +66,35 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-
         public async Task<List<Teacher>> FilterAsync(string filterCriteria)
         {
-            string query = @"
-                SELECT * FROM Teacher 
-                WHERE TeacherID LIKE @filterCriteria 
-                OR TeacherName LIKE @filterCriteria 
-                OR Mail LIKE @filterCriteria
-                OR PhoneNumber LIKE @filterCriteria";
+            return await FilterAsync(filterCriteria, TeacherFilterBy.All);
+        }
+        public async Task<List<Teacher>> FilterAsync(string filterCriteria, TeacherFilterBy teacherFilterBy)
+        {
+            string whereSql;
+            switch (teacherFilterBy)
+            {
+                case TeacherFilterBy.TeacherID:
+                    whereSql = "TeacherID LIKE @filterCriteria";
+                    break;
+                case TeacherFilterBy.TeacherName:
+                    whereSql = "TeacherName LIKE @filterCriteria";
+                    break;
+                case TeacherFilterBy.Mail:
+                    whereSql = "Mail LIKE @filterCriteria";
+                    break;
+                case TeacherFilterBy.PhoneNumber:
+                    whereSql = "PhoneNumber LIKE @filterCriteria";
+                    break;
+                default:
+                    whereSql = @"TeacherID LIKE @filterCriteria 
+                               OR TeacherName LIKE @filterCriteria 
+                               OR Mail LIKE @filterCriteria 
+                               OR PhoneNumber LIKE @filterCriteria";
+                    break;
+            }
+            string query = $"SELECT * FROM Teacher WHERE {whereSql}";
             List<Teacher> teachers = new List<Teacher>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -94,7 +114,7 @@ namespace RazorPageApplication.Services
                         Teacher teacher = new Teacher(id:teacherID, mail:mail, name:teacherName, password:teacherPassword, phoneNumber:phoneNumber);
                         teachers.Add(teacher);
                     }
-                    reader.CloseAsync();
+                    await reader.CloseAsync();
                 }
                 catch (SqlException sEx)
                 {
@@ -154,7 +174,7 @@ namespace RazorPageApplication.Services
                         Teacher teacher = new Teacher(id:teacherID, name:teacherName, mail:mail, password:teacherPassword, phoneNumber:phoneNumber);
                         teachers.Add(teacher);
                     }
-                    reader.CloseAsync();
+                    await reader.CloseAsync();
                 }
                 catch (SqlException sEx)
                 {
