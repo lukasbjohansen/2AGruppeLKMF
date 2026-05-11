@@ -2,3 +2,30 @@
 @model RazorPageApplication.Pages.Students.CreateStudentModel
 @{
 }
+<h1>Opret ny elev</h1>
+
+<form method="post">
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <input type="hidden" asp-for="@Model.NewStudent.Id" />
+    <div class="form-group">
+        <label asp-for="@Model.NewStudent.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.NewStudent.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <label asp-for="@Model.NewStudent.PhotoCode" class="control-label">Fotokode</label>
+        <input asp-for="@Model.NewStudent.PhotoCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.NewStudent.SchoolClass.Name" class="control-label">Skoleklasse</label>
+        <input asp-for="@Model.NewStudent.SchoolClass.Name" class="form-control" />
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Opret en elev" class="btn btn-success btn-sm" />
+    </div>
+
+    <div>
+        <a asp-page="index">Gå tilbage til listen af elever</a>
+    </div>
+</form>
