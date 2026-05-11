@@ -149,6 +149,7 @@ namespace RazorPageApplication.Services
         }
 
         public async Task<List<Student>> GetAllAsync()
+        
         {
             string query = "SELECT * FROM Student";
             List<Student> students = new List<Student>();

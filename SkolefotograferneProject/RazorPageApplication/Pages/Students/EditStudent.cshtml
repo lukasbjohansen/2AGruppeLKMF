@@ -3,3 +3,36 @@
 @{
     ViewData["Title"] = "Redigér elev";
 }
+<h1>Redigér skoleklasse</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.StudentToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.StudentToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StudentToUpdate.Name" class="control-label">Navn</label>
+        <input asp-for="@Model.StudentToUpdate.Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StudentToUpdate.PhotoCode" class="control-label">Skoleklasse</label>
+        <input asp-for="@Model.StudentToUpdate.PhotoCode" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StudentToUpdate.SchoolClass.Id" class="control-label">Skole</label>
+        <input asp-for="@Model.StudentToUpdate.SchoolClass.Id" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StudentToUpdate.Parents" class="control-label">Skole</label>
+        <input asp-for="@Model.StudentToUpdate.Parents" class="form-control" />
+    </div>
+    
+
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater elev" class="btn btn-primary" />
+    </div>
+
+    <div>
+        <a asp-page="index">Tilbage til elevoversigt</a>
+    </div>
+</form>
