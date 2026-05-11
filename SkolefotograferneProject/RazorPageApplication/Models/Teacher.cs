@@ -1,4 +1,5 @@
-﻿using RazorPageApplication.Interfaces;
+﻿using RazorPageApplication.Enums;
+using RazorPageApplication.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
@@ -30,13 +31,19 @@ namespace RazorPageApplication.Models
         /// </summary>
         [Required]
         public string PhoneNumber { get; set; }
-		#endregion
-		#region Constructors
+        /// <summary>
+        /// Role. Assigns Teacher role to teacher object
+        /// </summary>
+        [Required]
+        public UserRole Role { get => UserRole.Teacher; }
+        #endregion
+        #region Constructors
         /// <summary>
         /// Empty constructor to satisfy razorpages bindproperty.
         /// Initializing each string to avoid compiler-warnings.
         /// </summary>
-		public Teacher()
+        /// 
+        public Teacher()
         {
             Mail = "";
             Password = "";

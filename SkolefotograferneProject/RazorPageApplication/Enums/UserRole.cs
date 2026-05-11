@@ -2,6 +2,6 @@
 {
     public enum UserRole
     {
-        Admin, Teacher, Secretary, Photografer, Parent
+        Admin, Teacher, Secretary, Photographer, Parent
     }
 }

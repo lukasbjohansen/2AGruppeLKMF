@@ -1,4 +1,5 @@
-﻿using RazorPageApplication.Interfaces;
+﻿using RazorPageApplication.Enums;
+using RazorPageApplication.Interfaces;
 
 namespace RazorPageApplication.Models
 {
@@ -12,6 +13,7 @@ namespace RazorPageApplication.Models
         public string PhoneNumber { get; set; }
         public string Address { get; set; }
         public string PostalCode { get; set; }
+        public UserRole Role { get => UserRole.Parent; }
         #endregion
 
         #region Constructors
