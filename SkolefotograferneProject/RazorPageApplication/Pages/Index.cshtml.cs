@@ -6,13 +6,20 @@ public class IndexModel : PageModel
 {
 	private readonly ILogger<IndexModel> _logger;
 
-	public IndexModel(ILogger<IndexModel> logger)
+    public string Username { get; set; }
+
+    public IndexModel(ILogger<IndexModel> logger)
 	{
 		_logger = logger;
 	}
 
-	public void OnGet()
+	public IActionResult OnGet()
 	{
-
+		Username = HttpContext.Session.GetString("Username");
+		if(Username == null)
+		{
+			return RedirectToPage("Users/Login");
+		}
+		return Page();
 	}
 }

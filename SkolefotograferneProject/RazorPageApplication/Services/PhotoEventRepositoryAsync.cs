@@ -3,6 +3,7 @@ using RazorPageApplication.Exceptions;
 using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
+using System.Collections;
 using System.Data;
 
 namespace RazorPageApplication.Services
@@ -75,10 +76,47 @@ namespace RazorPageApplication.Services
             }
         }
 
-        // TODO
         public async Task<List<PhotoEvent>> FilterAsync(string filterCriteria)
         {
-            throw new NotImplementedException();
+            string query =
+                @"SELECT * FROM Photographer
+                WHERE PhotoEventID LIKE @filterCriteria
+                OR StartDate LIKE @filterCriteria
+                OR EndDate LIKE @filterCriteria
+                OR PhotoEventLocation LIKE @filterCriteria
+                OR PhotographerID LIKE @filterCriteria
+                OR SchoolClassID LIKE @filterCriteria";
+            List<PhotoEvent> photoEvents = new();
+            try
+            {
+                using SqlConnection connection = new(Secret.ConnectionString);
+                await connection.OpenAsync();
+                using SqlCommand command = new(query, connection);
+                command.Parameters.AddWithValue("@filterCriteria", $"%{filterCriteria}%");
+                using SqlDataReader reader = await command.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    photoEvents.Add(new(
+                        reader.GetInt32("PhotoEventID"),
+                        reader.GetDateTime("StartDate"),
+                        reader.GetDateTime("EndDate"),
+                        reader.GetString("PhotoEventLocation"),
+                        await _photographerRepo.GetAsync(reader.GetInt32("PhotographerID")),
+                        await _schoolClassRepo.GetAsync(reader.GetInt32("SchoolClassID"))
+                    ));
+                }
+                return photoEvents;
+            }
+            catch (SqlException e)
+            {
+                e.PrintWithType();
+                throw new RepositoryException(RepositoryExceptionType.Read, "Kan ikke indlæses");
+            }
+            catch (Exception e)
+            {
+                e.PrintWithType();
+                throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
+            }
         }
 
         public async Task<PhotoEvent> GetAsync(int id)
@@ -139,6 +177,7 @@ namespace RazorPageApplication.Services
                         await _schoolClassRepo.GetAsync(reader.GetInt32("SchoolClassID"))
                     ));
                 }
+                return photoEvents;
             }
             catch (SqlException e)
             {
@@ -150,14 +189,17 @@ namespace RazorPageApplication.Services
                 e.PrintWithType();
                 throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
             }
-            return photoEvents;
         }
 
         public async Task UpdateAsync(PhotoEvent photoEvent)
         {
             string query =
                 @"UPDATE PhotoEvent
-                SET StartDate = @StartDate, EndDate = @EndDate, PhotoEventLocation = @PhotoEventLocation, PhotographerID = @PhotographerID, SchoolClassID = @SchoolClassID
+                SET StartDate = @StartDate,
+                    EndDate = @EndDate,
+                    PhotoEventLocation = @PhotoEventLocation,
+                    PhotographerID = @PhotographerID,
+                    SchoolClassID = @SchoolClassID
                 WHERE PhotoEventID = @PhotoEventID";
             try
             {
