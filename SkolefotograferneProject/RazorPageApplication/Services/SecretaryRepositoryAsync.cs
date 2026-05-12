@@ -134,10 +134,10 @@ namespace RazorPageApplication.Services
                 if (await reader.ReadAsync())
                 {
                     return new Secretary(id,
-                        reader.GetString("SecretaryName"),
-                        reader.GetString("PhoneNumber"),
                         reader.GetString("Mail"),
                         reader.GetString("SecretaryPassword"),
+                        reader.GetString("SecretaryName"),
+                        reader.GetString("PhoneNumber"),
                         school);
                 }
                 await reader.CloseAsync();
