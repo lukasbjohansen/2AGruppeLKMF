@@ -7,7 +7,7 @@
 <h1>Liste over elever</h1>
 
 <p>
-    @* <a asp-page="CreateStudent" class="btn btn-success btn-sm">Opret ny elev</a> *@
+    <a asp-page="CreateStudent" class="btn btn-success btn-sm">Opret ny elev</a>
 </p>
 <table class="table">
     <thead>
@@ -29,7 +29,7 @@
                 <td>@item.PhotoCode</td>
                 <td>
                     <a asp-page="DeleteStudent" asp-route-id="@item.Id">Slet elev</a> |
-              @*       <a asp-page="EditStudent" asp-route-id="@item.Id">Redigér elev</a> *@
+                    <a asp-page="EditStudent" asp-route-id="@item.Id">Redigér elev</a>
                 </td>
             </tr>
         }
