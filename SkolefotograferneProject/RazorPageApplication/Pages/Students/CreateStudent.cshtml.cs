@@ -36,10 +36,10 @@ namespace RazorPageApplication.Pages.Students
         public async Task<IActionResult> OnPost()
         {
 
-            if (!ModelState.IsValid || ParentsId == null || ParentsId.Count == 0|| SchoolClassId < 1)
-            {
-                return Page();
-            }
+            //if (!ModelState.IsValid || ParentsId == null || ParentsId.Count == 0 || SchoolClassId < 1)
+            //{
+            //    return Page();
+            //}
             NewStudent.Parents = new List<Parent>();
             foreach (var parentId in ParentsId)
             {
