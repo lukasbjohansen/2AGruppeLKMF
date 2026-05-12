@@ -16,11 +16,11 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.ParentToUpdate.Mail" class="control-label">Mail</label>
-        <input asp-for="@Model.ParentToUpdate.Mail" class="form-control" />
+        <input asp-for="@Model.ParentToUpdate.Mail" class="form-control" type="email"/>
     </div>
     <div class="form-group">
         <label asp-for="@Model.ParentToUpdate.PhoneNumber" class="control-label">Telefonnummer</label>
-        <input asp-for="@Model.ParentToUpdate.PhoneNumber" class="form-control" />
+        <input asp-for="@Model.ParentToUpdate.PhoneNumber" class="form-control" type="tel"/>
     </div>
     <div class="form-group">
         <label asp-for="@Model.ParentToUpdate.Address" class="control-label">Adresse</label>
@@ -28,7 +28,7 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.ParentToUpdate.Password" class="control-label">Adgangskode</label>
-        <input asp-for="@Model.ParentToUpdate.Password" class="form-control" />
+        <input asp-for="@Model.ParentToUpdate.Password" class="form-control" type="password"/>
     </div>
     <div class="form-group">
         <label asp-for="@Model.ParentToUpdate.PostalCode" class="control-label">Postnummer</label>
