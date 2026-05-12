@@ -42,14 +42,6 @@ CREATE TABLE SchoolClass(
 	FOREIGN KEY (TeacherID) REFERENCES Teacher (TeacherID)
 	ON DELETE CASCADE
 );
-CREATE TABLE Student(
-	StudentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	StudentName NVARCHAR(50) NOT NULL,
-	PhotoCode NVARCHAR(15) NOT NULL,
-	SchoolClassID INT NOT NULL,
-	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
-	ON DELETE CASCADE
-);
 CREATE TABLE Parent(
 	ParentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	ParentName NVARCHAR(50) NOT NULL,
@@ -58,18 +50,30 @@ CREATE TABLE Parent(
 	ParentAddress NVARCHAR(50) NOT NULL,
 	ParentPassword NVARCHAR(30) NOT NULL,
 	PostalCode CHAR(4) NOT NULL,
-	FOREIGN KEY (PostalCode) REFERENCES PostalCodeCity (PostalCode)
+	FOREIGN KEY (PostalCode) REFERENCES PostalCodeCity (PostalCode),
+
 );
-CREATE TABLE ParentStudent(
-	StudentID INT NOT NULL,
+CREATE TABLE Student(
+	StudentID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+	StudentName NVARCHAR(50) NOT NULL,
+	PhotoCode NVARCHAR(15) NOT NULL,
+	SchoolClassID INT NOT NULL,
 	ParentID INT NOT NULL,
-	PRIMARY KEY (StudentID, ParentID),
-	FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
+	FOREIGN KEY (SchoolClassID) REFERENCES SchoolClass (SchoolClassID)
 	ON DELETE CASCADE,
 	FOREIGN KEY (ParentID) REFERENCES Parent (ParentID)
 	ON DELETE CASCADE
-
 );
+--CREATE TABLE ParentStudent(
+--	StudentID INT NOT NULL,
+--	ParentID INT NOT NULL,
+--	PRIMARY KEY (StudentID, ParentID),
+--	FOREIGN KEY (StudentID) REFERENCES Student (StudentID)
+--	ON DELETE CASCADE,
+--	FOREIGN KEY (ParentID) REFERENCES Parent (ParentID)
+--	ON DELETE CASCADE
+
+--);
 CREATE TABLE Photographer(
 	PhotographerID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	PhotographerName NVARCHAR(50) NOT NULL,

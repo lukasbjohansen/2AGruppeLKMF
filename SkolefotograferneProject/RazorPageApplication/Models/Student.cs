@@ -8,7 +8,7 @@ namespace RazorPageApplication.Models
         public int Id { get; set; }
         public string Name { get; set; }
         public SchoolClass? SchoolClass { get; set; }
-        public List<Parent>? Parents { get; set; }
+        public Parent? Parent { get; set; }
         public string PhotoCode { get; set; }
         #endregion
 
@@ -18,12 +18,12 @@ namespace RazorPageApplication.Models
 
         }
 
-        public Student(int id, string name, SchoolClass? schoolClass, List<Parent>? parents, string photoCode)
+        public Student(int id, string name, SchoolClass? schoolClass, Parent? parent, string photoCode)
         {
             Id = id;
             Name = name;
             SchoolClass = schoolClass;
-            Parents = parents;
+            Parent = parent;
             PhotoCode = photoCode;
         }
         #endregion
@@ -31,7 +31,7 @@ namespace RazorPageApplication.Models
         #region Methods
         public override string ToString()
         {
-            return $"Student:\n\tId: {Id}\n\tName: {Name}\n\tSchoolclass: {SchoolClass}\n\tParents: {Parents}";
+            return $"Student:\n\tId: {Id}\n\tName: {Name}\n\tSchoolclass: {SchoolClass}\n\tParent: {Parent.Name}";
         } 
         #endregion
     }

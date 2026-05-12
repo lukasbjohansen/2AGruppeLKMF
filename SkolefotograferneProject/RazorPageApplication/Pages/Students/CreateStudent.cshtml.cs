@@ -20,7 +20,7 @@ namespace RazorPageApplication.Pages.Students
         public int SchoolClassId { get; set; }
         [BindProperty]
         [Required]
-        public List<int> ParentsId { get; set; }
+        public int ParentId { get; set; }
 
 
         public CreateStudentModel(IRepositoryAsync<Student> studentRepository, IRepositoryAsync<SchoolClass> schoolClassRepository, IRepositoryAsync<Parent> parentRepository)
@@ -40,15 +40,8 @@ namespace RazorPageApplication.Pages.Students
             //{
             //    return Page();
             //}
-            NewStudent.Parents = new List<Parent>();
-            foreach (var parentId in ParentsId)
-            {
-                var parent = await _parentRepo.GetAsync(parentId);
-                if (parent != null)
-                {
-                    NewStudent.Parents.Add(parent);
-                }
-            }
+            //NewStudent.Parent = new Parent();
+         
             try
             {
                 await _studentRepo.CreateAsync(NewStudent);

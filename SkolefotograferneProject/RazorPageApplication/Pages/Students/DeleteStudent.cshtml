@@ -7,8 +7,8 @@
     <label>ID</label>: @Model.DeleteStudent.Id<br />
     <label>Navn</label>: @Model.DeleteStudent.Name<br />
     <label>Skole</label>: @Model.DeleteStudent.PhotoCode<br />
-    <label>Lærer</label>: @Model.DeleteStudent.SchoolClass<br />
-    <label>Årgang</label>: @Model.DeleteStudent.Parents<br />
+   @*  <label>Lærer</label>: @Model.DeleteStudent.SchoolClass<br />
+    <label>Forælder</label>: @Model.DeleteStudent.Parent.Name<br /> *@
     <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeleteStudent.Id" class="btn btn-danger" value="Slet elev" />
     <input type="submit" class="btn btn-warning" value="Annullér" />
 </form>

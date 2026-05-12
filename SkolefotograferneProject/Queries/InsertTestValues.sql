@@ -14,17 +14,17 @@ INSERT INTO Teacher (TeacherName, Mail, TeacherPassword, PhoneNumber) VALUES ('S
 INSERT INTO SchoolClass (SchoolClassName, SchoolClassYear, SchoolID, TeacherID) VALUES ('3A', 2024, 1, 1);
 INSERT INTO SchoolClass (SchoolClassName, SchoolClassYear, SchoolID, TeacherID) VALUES ('5B', 2024, 2, 2);
 
--- Student
-INSERT INTO Student (StudentName, PhotoCode, SchoolClassID) VALUES ('Emil Jensen', 'FOTO001', 1);
-INSERT INTO Student (StudentName, PhotoCode, SchoolClassID) VALUES ('Maja Christensen', 'FOTO002', 2);
-
 -- Parent
 INSERT INTO Parent (ParentName, Mail, PhoneNumber, ParentAddress, ParentPassword, PostalCode) VALUES ('Lars Jensen', 'lars@gmail.com', '55667788', 'Ahornvej 5', 'forælder123', '4000');
 INSERT INTO Parent (ParentName, Mail, PhoneNumber, ParentAddress, ParentPassword, PostalCode) VALUES ('Pia Christensen', 'pia@gmail.com', '88776655', 'Birkevej 12', 'forælder456', '2100');
+-- Student
+INSERT INTO Student (StudentName, PhotoCode, SchoolClassID,ParentID) VALUES ('Emil Jensen', 'FOTO001', 1,1);
+INSERT INTO Student (StudentName, PhotoCode, SchoolClassID,ParentID) VALUES ('Maja Christensen', 'FOTO002', 2,2);
 
--- ParentStudent
-INSERT INTO ParentStudent (StudentID, ParentID) VALUES (1, 1);
-INSERT INTO ParentStudent (StudentID, ParentID) VALUES (2, 2);
+
+---- ParentStudent
+--INSERT INTO ParentStudent (StudentID, ParentID) VALUES (1, 1);
+--INSERT INTO ParentStudent (StudentID, ParentID) VALUES (2, 2);
 
 -- Photographer
 INSERT INTO Photographer (PhotographerName, Mail, PhoneNumber, CVR, PhotographerPassword) VALUES ('Jonas Foto', 'jonas@foto.dk', '99887766', '12345678', 'foto123');

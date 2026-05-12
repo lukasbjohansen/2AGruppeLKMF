@@ -10,7 +10,7 @@ namespace RazorPageApplication.Pages.Students
     public class EditStudentModel : PageModel
     {
         private readonly IRepositoryAsync<Student> _repo;
-      private readonly IRepositoryAsync<Parent> _teacherRepo;
+        private readonly IRepositoryAsync<Parent> _teacherRepo;
         private readonly IRepositoryAsync<SchoolClass> _schoolRepo;
 
         [BindProperty]
@@ -34,11 +34,7 @@ namespace RazorPageApplication.Pages.Students
         public async Task OnGet(int id)
         {
             StudentToUpdate = await _repo.GetAsync(id);
-            if (StudentToUpdate != null)
-            {
-                ParentId = StudentToUpdate.Parents.FirstOrDefault()?.Id ?? 0;
-                SchoolClassId = StudentToUpdate.SchoolClass?.Id ?? 0;
-            }
+           
         }
 
         public async Task<IActionResult> OnPostUpdate()
@@ -47,7 +43,7 @@ namespace RazorPageApplication.Pages.Students
             //{
             //    return Page();
             //}
-            StudentToUpdate.Parents = await _teacherRepo.GetAllAsync();
+            StudentToUpdate.Parent = await _teacherRepo.GetAsync(ParentId);
             StudentToUpdate.SchoolClass = await _schoolRepo.GetAsync(SchoolClassId);
 
             try
