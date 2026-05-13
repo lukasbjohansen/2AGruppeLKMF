@@ -1,5 +1,6 @@
 ﻿using RazorPageApplication.Enums;
 using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
@@ -7,11 +8,18 @@ namespace RazorPageApplication.Models
     {
         #region Propeties
         public int Id { get; set; }
+        [Required(ErrorMessage = "Mail er påkrævet")]
         public string Mail { get; set; }
+        [Required(ErrorMessage = "Password er påkrævet")]
         public string Password { get; set; }
+        [Required(ErrorMessage = "Navn er påkrævet")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Telefonnummer er påkrævet")]
+        [StringLength(11, ErrorMessage = "Telefonnummeret må være max 11 karakterer")]
         public string PhoneNumber { get; set; }
+        [Required(ErrorMessage = "Adresse er påkrævet")]
         public string Address { get; set; }
+        [Required(ErrorMessage = "Gyldigt postnummer er påkrævet")]
         public string PostalCode { get; set; }
         public UserRole Role { get => UserRole.Parent; }
         #endregion
