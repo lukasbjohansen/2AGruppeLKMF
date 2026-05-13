@@ -85,7 +85,7 @@ CREATE TABLE Photographer(
 CREATE TABLE Photo(
 	PhotoID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
 	FilePath NVARCHAR(MAX) NOT NULL,
-	PhotoDate DATE NOT NULL,
+	PhotoDate DATETIME NOT NULL,
 	PhotographerID INT NOT NULL,
 	StudentID INT NOT NULL,
 	FOREIGN KEY (PhotographerID) REFERENCES Photographer (PhotographerID)
@@ -95,8 +95,8 @@ CREATE TABLE Photo(
 );
 CREATE TABLE PhotoEvent(
 	PhotoEventID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	StartDate DATE NOT NULL,
-	EndDate DATE NOT NULL,
+	StartDate DATETIME NOT NULL,
+	EndDate DATETIME NOT NULL,
 	PhotoEventLocation NVARCHAR(50) NOT NULL,
 	PhotographerID INT NOT NULL,
 	SchoolClassID INT NOT NULL,
@@ -107,7 +107,7 @@ CREATE TABLE PhotoEvent(
 );
 CREATE TABLE PhotoOrder(
 	PhotoOrderID INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-	PhotoOrderDate DATE NOT NULL,
+	PhotoOrderDate DATETIME NOT NULL,
 	TotalPrice FLOAT NOT NULL,
 	ParentID INT NOT NULL,
 	FOREIGN KEY (ParentID) REFERENCES Parent (ParentID)
