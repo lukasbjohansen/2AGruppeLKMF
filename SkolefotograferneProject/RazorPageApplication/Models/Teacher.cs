@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Enums;
+using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -32,7 +33,7 @@ namespace RazorPageApplication.Models
         /// Phonenumber. Must be unique.
         /// </summary>
         [Required]
-        [Phone]
+        [PhoneNumber]
         [Display(Name = "Telefonnummer")]
         public string PhoneNumber { get; set; }
         /// <summary>
