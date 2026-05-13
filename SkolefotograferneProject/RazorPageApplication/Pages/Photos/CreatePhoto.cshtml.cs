@@ -37,14 +37,15 @@ namespace RazorPageApplication.Pages.Photos
 
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid || PhotographerId < 1 || StudentId < 1)
+            //if (!ModelState.IsValid || PhotographerId < 1 || StudentId < 1)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
-            NewPhoto.Photographer = await _photographerRepo.GetAsync(PhotographerId);
-            NewPhoto.Student = await _studentRepo.GetAsync(StudentId);
             try
             {
+                NewPhoto.Photographer = await _photographerRepo.GetAsync(PhotographerId);
+                NewPhoto.Student = await _studentRepo.GetAsync(StudentId);
                 await _repo.CreateAsync(NewPhoto);
                 return RedirectToPage("Index");
             }
