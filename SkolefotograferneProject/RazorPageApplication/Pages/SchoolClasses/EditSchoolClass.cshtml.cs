@@ -14,7 +14,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
         private readonly IRepositoryAsync<School> _schoolRepo;
 
         [BindProperty]
-        public SchoolClass? SchoolClassToUpdate { get; set; }
+        public SchoolClass SchoolClassToUpdate { get; set; }
 
         [BindProperty]
         [Required]
@@ -34,24 +34,25 @@ namespace RazorPageApplication.Pages.SchoolClasses
         public async Task OnGet(int id)
         {
             SchoolClassToUpdate = await _repo.GetAsync(id);
-
+            SchoolId = SchoolClassToUpdate.School.Id;
+            TeacherId = SchoolClassToUpdate.Teacher.Id;
            
 
         }
 
         public async Task<IActionResult> OnPostUpdate()
         {
-            //if (!ModelState.IsValid || TeacherId < 1 || SchoolId < 1)
-            //{
-            //    return Page();
-            //}
-            SchoolClassToUpdate.School = await _schoolRepo.GetAsync(SchoolId);
-            SchoolClassToUpdate.Teacher = await _teacherRepo.GetAsync(TeacherId);
+            if (!ModelState.IsValid || TeacherId < 1 || SchoolId < 1)
+            {
+                return Page();
+            }
 
 
 
             try
             {
+                SchoolClassToUpdate.School = await _schoolRepo.GetAsync(SchoolId);
+                SchoolClassToUpdate.Teacher = await _teacherRepo.GetAsync(TeacherId);
                 await _repo.UpdateAsync(SchoolClassToUpdate);
                 return RedirectToPage("Index");
             }

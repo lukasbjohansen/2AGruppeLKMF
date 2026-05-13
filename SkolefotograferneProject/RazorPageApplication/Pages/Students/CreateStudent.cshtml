@@ -17,8 +17,12 @@
         <input asp-for="@Model.NewStudent.PhotoCode" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.NewStudent.SchoolClass.Id" class="control-label">Skoleklasse</label>
-        <input asp-for="@Model.NewStudent.SchoolClass.Id" class="form-control" />
+        <label asp-for="@Model.SchoolClassId" class="control-label">Skoleklasse</label>
+        <input asp-for="@Model.SchoolClassId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentId" class="control-label">Forælder</label>
+        <input asp-for="@Model.ParentId" class="form-control" />
     </div>
 
     <div class="form-group">

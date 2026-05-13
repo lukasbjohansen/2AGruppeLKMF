@@ -19,10 +19,8 @@ namespace RazorPageApplication.Services
 
         public async Task CreateAsync(Student user)
         {
-            if (user.SchoolClass == null)
-                throw new ArgumentNullException(nameof(user.SchoolClass), "SchoolClass cannot be null when creating a Student.");
 
-            string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID) Values(@StudentName,@PhotoCode,@SchoolClassID)";
+            string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID,ParentID) Values(@StudentName,@PhotoCode,@SchoolClassID,@ParentID)";
   
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -33,6 +31,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@StudentName", user.Name);
                     command.Parameters.AddWithValue("@PhotoCode", user.PhotoCode);
                     command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass.Id);
+                    command.Parameters.AddWithValue("@ParentID", user.Parent.Id);
 
                     await command.ExecuteNonQueryAsync();
                 }

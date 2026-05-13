@@ -36,14 +36,15 @@ namespace RazorPageApplication.Pages.Students
         public async Task<IActionResult> OnPost()
         {
 
-            //if (!ModelState.IsValid || ParentsId == null || ParentsId.Count == 0 || SchoolClassId < 1)
-            //{
-            //    return Page();
-            //}
-            //NewStudent.Parent = new Parent();
-         
+            if (!ModelState.IsValid || ParentId<1||SchoolClassId<1)
+            {
+                return Page();
+            }
+
             try
             {
+                NewStudent.Parent = await _parentRepo.GetAsync(ParentId);
+                NewStudent.SchoolClass = await _schoolClassRepo.GetAsync(SchoolClassId);
                 await _studentRepo.CreateAsync(NewStudent);
                 return RedirectToPage("Index");
             }
