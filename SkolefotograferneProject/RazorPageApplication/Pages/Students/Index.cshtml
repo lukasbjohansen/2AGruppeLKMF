@@ -14,7 +14,7 @@
         <tr>
             <th>ID</th>
             <th>Navn</th>
-         @*    <th>Skoleklasse</th> *@
+            <th>Skoleklasse</th>
             <th>Fotokode</th>
             <th>Slet | Redigér</th>
         </tr>
@@ -25,7 +25,7 @@
             <tr>
                 <td>@item.Id</td>
                 <td>@item.Name</td>
-             @*    <td>@(item.SchoolClass.Name?? "")</td> *@
+                <td>@(item.SchoolClass.Name)</td>
                 <td>@item.PhotoCode</td>
                 <td>
                     <a asp-page="DeleteStudent" asp-route-id="@item.Id">Slet elev</a> |
