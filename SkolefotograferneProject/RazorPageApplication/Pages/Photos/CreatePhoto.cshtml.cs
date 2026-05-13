@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 using System.ComponentModel.DataAnnotations;
@@ -17,11 +18,14 @@ namespace RazorPageApplication.Pages.Photos
 
         [BindProperty]
         [Required]
-        public int PhotographerId { get; set; }
+        public string PhotographerId { get; set; }
 
         [BindProperty]
         [Required]
         public int StudentId { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> PhotographerSelect { get; set; }
 
         public CreatePhotoModel(IRepositoryAsync<Photo> photoRepository, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository)
         {
@@ -30,9 +34,12 @@ namespace RazorPageApplication.Pages.Photos
             _studentRepo = studentRepository;
 
         }
-        public void OnGet()
+        public async Task OnGet()
         {
             NewPhoto = new Photo();
+
+            List<Photographer> photographers = await _photographerRepo.GetAllAsync();
+            PhotographerSelect = photographers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.Mail}" });
         }
 
         public async Task<IActionResult> OnPost()
@@ -44,7 +51,7 @@ namespace RazorPageApplication.Pages.Photos
             }
             try
             {
-                NewPhoto.Photographer = await _photographerRepo.GetAsync(PhotographerId);
+                NewPhoto.Photographer = await _photographerRepo.GetAsync(Convert.ToInt32(PhotographerId));
                 NewPhoto.Student = await _studentRepo.GetAsync(StudentId);
                 await _repo.CreateAsync(NewPhoto);
                 return RedirectToPage("Index");
