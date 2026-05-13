@@ -9,13 +9,15 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage ="Starttidspunkt er påkrævet")]
         public DateTime StartTime { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Sluttidspunkt er påkrævet")]
         public DateTime EndTime { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Lokation er påkrævet")]
         public string Location { get; set; }
+        [Required(ErrorMessage = "Fotograf er påkrævet")]
         public Photographer? Photographer { get; set; }
+        [Required(ErrorMessage = "Skoleklasse er påkrævet")]
         public SchoolClass? SchoolClass { get; set; } 
         #endregion
 
