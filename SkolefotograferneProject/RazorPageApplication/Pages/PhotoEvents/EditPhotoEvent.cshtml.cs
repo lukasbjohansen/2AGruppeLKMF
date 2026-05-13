@@ -25,10 +25,10 @@ namespace RazorPageApplication.Pages.PhotoEvents
 
         public async Task<IActionResult> OnPostUpdate()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             try
             {
                 await _repo.UpdateAsync(PhotoEventToUpdate);
