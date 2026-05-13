@@ -8,15 +8,15 @@ namespace RazorPageApplication.Models
         #region Properties
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Navn er påkrævet")]
         public string Name { get; set; }
  
         public SchoolClass? SchoolClass { get; set; }
       
         public Parent? Parent { get; set; }
 
-        [Required]
-        [MaxLength(15)]
+        [Required(ErrorMessage = "Fotokode er påkrævet")]
+        [StringLength(15, ErrorMessage = "Fotokoden må maks være 15 tegn langt")]
         public string PhotoCode { get; set; }
 
         #endregion

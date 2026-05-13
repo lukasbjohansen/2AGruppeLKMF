@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
@@ -6,8 +7,14 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Navn er påkrævet")]
         public string Name { get; set; }
+        [Required(ErrorMessage = "Adresse er påkrævet")]
         public string Address { get; set; }
+
+        [Required(ErrorMessage = "Postnummer er påkrævet")]
+
         public string PostalCode { get; set; }
         //public List<SchoolClass> SchoolClasses { get; set; }
         //public Secretary? Secretary { get; set; }
