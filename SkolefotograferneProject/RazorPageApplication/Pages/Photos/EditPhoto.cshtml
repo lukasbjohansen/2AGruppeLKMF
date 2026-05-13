@@ -1,0 +1,36 @@
+﻿@page
+@model RazorPageApplication.Pages.Photos.EditPhotoModel
+@{
+    ViewData["Title"] = "Redigér foto";
+}
+<h1>Redigér foto</h1>
+
+<form method="post">
+    <div class="form-group">
+        <label asp-for="@Model.PhotoToUpdate.Id" class="control-label">ID</label>
+        <input asp-for="@Model.PhotoToUpdate.Id" readonly class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoToUpdate.FilePath" class="control-label">Filnavn</label>
+        <input asp-for="@Model.PhotoToUpdate.FilePath" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotoToUpdate.Date" class="control-label">Dato</label>
+        <input asp-for="@Model.PhotoToUpdate.Date" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.PhotographerId" class="control-label">Fotograf</label>
+        <input asp-for="@Model.PhotographerId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.StudentId" class="control-label">Elev</label>
+        <input asp-for="@Model.StudentId" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="submit" asp-page-handler="Update" value="Opdater foto" class="btn btn-primary" />
+    </div>
+
+    <div>
+        <a asp-page="index">Tilbage til fotooversigt</a>
+    </div>
+</form>

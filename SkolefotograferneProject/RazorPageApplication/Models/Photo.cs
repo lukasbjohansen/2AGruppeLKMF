@@ -8,12 +8,12 @@ namespace RazorPageApplication.Models
         public int Id { get; set; }
         public string FilePath { get; set; }
         public DateTime Date { get; set; }
-        public Photographer Photographer { get; set; }
-        public Student Student { get; set; }
+        public Photographer? Photographer { get; set; }
+        public Student? Student { get; set; }
         #endregion
 
         #region Constructors
-        public Photo(int id, string filePath, DateTime date, Photographer photographer, Student student)
+        public Photo(int id, string filePath, DateTime date, Photographer? photographer, Student? student)
         {
             Id = id;
             FilePath = filePath;
