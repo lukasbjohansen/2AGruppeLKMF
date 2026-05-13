@@ -47,6 +47,7 @@ namespace RazorPageApplication.Pages.Photos
             //if (!ModelState.IsValid || PhotographerId < 1 || StudentId < 1)
             if (!ModelState.IsValid)
             {
+                await OnGet();
                 return Page();
             }
             try
@@ -61,8 +62,8 @@ namespace RazorPageApplication.Pages.Photos
             {
                 ViewData["ErrorMessage"] = ex.Message;
                 ModelState.AddModelError(string.Empty, ex.Message);
+                await OnGet();
                 return Page();
-
             }
 
         }
