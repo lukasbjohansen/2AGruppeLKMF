@@ -19,8 +19,11 @@ namespace RazorPageApplication.Services
 
         public async Task CreateAsync(Student user)
         {
+            if (user.SchoolClass == null)
+                throw new ArgumentNullException(nameof(user.SchoolClass), "SchoolClass cannot be null when creating a Student.");
+
             string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID) Values(@StudentName,@PhotoCode,@SchoolClassID)";
-          
+  
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -30,7 +33,6 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@StudentName", user.Name);
                     command.Parameters.AddWithValue("@PhotoCode", user.PhotoCode);
                     command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass.Id);
-
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -45,7 +47,6 @@ namespace RazorPageApplication.Services
                     ex.PrintWithType();
                     throw new RepositoryException(RepositoryExceptionType.Create, ex.GetFullMessage());
                 }
-
             }
         }
 
@@ -171,8 +172,8 @@ namespace RazorPageApplication.Services
                         int studentId = reader.GetInt32("StudentID");
                         string studentName = reader.GetString("StudentName");
                         string photoCode = reader.GetString("PhotoCode");
-                        int schoolClassId = reader.GetOrdinal("SchoolClassID");
-                        int parentId = reader.GetOrdinal("ParentID");
+                        int schoolClassId = reader.GetInt32("SchoolClassID");
+                        int parentId = reader.GetInt32("ParentID");
 
                         SchoolClass schoolClass = await _schoolClassRepo.GetAsync(schoolClassId);
                         Parent parent = await _parentRepo.GetAsync(parentId);
