@@ -34,20 +34,21 @@ namespace RazorPageApplication.Pages.Students
         public async Task OnGet(int id)
         {
             StudentToUpdate = await _repo.GetAsync(id);
-           
+            ParentId = StudentToUpdate.Parent.Id;
+            SchoolClassId = StudentToUpdate.SchoolClass.Id;
         }
 
         public async Task<IActionResult> OnPostUpdate()
         {
-            //if (!ModelState.IsValid || TeacherId < 1 || SchoolId < 1)
-            //{
-            //    return Page();
-            //}
-            StudentToUpdate.Parent = await _teacherRepo.GetAsync(ParentId);
-            StudentToUpdate.SchoolClass = await _schoolRepo.GetAsync(SchoolClassId);
+            if (!ModelState.IsValid || ParentId < 1 || SchoolClassId < 1)
+            {
+                return Page();
+            }
 
             try
             {
+                StudentToUpdate.Parent = await _teacherRepo.GetAsync(ParentId);
+                StudentToUpdate.SchoolClass = await _schoolRepo.GetAsync(SchoolClassId);
                 await _repo.UpdateAsync(StudentToUpdate);
                 return RedirectToPage("Index");
             }

@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
@@ -6,9 +7,15 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+        
         public School? School { get; set; }
         public Teacher? Teacher { get; set; }
+
+        [Required]
+        [Range(1900,3000)]
         public int Year { get; set; }
         #endregion
 

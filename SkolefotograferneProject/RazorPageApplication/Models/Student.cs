@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
@@ -6,10 +7,18 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+
+        [Required]
         public string Name { get; set; }
+ 
         public SchoolClass? SchoolClass { get; set; }
+      
         public Parent? Parent { get; set; }
+
+        [Required]
+        [MaxLength(15)]
         public string PhotoCode { get; set; }
+
         #endregion
 
         #region Constructors
