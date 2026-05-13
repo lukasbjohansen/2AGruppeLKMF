@@ -43,10 +43,12 @@ namespace RazorPageApplication.Pages.PhotoEvents
             {
                 return Page();
             }
-            NewPhotoEvent.Photographer = await _photographerRepo.GetAsync(PhotographerId);
-            NewPhotoEvent.SchoolClass = await _schoolClassRepo.GetAsync(SchoolClassId);
             try
             {
+                NewPhotoEvent.Photographer = await _photographerRepo.GetAsync(PhotographerId);
+                NewPhotoEvent.SchoolClass = await _schoolClassRepo.GetAsync(SchoolClassId);
+                NewPhotoEvent.Photographer.Id = PhotographerId;
+                NewPhotoEvent.SchoolClass.Id = SchoolClassId;
                 await _repo.CreateAsync(NewPhotoEvent);
                 return RedirectToPage("Index");
             }
