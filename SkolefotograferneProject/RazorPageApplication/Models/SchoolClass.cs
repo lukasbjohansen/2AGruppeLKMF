@@ -8,14 +8,15 @@ namespace RazorPageApplication.Models
         #region Properties
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Navn er påkrævet")]
         public string Name { get; set; }
         
         public School? School { get; set; }
         public Teacher? Teacher { get; set; }
 
-        [Required]
-        [Range(1900,3000)]
+
+        [Required(ErrorMessage = "År er påkrævet")]
+        [Range(1900, 3000, ErrorMessage = "År skal være mellem 1900 og 3000")]
         public int Year { get; set; }
         #endregion
 
