@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.ConstrainedExecution;
 using System.Xml.Linq;
 
@@ -8,8 +9,11 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+        [Required]
         public DateTime StartTime { get; set; }
+        [Required]
         public DateTime EndTime { get; set; }
+        [Required]
         public string Location { get; set; }
         public Photographer? Photographer { get; set; }
         public SchoolClass? SchoolClass { get; set; } 

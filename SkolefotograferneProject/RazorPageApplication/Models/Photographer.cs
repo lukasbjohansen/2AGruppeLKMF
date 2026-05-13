@@ -1,5 +1,6 @@
 ﻿using RazorPageApplication.Enums;
 using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
@@ -7,11 +8,17 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Mail { get; set; }
+        [Required]
         public string Password { get; set; }
+        [Required]
         public string PhoneNumber { get; set; }
+        [Required]
         public string CVR { get; set; }
+        [Required]
         public UserRole Role { get => UserRole.Photographer; }
         #endregion
         #region Constructors
