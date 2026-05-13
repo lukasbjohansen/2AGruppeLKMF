@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Redigér elev";
 }
-<h1>Redigér skoleklasse</h1>
+<h1>Redigér elev</h1>
 
 <form method="post">
     <div class="form-group">
@@ -19,12 +19,12 @@
         <input asp-for="@Model.StudentToUpdate.PhotoCode" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.StudentToUpdate.SchoolClass.Id" class="control-label">Skole</label>
-        <input asp-for="@Model.StudentToUpdate.SchoolClass.Id" class="form-control" />
+        <label asp-for="@Model.SchoolClassId" class="control-label">Skole</label>
+        <input asp-for="@Model.SchoolClassId" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.StudentToUpdate.Parent.Name" class="control-label">Forælder</label>
-        <input asp-for="@Model.StudentToUpdate.Parent.Name" class="form-control" />
+        <label asp-for="@Model.ParentId" class="control-label">Forælder</label>
+        <input asp-for="@Model.ParentId" class="form-control" />
     </div>
     
 
