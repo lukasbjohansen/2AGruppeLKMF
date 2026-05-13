@@ -8,28 +8,35 @@ namespace RazorPageApplication.Pages.Secretaries
 {
     public class EditSecretaryModel : PageModel
     {
-        private readonly IRepositoryAsync<Secretary> _repo;
+        private readonly IRepositoryAsync<Secretary> _secretaryRepo;
+        private readonly IRepositoryAsync<School> _schoolRepo;
 
         [BindProperty]
         public Secretary? SecretaryToUpdate { get; set; }
 
-        public EditSecretaryModel(IRepositoryAsync<Secretary> repo)
+        [BindProperty]
+        public int SchoolID { get; set; }
+
+        public EditSecretaryModel(IRepositoryAsync<Secretary> repo, IRepositoryAsync<School>schoolRepo)
         {
-            _repo = repo;
+            _secretaryRepo = repo;
+            _schoolRepo = schoolRepo;
         }
         public async Task OnGet(int id)
         {
-            SecretaryToUpdate = await _repo.GetAsync(id);
+            SecretaryToUpdate = await _secretaryRepo.GetAsync(id);
+            SchoolID = SecretaryToUpdate.School.Id;
         }
         public async Task<IActionResult> OnPostUpdate()
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return Page();
-            //}
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
             try
             {
-                await _repo.UpdateAsync(SecretaryToUpdate);
+                SecretaryToUpdate.School = await _schoolRepo.GetAsync(SchoolID);
+                await _secretaryRepo.UpdateAsync(SecretaryToUpdate);
                 return RedirectToPage("Index");
             }
             catch (SqlException e)

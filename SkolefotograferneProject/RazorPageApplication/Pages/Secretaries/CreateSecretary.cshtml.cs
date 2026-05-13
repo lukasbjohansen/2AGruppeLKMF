@@ -8,18 +8,24 @@ namespace RazorPageApplication.Pages.Secretaries
 {
     public class CreateSecretaryModel : PageModel
     {
-        private IRepositoryAsync<Secretary> _repo;
+        private IRepositoryAsync<Secretary> _secretaryRepo;
+        private IRepositoryAsync<School> _schoolRepo;
+        
         [BindProperty]
         public Secretary NewSecretary { get; set; }
-        public CreateSecretaryModel(IRepositoryAsync<Secretary> secretaryRepo)
+
+        [BindProperty]
+        public int SchoolID { get; set; }
+        public CreateSecretaryModel(IRepositoryAsync<Secretary> secretaryRepo, IRepositoryAsync<School> schoolRepo)
         {
-            _repo = secretaryRepo;
+            _secretaryRepo = secretaryRepo;
+            _schoolRepo = schoolRepo;
         }
         public void OnGet()
         {
            NewSecretary = new Secretary();
         }
-        public async Task<IActionResult> OnPost() //DER ER EN FEJL VED VALIDERING
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
             {
@@ -27,7 +33,8 @@ namespace RazorPageApplication.Pages.Secretaries
             }
             try
             {
-                await _repo.CreateAsync(NewSecretary);
+                NewSecretary.School = await _schoolRepo.GetAsync(SchoolID);
+                await _secretaryRepo.CreateAsync(NewSecretary);
                 return RedirectToPage("Index");
             }
 

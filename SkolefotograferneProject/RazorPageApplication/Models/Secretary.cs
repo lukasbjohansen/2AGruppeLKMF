@@ -11,7 +11,7 @@ namespace RazorPageApplication.Models
         public string Password { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
-        public School School { get; set; }
+        public School? School { get; set; }
         public UserRole Role { get => UserRole.Secretary; }
         #endregion
 
