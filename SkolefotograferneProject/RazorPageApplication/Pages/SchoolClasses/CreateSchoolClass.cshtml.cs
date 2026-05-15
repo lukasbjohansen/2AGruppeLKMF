@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 using System.ComponentModel.DataAnnotations;
@@ -17,12 +18,18 @@ namespace RazorPageApplication.Pages.SchoolClasses
         public SchoolClass NewSchoolClass { get; set; }
 
         [BindProperty]
-        [Required]
-        public int TeacherId { get; set; }
+        [Required(ErrorMessage = "Lærer er påkrævet")]
+        public string TeacherId { get; set; }
 
         [BindProperty]
-        [Required]
-        public int SchoolId { get; set; }
+        [Required(ErrorMessage = "Skole er påkrævet")]
+        public string SchoolId { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> TeacherSelect { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> SchoolSelect { get; set; }
 
         public CreateSchoolClassModel(IRepositoryAsync<SchoolClass> schoolClassRepository, ITeacherRepository teacherRepository, IRepositoryAsync<School>schoolRepository)
         {
@@ -30,21 +37,29 @@ namespace RazorPageApplication.Pages.SchoolClasses
             _teacherRepo = teacherRepository;
             _schoolRepo = schoolRepository;
         }
-        public void OnGet()
+        public async Task OnGet()
         {
             NewSchoolClass = new SchoolClass();
+
+            List<Teacher> teachers = await _teacherRepo.GetAllAsync();
+            List<School> schools = await _schoolRepo.GetAllAsync();
+
+            TeacherSelect = teachers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Mail}" });
+            SchoolSelect = schools.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.PostalCode}" });
+
         }
         public async Task<IActionResult> OnPost()
         {
             
-            if (!ModelState.IsValid||TeacherId<1||SchoolId<1)
+            if (!ModelState.IsValid)
             {
+                await OnGet();
                 return Page();
             }
-            NewSchoolClass.School = await _schoolRepo.GetAsync(SchoolId);
-            NewSchoolClass.Teacher = await _teacherRepo.GetAsync(TeacherId);
             try
             {
+                NewSchoolClass.School = await _schoolRepo.GetAsync(Convert.ToInt32(SchoolId));
+                NewSchoolClass.Teacher = await _teacherRepo.GetAsync(Convert.ToInt32(TeacherId));
                 await _schoolClassRepo.CreateAsync(NewSchoolClass);
                 return RedirectToPage("Index");
             }
@@ -53,6 +68,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
             {
                 ViewData["ErrorMessage"] = ex.Message;
                 ModelState.AddModelError(string.Empty, ex.Message);
+                await OnGet();
                 return Page();
 
             }

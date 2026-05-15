@@ -15,16 +15,16 @@
         <input asp-for="@Model.StudentToUpdate.Name" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.StudentToUpdate.PhotoCode" class="control-label">Skoleklasse</label>
+        <label asp-for="@Model.StudentToUpdate.PhotoCode" class="control-label">Fotokode</label>
         <input asp-for="@Model.StudentToUpdate.PhotoCode" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.SchoolClassId" class="control-label">Skole</label>
-        <input asp-for="@Model.SchoolClassId" class="form-control" />
+        <label asp-for="@Model.SchoolClassId" class="control-label">Skoleklasse</label>
+        <select asp-for="@Model.SchoolClassId" asp-items="@Model.SchoolClassSelect" id="SchoolClassSelect" class="form-select"></select>
     </div>
     <div class="form-group">
         <label asp-for="@Model.ParentId" class="control-label">Forælder</label>
-        <input asp-for="@Model.ParentId" class="form-control" />
+        <select asp-for="@Model.ParentId" asp-items="@Model.ParentSelect" id="ParentSelect" class="form-select"></select>
     </div>
     
 

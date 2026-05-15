@@ -95,7 +95,6 @@ namespace RazorPageApplication.Services
                         int schoolClassId = reader.GetInt32("SchoolClassID");
                         string schoolClassName = reader.GetString("SchoolClassName");   
                         int schoolId = reader.GetInt32("SchoolID");
-                        string schoolName = reader.GetString("SchoolName");
                         int teacherId = reader.GetInt32("TeacherID");
                         int schoolClassYear = reader.GetInt32("SchoolClassYear");
 

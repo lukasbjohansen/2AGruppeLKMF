@@ -10,14 +10,13 @@ namespace RazorPageApplication.Models
 
         [Required(ErrorMessage ="Navn er påkrævet")]
         public string Name { get; set; }
-        
+
         public School? School { get; set; }
         public Teacher? Teacher { get; set; }
 
-
         [Required(ErrorMessage = "År er påkrævet")]
         [Range(1900, 3000, ErrorMessage = "År skal være mellem 1900 og 3000")]
-        public int Year { get; set; }
+        public int? Year { get; set; }
         #endregion
 
         #region Constructors
