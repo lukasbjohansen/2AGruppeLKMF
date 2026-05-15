@@ -27,7 +27,7 @@ namespace RazorPageApplication.Pages.Teachers
 
         public async Task OnGetAsync()
         {
-            if (FilterCriteria.Length < 1)
+            if (string.IsNullOrEmpty(FilterCriteria))
             {
                 Teachers = await _repo.GetAllAsync();
             }
