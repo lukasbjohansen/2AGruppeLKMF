@@ -15,9 +15,7 @@ namespace RazorPageApplication.Models
         public DateTime EndTime { get; set; }
         [Required(ErrorMessage = "Lokation er påkrævet")]
         public string Location { get; set; }
-        [Required(ErrorMessage = "Fotograf er påkrævet")]
         public Photographer? Photographer { get; set; }
-        [Required(ErrorMessage = "Skoleklasse er påkrævet")]
         public SchoolClass? SchoolClass { get; set; } 
         #endregion
 
