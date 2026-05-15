@@ -24,7 +24,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@TeacherName", item.Name);
                     command.Parameters.AddWithValue("@Mail", item.Mail);
                     command.Parameters.AddWithValue("@TeacherPassword", item.Password);
-                    command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
+                    command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber = item.PhoneNumber.TrimPhoneNumber());
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (SqlException sEx)
