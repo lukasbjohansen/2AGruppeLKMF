@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
@@ -18,11 +19,16 @@ namespace RazorPageApplication.Pages.Photos
 
         [BindProperty]
         [Required]
-        public int PhotographerId { get; set; }
+        public string PhotographerId { get; set; }
 
         [BindProperty]
         [Required]
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> PhotographerSelect { get; set; }
+        [BindProperty]
+        public IEnumerable<SelectListItem> StudentSelect { get; set; }
 
         public EditPhotoModel(IRepositoryAsync<Photo> repo, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository)
         {
@@ -34,21 +40,26 @@ namespace RazorPageApplication.Pages.Photos
         public async Task OnGet(int id)
         {
             PhotoToUpdate = await _repo.GetAsync(id);
-            PhotographerId = PhotoToUpdate.Photographer.Id;
-            StudentId = PhotoToUpdate.Student.Id;
+            PhotographerId = Convert.ToString(PhotoToUpdate.Photographer.Id);
+            StudentId = Convert.ToString(PhotoToUpdate.Student.Id);
+
+            List<Photographer> photographers = await _photographerRepo.GetAllAsync();
+            PhotographerSelect = photographers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.Mail}" });
+            List<Student> students = await _studentRepo.GetAllAsync();
+            StudentSelect = students.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.SchoolClass.Name} - {p.SchoolClass.Year}" });
         }
 
         public async Task<IActionResult> OnPostUpdate()
         {
-            if (!ModelState.IsValid || PhotographerId < 1 || StudentId < 1)
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
 
             try
             {
-                PhotoToUpdate.Photographer = await _photographerRepo.GetAsync(PhotographerId);
-                PhotoToUpdate.Student = await _studentRepo.GetAsync(StudentId);
+                PhotoToUpdate.Photographer = await _photographerRepo.GetAsync(Convert.ToInt32(PhotographerId));
+                PhotoToUpdate.Student = await _studentRepo.GetAsync(Convert.ToInt32(StudentId));
                 await _repo.UpdateAsync(PhotoToUpdate);
                 return RedirectToPage("Index");
             }

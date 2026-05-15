@@ -7,30 +7,75 @@ namespace RazorPageApplication.Pages.SchoolClasses
 {
     public class IndexModel : PageModel
     {
-        
-            private IRepositoryAsync<SchoolClass> _repo;
-            public List<SchoolClass> SchoolClasses { get; set; }
-            [BindProperty(SupportsGet = true)]
-            public string FilterCriteria { get; set; }
 
-            [BindProperty(SupportsGet = true)]
-            public string FilterBy { get; set; }
+        private IRepositoryAsync<SchoolClass> _repo;
+        public List<SchoolClass> SchoolClasses { get; set; }
 
-            public IndexModel(IRepositoryAsync<SchoolClass> schoolClassRepository)
-            {
-                _repo = schoolClassRepository;
-            }
-            public async Task OnGet()
+
+        [BindProperty(SupportsGet = true)]
+        public string FilterCriteria { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FilterBy { get; set; }
+
+        public IndexModel(IRepositoryAsync<SchoolClass> schoolClassRepository)
         {
+            _repo = schoolClassRepository;
+
+        }
+        public async Task OnGet()
+        {
+
+            var allClasses = await _repo.GetAllAsync();
+
             if (!string.IsNullOrEmpty(FilterCriteria))
             {
-                SchoolClasses = await _repo.FilterAsync(FilterCriteria);
-            }
-            else
-                
-            SchoolClasses = await _repo.GetAllAsync();
+                switch (FilterBy)
+                {
+
+                    case "SchoolClassName":
+                        SchoolClasses = allClasses
+                            .Where(sc => sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "SchoolClassYear":
+                        SchoolClasses = allClasses
+                            .Where(sc => sc.Year.ToString().Contains(FilterCriteria))
+                            .ToList();
+                        break;
+
+                    case "SchoolID":
+                        SchoolClasses = allClasses
+                            .Where(sc => sc.School.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "TeacherID":
+                        SchoolClasses = allClasses
+                            .Where(sc => sc.Teacher.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "All":
+                        SchoolClasses = allClasses
+                            .Where(sc =>
+                                sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.Year.ToString().Contains(FilterCriteria) ||
+                                sc.School.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.Teacher.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                }
 
             }
-        
+            else
+            {
+                SchoolClasses = allClasses;
+            }
+
+        }
+
+
     }
 }

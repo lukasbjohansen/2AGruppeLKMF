@@ -22,10 +22,12 @@ namespace RazorPageApplication.Pages.Photos
 
         [BindProperty]
         [Required]
-        public int StudentId { get; set; }
+        public string StudentId { get; set; }
 
         [BindProperty]
         public IEnumerable<SelectListItem> PhotographerSelect { get; set; }
+        [BindProperty]
+        public IEnumerable<SelectListItem> StudentSelect { get; set; }
 
         public CreatePhotoModel(IRepositoryAsync<Photo> photoRepository, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository)
         {
@@ -40,6 +42,8 @@ namespace RazorPageApplication.Pages.Photos
 
             List<Photographer> photographers = await _photographerRepo.GetAllAsync();
             PhotographerSelect = photographers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.Mail}" });
+            List<Student> students = await _studentRepo.GetAllAsync();
+            StudentSelect = students.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.SchoolClass.Name} - {p.SchoolClass.Year}" });
         }
 
         public async Task<IActionResult> OnPost()
@@ -52,7 +56,7 @@ namespace RazorPageApplication.Pages.Photos
             try
             {
                 NewPhoto.Photographer = await _photographerRepo.GetAsync(Convert.ToInt32(PhotographerId));
-                NewPhoto.Student = await _studentRepo.GetAsync(StudentId);
+                NewPhoto.Student = await _studentRepo.GetAsync(Convert.ToInt32(StudentId));
                 await _repo.CreateAsync(NewPhoto);
                 return RedirectToPage("Index");
             }

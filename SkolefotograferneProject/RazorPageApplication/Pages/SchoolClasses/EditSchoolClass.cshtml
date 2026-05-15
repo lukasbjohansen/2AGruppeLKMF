@@ -20,11 +20,11 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.SchoolId" class="control-label">Skole</label>
-        <input asp-for="@Model.SchoolId" class="form-control" />
+        <select asp-for="@Model.SchoolId" asp-items="@Model.SchoolSelect" id="SchoolSelect" class="form-select"></select>
     </div>
     <div class="form-group">
         <label asp-for="@Model.TeacherId" class="control-label">Lærer</label>
-        <input asp-for="@Model.TeacherId" class="form-control" />
+        <select asp-for="@Model.TeacherId" asp-items="@Model.TeacherSelect" id="TeacherSelect" class="form-select"></select>
     </div>
 
     
