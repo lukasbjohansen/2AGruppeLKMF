@@ -9,13 +9,18 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+
         [Required(ErrorMessage ="Starttidspunkt er påkrævet")]
         public DateTime StartTime { get; set; }
+
         [Required(ErrorMessage = "Sluttidspunkt er påkrævet")]
         public DateTime EndTime { get; set; }
+
         [Required(ErrorMessage = "Lokation er påkrævet")]
         public string Location { get; set; }
+
         public Photographer? Photographer { get; set; }
+
         public SchoolClass? SchoolClass { get; set; } 
         #endregion
 
@@ -24,6 +29,7 @@ namespace RazorPageApplication.Models
         {
 
         }
+
         public PhotoEvent(int id, DateTime startTime, DateTime endTime, string location, Photographer? photographer, SchoolClass? schoolClass)
         {
             Id = id;
