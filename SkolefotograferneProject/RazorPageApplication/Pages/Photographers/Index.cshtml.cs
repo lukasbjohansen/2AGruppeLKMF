@@ -24,49 +24,13 @@ namespace RazorPageApplication.Pages.Photographers
 
         public async Task OnGet()
         {
-            List<Photographer> allPhotographers = await _repo.GetAllAsync();
             if (string.IsNullOrEmpty(FilterCriteria))
             {
-                Photographers = allPhotographers;
-                return;
+                Photographers = await _repo.GetAllAsync();
             }
-            switch (FilterBy)
+            else
             {
-                case "PhotographerName":
-                    Photographers = allPhotographers
-                        .Where(p => p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    break;
-                case "Mail":
-                    Photographers = allPhotographers
-                        .Where(p => p.Mail.ToString().Contains(FilterCriteria))
-                        .ToList();
-                    break;
-                case "PhotographerPassword":
-                    Photographers = allPhotographers
-                        .Where(p => p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    break;
-                case "PhoneNumber":
-                    Photographers = allPhotographers
-                        .Where(p => p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    break;
-                case "CVR":
-                    Photographers = allPhotographers
-                        .Where(p => p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    break;
-                case "All":
-                    Photographers = allPhotographers
-                        .Where(p =>
-                            p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                            p.Mail.ToString().Contains(FilterCriteria) ||
-                            p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                            p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                            p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                        .ToList();
-                    break;
+                Photographers = await _repo.FilterAsync(FilterCriteria);
             }
         }
     }
