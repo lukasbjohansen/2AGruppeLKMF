@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RazorPageApplication.Pages.Secretaries
@@ -50,6 +51,16 @@ namespace RazorPageApplication.Pages.Secretaries
                     case "School":
                             Secretaries = allSecretary
                             .Where(sc => sc.School.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                    case "All":
+                        Secretaries = allSecretary
+                            .Where(sc =>
+                                sc.Mail.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.Name.Contains(FilterCriteria) ||
+                                sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.School.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
                     break;
                 }
             }
