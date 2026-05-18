@@ -10,13 +10,28 @@ namespace RazorPageApplication.Pages.Secretaries
     {
         IRepositoryAsync<Secretary> _repo;
         public List<Secretary> Secretaries { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FilterCriteria { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string FilterBy { get; set; }
+
         public IndexModel(IRepositoryAsync<Secretary> secretaryRepo)
         {
             _repo = secretaryRepo;
         }
         public async Task OnGet()
         {
-            Secretaries = await _repo.GetAllAsync();
+            if (string.IsNullOrEmpty(FilterCriteria))
+            {
+                Secretaries = await _repo.GetAllAsync();
+            }
+            else
+            {
+                Secretaries = await _repo.FilterAsync(FilterCriteria);
+            }
+               
         }
     }
 }

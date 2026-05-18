@@ -22,19 +22,62 @@ namespace RazorPageApplication.Pages.Parents
         {
             _repo = parentRepository;
         }
-        //public async Task OnGet()
-        //{
-        //    Parents = await _repo.GetAllAsync();
-        //}
 
         public async Task OnGet()
         {
+            var allParents = await _repo.GetAllAsync();
+
             if (!string.IsNullOrEmpty(FilterCriteria))
             {
-                Parents = await _repo.FilterAsync(FilterCriteria);
+                switch (FilterBy)
+                {
+
+                    case "ParentName":
+                        Parents = allParents
+                            .Where(sc => sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "Mail":
+                        Parents = allParents
+                            .Where(sc => sc.Mail.ToString().Contains(FilterCriteria))
+                            .ToList();
+                        break;
+
+                    case "PhoneNumber":
+                        Parents = allParents
+                            .Where(sc => sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "ParentAddress":
+                        Parents = allParents
+                            .Where(sc => sc.Address.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "PostalCode":
+                        Parents = allParents
+                            .Where(sc => sc.PostalCode.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "All":
+                        allParents.Where(sc =>
+                                sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.Mail.Contains(FilterCriteria) ||
+                                sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.Address.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                }
+
             }
             else
-                Parents = await _repo.GetAllAsync();
+            {
+                Parents = allParents;
+            }
         }
     }
 }
