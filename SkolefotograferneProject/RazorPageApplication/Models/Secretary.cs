@@ -1,5 +1,6 @@
 ﻿using RazorPageApplication.Enums;
 using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {

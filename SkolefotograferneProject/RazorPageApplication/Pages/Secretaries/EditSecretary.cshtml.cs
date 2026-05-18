@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
@@ -17,6 +18,9 @@ namespace RazorPageApplication.Pages.Secretaries
         [BindProperty]
         public int SchoolID { get; set; }
 
+        [BindProperty]
+        public IEnumerable<SelectListItem> SchoolSelect { get; set; }
+
         public EditSecretaryModel(IRepositoryAsync<Secretary> repo, IRepositoryAsync<School>schoolRepo)
         {
             _secretaryRepo = repo;
@@ -24,6 +28,8 @@ namespace RazorPageApplication.Pages.Secretaries
         }
         public async Task OnGet(int id)
         {
+            List<School> schools = await _schoolRepo.GetAllAsync();
+            SchoolSelect = schools.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.PostalCode}" });
             SecretaryToUpdate = await _secretaryRepo.GetAsync(id);
             SchoolID = SecretaryToUpdate.School.Id;
         }
@@ -31,10 +37,12 @@ namespace RazorPageApplication.Pages.Secretaries
         {
             if (!ModelState.IsValid)
             {
+                await OnGet(SecretaryToUpdate.Id); //korrekt?
                 return Page();
             }
             try
             {
+                SecretaryToUpdate.School = await _schoolRepo.GetAsync(Convert.ToInt32(SchoolID));
                 SecretaryToUpdate.School = await _schoolRepo.GetAsync(SchoolID);
                 await _secretaryRepo.UpdateAsync(SecretaryToUpdate);
                 return RedirectToPage("Index");
