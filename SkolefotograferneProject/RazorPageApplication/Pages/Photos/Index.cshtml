@@ -26,11 +26,26 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Filnavn</th>
-            <th>Dato</th>
-            <th>Fotograf</th>
-            <th>Elev</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+            <th>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="FilePath" class="btn btn-link p-0">Filnavn<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhotoDate" class="btn btn-link p-0">Dato<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhotographerName" class="btn btn-link p-0">Fotograf<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="StudentName" class="btn btn-link p-0">Elev<i class="bi bi-sort-down"></i></button>
+            </th>
+            </form>
             <th>Redigér | Slet</th>
         </tr>
     </thead>
