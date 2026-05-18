@@ -27,12 +27,48 @@ namespace RazorPageApplication.Pages.Schools
 
         public async Task OnGet() //Vi vil fylde vores Members op, til det bruger vi vores metode GetAllMembers fra vores SailClubLibrary
         {
+            var allSchools = await _repo.GetAllAsync();
+
             if (!string.IsNullOrEmpty(FilterCriteria))
             {
-                Schools = await _repo.FilterAsync(FilterCriteria);
+                switch (FilterBy)
+                {
+
+                    case "SchoolName":
+                        Schools = allSchools
+                            .Where(sc => sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "SchoolAddress":
+                        Schools = allSchools
+                            .Where(sc => sc.Address.Contains(FilterCriteria))
+                            .ToList();
+                        break;
+
+                    case "PostalCode":
+                        Schools = allSchools
+                            .Where(sc => sc.PostalCode.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+
+                    case "All":
+                        Schools = allSchools
+                            .Where(sc =>
+                                sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                sc.Address.ToString().Contains(FilterCriteria) ||
+                                sc.PostalCode.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                }
+
             }
             else
-                Schools = await _repo.GetAllAsync();
+            {
+                Schools = allSchools;
+            }
+
         }
     }
-}
+    }
+

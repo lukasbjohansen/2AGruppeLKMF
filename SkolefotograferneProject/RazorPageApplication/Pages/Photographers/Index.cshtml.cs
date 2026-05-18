@@ -78,6 +78,11 @@ namespace RazorPageApplication.Pages.Photographers
             {
                 Photographers = allPhotographers;
             }
+            if (!string.IsNullOrEmpty(SortBy))
+            {
+                Photographers = allPhotographers;
+                SortPhotographers();
+            }
         }
 
         public void SortPhotographers()
@@ -87,13 +92,13 @@ namespace RazorPageApplication.Pages.Photographers
                 case "Id":
                     Photographers.Sort(new GenericComparer<Photographer, int>(p => p.Id, IsDescending));
                     break;
-                case "PhotographerName":
+                case "Name":
                     Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Name, IsDescending));
                     break;
                 case "Mail":
                     Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Mail, IsDescending));
                     break;
-                case "PhotographerPassword":
+                case "Password":
                     Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Password, IsDescending));
                     break;
                 case "PhoneNumber":
