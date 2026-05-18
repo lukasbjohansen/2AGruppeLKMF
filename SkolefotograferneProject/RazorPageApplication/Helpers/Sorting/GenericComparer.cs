@@ -11,7 +11,7 @@
             _descending = descending;
         }
 
-        public int Compare(T? x, T? y)
+        public int Compare(T? x, T? y)  
         {
             if (x == null && y == null)
             {
