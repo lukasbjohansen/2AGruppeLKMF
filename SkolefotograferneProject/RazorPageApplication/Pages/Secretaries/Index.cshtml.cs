@@ -23,9 +23,35 @@ namespace RazorPageApplication.Pages.Secretaries
         }
         public async Task OnGet()
         {
-            if (string.IsNullOrEmpty(FilterCriteria))
+            var allSecretary = await _repo.GetAllAsync();
+
+            if (!string.IsNullOrEmpty(FilterCriteria))
             {
-                Secretaries = await _repo.GetAllAsync();
+                switch (FilterBy)
+                {
+                   
+                    case "Mail": //hvis man har valgt Mail til filtrer, så henter den alle secretaries, som accepter kravende for Mail
+                        
+                        Secretaries = allSecretary
+                            .Where(sc => sc.Mail.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase)).ToList();
+                        //en loop med if statement og returner en liste (ToList)
+                        break;
+
+                    case "Name":
+                        Secretaries = allSecretary
+                            .Where(sc => sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                    case "PhoneNumber":
+                        Secretaries = allSecretary
+                            .Where(sc => sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+
+                    case "School":
+                            Secretaries = allSecretary
+                            .Where(sc => sc.School.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase)).ToList();
+                    break;
+                }
             }
             else
             {
