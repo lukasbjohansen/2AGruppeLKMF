@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPageApplication.Helpers.Sorting;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 
@@ -15,6 +16,12 @@ namespace RazorPageApplication.Pages.Schools
 
         [BindProperty(SupportsGet = true)]
         public string FilterBy { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SortBy { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public bool IsDescending { get; set; }
 
         public IndexModel(IRepositoryAsync<School> schoolRepository)
         {
@@ -68,7 +75,30 @@ namespace RazorPageApplication.Pages.Schools
                 Schools = allSchools;
             }
 
+            if (!string.IsNullOrEmpty(SortBy))
+            {
+                SortSchools();
+            }
+        }
+
+        private void SortSchools()
+        {
+            switch (SortBy)
+            {
+                case "Id":
+                    Schools.Sort(new GenericComparer<School, int>(p => p.Id, IsDescending));
+                    break;
+                case "Name":
+                    Schools.Sort(new GenericComparer<School, string>(p => p.Name, IsDescending));
+                    break;
+                case "Address":
+                    Schools.Sort(new GenericComparer<School, string>(p => p.Address, IsDescending));
+                    break;
+                case "PostalCode":
+                    Schools.Sort(new GenericComparer<School, string>(p => p.PostalCode, IsDescending));
+                    break;
+            }
         }
     }
-    }
+}
 

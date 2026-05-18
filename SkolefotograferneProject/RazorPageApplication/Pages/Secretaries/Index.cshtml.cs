@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPageApplication.Helpers.Sorting;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 using System.Linq;
@@ -17,6 +18,14 @@ namespace RazorPageApplication.Pages.Secretaries
 
         [BindProperty(SupportsGet = true)]
         public string FilterBy { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SortBy { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public bool IsDescending { get; set; }
+
 
         public IndexModel(IRepositoryAsync<Secretary> secretaryRepo)
         {
@@ -53,7 +62,7 @@ namespace RazorPageApplication.Pages.Secretaries
                             .Where(sc => sc.School.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase)).ToList();
                     break;
 
-                    case "All":
+                    case "All": //hvordan kender den til All?
                         Secretaries = allSecretary
                             .Where(sc =>
                                 sc.Mail.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
@@ -66,9 +75,34 @@ namespace RazorPageApplication.Pages.Secretaries
             }
             else
             {
-                Secretaries = await _repo.FilterAsync(FilterCriteria);
+                Secretaries = allSecretary;
             }
-               
+            if (!string.IsNullOrEmpty(SortBy))
+            {
+                SortSecretaries();
+            }
+
+        }
+        private void SortSecretaries()
+        {
+            switch (SortBy)
+            {
+                case "Id":
+                    Secretaries.Sort(new GenericComparer<Secretary, int>(p => p.Id, IsDescending));
+                    break;
+                case "Mail":
+                    Secretaries.Sort(new GenericComparer<Secretary, string>(p => p.Mail, IsDescending));
+                    break;
+                case "Name":
+                    Secretaries.Sort(new GenericComparer<Secretary, string>(p => p.Name, IsDescending));
+                    break;
+                case "PhoneNumber":
+                    Secretaries.Sort(new GenericComparer<Secretary, string>(p => p.PhoneNumber, IsDescending));
+                    break;
+                case "School":
+                    Secretaries.Sort(new GenericComparer<Secretary, string>(p => p.School.Name, IsDescending));
+                    break;
+            }
         }
     }
 }

@@ -80,7 +80,6 @@ namespace RazorPageApplication.Pages.Photographers
             }
             if (!string.IsNullOrEmpty(SortBy))
             {
-                Photographers = allPhotographers;
                 SortPhotographers();
             }
         }
