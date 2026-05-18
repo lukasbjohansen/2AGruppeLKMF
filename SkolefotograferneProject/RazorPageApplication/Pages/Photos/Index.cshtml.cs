@@ -44,13 +44,13 @@ namespace RazorPageApplication.Pages.Photos
 
                     case "PhotographerID":
                         Photos = allPhotos
-                            .Where(sc => sc != null && sc.Photographer.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .Where(sc => sc.Photographer.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
 
                     case "StudentID":
                         Photos = allPhotos
-                            .Where(sc => sc != null && sc.Student.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .Where(sc => sc.Student.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
 

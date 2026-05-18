@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
-    public class Photographer : IUser, IComparable<Photographer>
+    public class Photographer : IUser
     {
         #region Properties
         public int Id { get; set; }
@@ -51,14 +51,15 @@ namespace RazorPageApplication.Models
             return $"Photographer: \n\tID: {Id}\n\tName: {Name}\n\tMail: {Mail}\n\tPhoneNumber: {PhoneNumber}\n\tCVR: {CVR}";
         }
 
-        public int CompareTo(Photographer? other)
-        {
-            if (other == null)
-            {
-                return 1;
-            }
-            return Id.CompareTo(other.Id);
-        }
+        // Not required
+        //public int CompareTo(Photographer? other)
+        //{
+        //    if (other == null)
+        //    {
+        //        return 1;
+        //    }
+        //    return Id.CompareTo(other.Id);
+        //}
         #endregion
 
 
