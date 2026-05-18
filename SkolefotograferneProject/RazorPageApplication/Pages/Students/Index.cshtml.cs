@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPageApplication.Helpers.Sorting;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
+using System.Globalization;
 
 namespace RazorPageApplication.Pages.Students
 {
@@ -15,6 +17,15 @@ namespace RazorPageApplication.Pages.Students
 
         [BindProperty(SupportsGet = true)]
         public string FilterBy { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public string SortBy { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public bool IsDescending { get; set; }
+
         public IndexModel(IRepositoryAsync<Student> studentRepository)
         {
             _repo = studentRepository;
@@ -68,6 +79,35 @@ namespace RazorPageApplication.Pages.Students
             {
                 Students = allStudents;
             }
+            if (!string.IsNullOrEmpty(SortBy))
+            {
+                SortStudents();
+            }
+
+        }
+
+        private void SortStudents()
+        {
+            switch (SortBy)
+            {
+                case "Id":
+                    Students.Sort(new GenericComparer<Student, int>(p => p.Id, IsDescending));
+                    break;
+                case "Name":
+                    Students.Sort(new GenericComparer<Student, string>(p => p.Name, IsDescending));
+                    break;
+                case "PhotoCode":
+                    Students.Sort(new GenericComparer<Student, string>(p => p.PhotoCode, IsDescending));
+                    break;
+                case "SchoolClassName":
+                    Students.Sort(new GenericComparer<Student, string>(p => p.SchoolClass.Name, IsDescending));
+                    break;
+                case "ParentName":
+                    Students.Sort(new GenericComparer<Student, string>(p => p.Parent.Name, IsDescending));
+                    break;
+            }
         }
     }
 }
+    
+

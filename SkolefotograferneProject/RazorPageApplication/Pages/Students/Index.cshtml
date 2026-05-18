@@ -24,11 +24,26 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Navn</th>
-            <th>Fotokode</th>
-            <th>Skoleklasse</th>
-            <th>Forælder</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+            <th>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhotoCode" class="btn btn-link p-0">Fotokode</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="SchoolClassName" class="btn btn-link p-0">Skoleklasse</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="ParentName" class="btn btn-link p-0">Forælder</button>
+            </th>
+            </form>
             <th>Slet | Redigér</th>
         </tr>
     </thead>

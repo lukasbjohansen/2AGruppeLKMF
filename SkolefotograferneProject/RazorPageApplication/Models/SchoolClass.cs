@@ -16,7 +16,7 @@ namespace RazorPageApplication.Models
 
         [Required(ErrorMessage = "År er påkrævet")]
         [Range(1900, 3000, ErrorMessage = "År skal være mellem 1900 og 3000")]
-        public int? Year { get; set; }
+        public int Year { get; set; }
         #endregion
 
         #region Constructors
@@ -39,7 +39,9 @@ namespace RazorPageApplication.Models
         public override string ToString()
         {
             return $"School class:\n\tId: {Id}\n\tName: {Name}\n\tSchool: {School}\n\tTeacher: {Teacher}\n\tYear: {Year}";
-        } 
+        }
+
+        
         #endregion
     }
 }

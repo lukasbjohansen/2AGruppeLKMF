@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using RazorPageApplication.Helpers.Sorting;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
+using System.Globalization;
 
 namespace RazorPageApplication.Pages.SchoolClasses
 {
@@ -17,6 +19,14 @@ namespace RazorPageApplication.Pages.SchoolClasses
 
         [BindProperty(SupportsGet = true)]
         public string FilterBy { get; set; }
+
+        [BindProperty(SupportsGet = true)]
+        public string SortBy { get; set; }
+
+
+        [BindProperty(SupportsGet = true)]
+        public bool IsDescending { get; set; }
+
 
         public IndexModel(IRepositoryAsync<SchoolClass> schoolClassRepository)
         {
@@ -73,9 +83,34 @@ namespace RazorPageApplication.Pages.SchoolClasses
             {
                 SchoolClasses = allClasses;
             }
+                if (!string.IsNullOrEmpty(SortBy))
+                {
+                    SortSchoolClasses();
+                }
 
         }
 
-
+        private void SortSchoolClasses()
+        {
+            switch (SortBy)
+            {
+                case "Id":
+                    SchoolClasses.Sort(new GenericComparer<SchoolClass, int>(p => p.Id, IsDescending));
+                    break;
+                case "Name":
+                    SchoolClasses.Sort(new GenericComparer<SchoolClass, string>(p => p.Name, IsDescending));
+                    break;
+                case "Year":
+                    SchoolClasses.Sort(new GenericComparer<SchoolClass, int>(p => p.Year, IsDescending));
+                    break;
+                case "SchoolName":
+                    SchoolClasses.Sort(new GenericComparer<SchoolClass, string>(p => p.School.Name, IsDescending));
+                    break;
+                case "TeacherName":
+                    SchoolClasses.Sort(new GenericComparer<SchoolClass, string>(p => p.Teacher.Name, IsDescending));
+                    break;
+            }
+        }
     }
 }
+
