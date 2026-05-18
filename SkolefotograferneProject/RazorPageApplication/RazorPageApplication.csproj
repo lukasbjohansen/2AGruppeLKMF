@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="wwwroot\images\Branding\" />
     <Folder Include="wwwroot\images\Photos\" />
   </ItemGroup>
 
