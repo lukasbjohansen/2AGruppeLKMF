@@ -39,10 +39,23 @@ Alle enums typerne løbes igennem og hver enkelt type tages ud og vises i sin eg
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Navn</th>
-            <th>Adresse</th>
-            <th>Postnummer</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((Model.IsDescending).ToString())" />
+            <th>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Address" class="btn btn-link p-0">Adresse</button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PostalCode" class="btn btn-link p-0">Post nummer</button>
+            </th>
+            </form>
             <th>Slet | Redigér</th>
         </tr>
     </thead>
