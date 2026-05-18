@@ -11,7 +11,7 @@
     Søg: <input type="text" asp-for="@Model.FilterCriteria" />
     <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
         <option value="All">Alle</option>
-        <option value="ParentName">Navn</option>
+        <option value="PhotographerName">Navn</option>
         <option value="Mail">Mail</option>
         <option value="PhoneNumber">Telefonnummer</option>
         <option value="CVR">CVR</option>
@@ -20,17 +20,34 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Navn</th>
-            <th>Mail</th>
-            <th>Password</th>
-            <th>PhoneNumber</th>
-            <th>CVR</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@Model.IsDescending.ToString().ToLower()" />
+                <th>
+                    <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID</button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="PhotographerName" class="btn btn-link p-0">Navn</button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="Mail" class="btn btn-link p-0">Mail</button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="PhotographerPassword" class="btn btn-link p-0">Password</button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="PhoneNumber" class="btn btn-link p-0">Telefonnummer</button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="CVR" class="btn btn-link p-0">CVR</button>
+                </th>
+            </form>
             <th>Slet | Redigér</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Photographer photographer in Model.Photographers) //Vi vil gerne løbe alle vores (public property) Member igennem og tage ét member ud af gangen (item) som vi smider ind i en række. Det gør vi ved at blande C# med html ved at bruge @
+        @foreach (Photographer photographer in Model.Photographers)
         {
             <tr>
                 <td>@photographer.Id</td>

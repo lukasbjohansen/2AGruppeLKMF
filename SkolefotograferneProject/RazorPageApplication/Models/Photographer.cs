@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
-    public class Photographer : IUser
+    public class Photographer : IUser, IComparable<Photographer>
     {
         #region Properties
         public int Id { get; set; }
@@ -24,17 +24,17 @@ namespace RazorPageApplication.Models
         [Required(ErrorMessage = "CVR er påkrævet")]
         public string CVR { get; set; }
 
-        [Required(ErrorMessage ="Brugerrolle er påkrævet")]
+        [Required(ErrorMessage = "Brugerrolle er påkrævet")]
         public UserRole Role { get => UserRole.Photographer; }
         #endregion
-        
+
         #region Constructors
         public Photographer()
         {
 
         }
 
-        public Photographer(int id,string name, string mail, string password, string phoneNumber, string cvr)
+        public Photographer(int id, string name, string mail, string password, string phoneNumber, string cvr)
         {
             Id = id;
             Name = name;
@@ -42,14 +42,23 @@ namespace RazorPageApplication.Models
             Password = password;
             PhoneNumber = phoneNumber;
             CVR = cvr;
-        } 
+        }
         #endregion
 
         #region Methods
         public override string ToString()
         {
             return $"Photographer: \n\tID: {Id}\n\tName: {Name}\n\tMail: {Mail}\n\tPhoneNumber: {PhoneNumber}\n\tCVR: {CVR}";
-        } 
+        }
+
+        public int CompareTo(Photographer? other)
+        {
+            if (other == null)
+            {
+                return 1;
+            }
+            return Id.CompareTo(other.Id);
+        }
         #endregion
 
 
