@@ -30,3 +30,7 @@ body {
 .btn-link:hover {
     opacity: 50%;
 }
+
+.bi-sort-down {
+    float: right;
+}
