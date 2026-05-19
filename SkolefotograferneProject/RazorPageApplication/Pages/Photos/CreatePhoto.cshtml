@@ -6,13 +6,20 @@
 
 <h1>Opret Foto</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     <div asp-validation-summary="All" class="text-danger"></div>
     <input type="hidden" asp-for="@Model.NewPhoto.Id" />
+
     <div class="form-group">
+        <label asp-for="@Model.Photo" class="control-label"></label>
+        <div class="custom-file">
+            <input asp-for="@Model.Photo" class="custom-file-input form-control" />
+        </div>
+    </div>
+@*     <div class="form-group">
         <label asp-for="@Model.NewPhoto.FilePath" class="control-label">Filnavn</label>
         <input asp-for="@Model.NewPhoto.FilePath" class="form-control" />
-    </div>
+    </div> *@
     <div class="form-group">
         <label asp-for="@Model.NewPhoto.Date" class="control-label">Dato</label>
         <input asp-for="@Model.NewPhoto.Date" class="form-control" />

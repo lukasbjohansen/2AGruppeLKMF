@@ -7,8 +7,8 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
-        [Required(ErrorMessage = "Filnavn er påkrævet")]
-        public string FilePath { get; set; }
+        //[Required(ErrorMessage = "Filnavn er påkrævet")]
+        public string? FilePath { get; set; }
         [Required(ErrorMessage = "Gyldig dato er påkrævet")]
         public DateTime Date { get; set; }
         public Photographer? Photographer { get; set; }
