@@ -29,19 +29,20 @@
                 <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
                 <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
             <th>
-                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID</button>
+
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn</button>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="PhotoCode" class="btn btn-link p-0">Fotokode</button>
+                <button type="submit" name="SortBy" value="PhotoCode" class="btn btn-link p-0">Fotokode<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="SchoolClassName" class="btn btn-link p-0">Skoleklasse</button>
+                <button type="submit" name="SortBy" value="SchoolClassName" class="btn btn-link p-0">Skoleklasse<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="ParentName" class="btn btn-link p-0">Forælder</button>
+                <button type="submit" name="SortBy" value="ParentName" class="btn btn-link p-0">Forælder<i class="bi bi-sort-down"></i></button>
             </th>
             </form>
             <th>Slet | Redigér</th>

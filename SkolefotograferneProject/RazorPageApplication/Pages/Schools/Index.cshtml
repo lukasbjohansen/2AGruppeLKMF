@@ -42,18 +42,18 @@ Alle enums typerne løbes igennem og hver enkelt type tages ud og vises i sin eg
             <form method="get">
                 <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
                 <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
-                <input type="hidden" name="IsDescending" value="@((Model.IsDescending).ToString())" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
             <th>
-                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID</button>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn</button>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="Address" class="btn btn-link p-0">Adresse</button>
+                <button type="submit" name="SortBy" value="Address" class="btn btn-link p-0">Adresse<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
-                <button type="submit" name="SortBy" value="PostalCode" class="btn btn-link p-0">Post nummer</button>
+                <button type="submit" name="SortBy" value="PostalCode" class="btn btn-link p-0">Post nummer<i class="bi bi-sort-down"></i></button>
             </th>
             </form>
             <th>Slet | Redigér</th>
