@@ -31,6 +31,9 @@ namespace RazorPageApplication.Pages.Photos
         public string StudentId { get; set; }
 
         [BindProperty]
+        public DateTime Date { get; set; }
+
+        [BindProperty]
         public IEnumerable<SelectListItem> PhotographerSelect { get; set; }
         [BindProperty]
         public IEnumerable<SelectListItem> StudentSelect { get; set; }
@@ -65,7 +68,7 @@ namespace RazorPageApplication.Pages.Photos
                 if (Photo.FileName != null)
                 {
                     //string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images/Photos", Photo.FileName);
-                    NewPhoto.FilePath = ProcessUploadedFile();
+                    NewPhoto.FilePath = await ProcessUploadedFile();
                     //System.IO.File.Delete(filePath); //Hvis der allerede er et foto, slettes det og erstattes
                 }
 
@@ -88,26 +91,15 @@ namespace RazorPageApplication.Pages.Photos
 
 
         }
-        //private async Task UploadPhoto()
-        //{
-        //    if (Photo != null)
-        //    {
-        //        Student student = await _studentRepo.GetAsync(Convert.ToInt32(StudentId));
 
-        //        string filePath = Path.Combine(webHostEnvironment.WebRootPath, "/images/Photos", Photo.FileName);
-        //        System.IO.File.Delete(filePath); //Hvis der allerede er et foto, slettes det og erstattes
-
-
-        //    }
-        //}
-
-        private string ProcessUploadedFile()
+        private async Task<string> ProcessUploadedFile()
         {
             string uniqueFileName = null;
             if (Photo != null)
             {
+                Student student = await _studentRepo.GetAsync(Convert.ToInt32(StudentId));
                 string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/Photos");
-                uniqueFileName = Guid.NewGuid().ToString() + "_" + Photo.FileName; //Genererer et unikt ID til vores billede
+                uniqueFileName = student.Name + Date.ToString() + "_" + Photo.FileName; //Genererer et unikt ID til vores billede
                 string filePath = Path.Combine(uploadsFolder, uniqueFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
