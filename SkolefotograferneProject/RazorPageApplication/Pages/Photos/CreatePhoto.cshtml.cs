@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,8 +14,13 @@ namespace RazorPageApplication.Pages.Photos
         private IRepositoryAsync<Photographer> _photographerRepo;
         private IRepositoryAsync<Student> _studentRepo;
 
+        private IWebHostEnvironment _webHostEnvironment;
+
         [BindProperty]
         public Photo NewPhoto { get; set; }
+
+        [BindProperty]
+        public IFormFile Photo { get; set; }
 
         [BindProperty]
         [Required]
@@ -29,12 +35,12 @@ namespace RazorPageApplication.Pages.Photos
         [BindProperty]
         public IEnumerable<SelectListItem> StudentSelect { get; set; }
 
-        public CreatePhotoModel(IRepositoryAsync<Photo> photoRepository, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository)
+        public CreatePhotoModel(IRepositoryAsync<Photo> photoRepository, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository, IWebHostEnvironment webHostEnvironment)
         {
             _repo = photoRepository;
             _photographerRepo = photographerRepository;
             _studentRepo = studentRepository;
-
+            _webHostEnvironment = webHostEnvironment;
         }
         public async Task OnGet()
         {
@@ -53,12 +59,23 @@ namespace RazorPageApplication.Pages.Photos
                 await OnGet();
                 return Page();
             }
+
+            if (Photo != null)
+
+                if (Photo.FileName != null)
+                {
+                    //string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "images/Photos", Photo.FileName);
+                    NewPhoto.FilePath = ProcessUploadedFile();
+                    //System.IO.File.Delete(filePath); //Hvis der allerede er et foto, slettes det og erstattes
+                }
+
             try
             {
                 NewPhoto.Photographer = await _photographerRepo.GetAsync(Convert.ToInt32(PhotographerId));
                 NewPhoto.Student = await _studentRepo.GetAsync(Convert.ToInt32(StudentId));
                 await _repo.CreateAsync(NewPhoto);
                 return RedirectToPage("Index");
+
             }
 
             catch (Exception ex)
@@ -69,6 +86,37 @@ namespace RazorPageApplication.Pages.Photos
                 return Page();
             }
 
+
+        }
+        //private async Task UploadPhoto()
+        //{
+        //    if (Photo != null)
+        //    {
+        //        Student student = await _studentRepo.GetAsync(Convert.ToInt32(StudentId));
+
+        //        string filePath = Path.Combine(webHostEnvironment.WebRootPath, "/images/Photos", Photo.FileName);
+        //        System.IO.File.Delete(filePath); //Hvis der allerede er et foto, slettes det og erstattes
+
+
+        //    }
+        //}
+
+        private string ProcessUploadedFile()
+        {
+            string uniqueFileName = null;
+            if (Photo != null)
+            {
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images/Photos");
+                uniqueFileName = Guid.NewGuid().ToString() + "_" + Photo.FileName; //Genererer et unikt ID til vores billede
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    Photo.CopyTo(fileStream);
+                }
+            }
+            return uniqueFileName;
         }
     }
+
+
 }
