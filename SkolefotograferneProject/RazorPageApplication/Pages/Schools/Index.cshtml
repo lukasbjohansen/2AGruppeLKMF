@@ -13,14 +13,13 @@
 
 <form method="get">
     Søg: <input type="text" asp-for="@Model.FilterCriteria" />
-@*     <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
-        <option value="All">All</option>
-        <option value="FirstName">Firstname</option>
-        <option value="SurName">Surname</option>
-        <option value="PhoneNumber">Phonenumber</option>
-        <option value="Mail">Mail</option>
-        <option value="City">City</option> *@
+    <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
+        <option value="All">Alle</option>
+        <option value="SchoolName">Navn</option>
+        <option value="SchoolAddress">Adresse</option>
+        <option value="PostalCode">Postnummer</option>
     </select>
+    <button type="submit" class="btn btn-success btn-sm">Filtrér</button>
 </form>
 @*<br />
 <!-- All -->
@@ -40,10 +39,23 @@ Alle enums typerne løbes igennem og hver enkelt type tages ud og vises i sin eg
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Navn</th>
-            <th>Adresse</th>
-            <th>Postnummer</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+            <th>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Address" class="btn btn-link p-0">Adresse<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PostalCode" class="btn btn-link p-0">Post nummer<i class="bi bi-sort-down"></i></button>
+            </th>
+            </form>
             <th>Slet | Redigér</th>
         </tr>
     </thead>

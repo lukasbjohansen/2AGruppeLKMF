@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 using System.ComponentModel.DataAnnotations;
@@ -16,12 +17,18 @@ namespace RazorPageApplication.Pages.Students
         public Student NewStudent { get; set; }
 
         [BindProperty]
-        [Required]
-        public int SchoolClassId { get; set; }
-        [BindProperty]
-        [Required]
-        public List<int> ParentsId { get; set; }
+        [Required(ErrorMessage = "Skoleklasse er påkrævet")]
+        public string SchoolClassId { get; set; }
 
+        [BindProperty]
+        [Required(ErrorMessage = "Forælder er påkrævet")]
+        public string ParentId { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> SchoolClassSelect { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> ParentSelect { get; set; }
 
         public CreateStudentModel(IRepositoryAsync<Student> studentRepository, IRepositoryAsync<SchoolClass> schoolClassRepository, IRepositoryAsync<Parent> parentRepository)
         {
@@ -29,28 +36,30 @@ namespace RazorPageApplication.Pages.Students
             _schoolClassRepo = schoolClassRepository;
             _parentRepo = parentRepository;
         }
-        public void OnGet()
+        public async Task OnGet()
         {
             NewStudent = new Student();
+
+            List<SchoolClass> schoolClasses = await _schoolClassRepo.GetAllAsync();
+            List<Parent> parents = await _parentRepo.GetAllAsync();
+
+            SchoolClassSelect = schoolClasses.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Year}" });
+            ParentSelect = parents.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Mail}" });
+
         }
         public async Task<IActionResult> OnPost()
         {
 
-            //if (!ModelState.IsValid || ParentsId == null || ParentsId.Count == 0 || SchoolClassId < 1)
-            //{
-            //    return Page();
-            //}
-            NewStudent.Parents = new List<Parent>();
-            foreach (var parentId in ParentsId)
+            if (!ModelState.IsValid)
             {
-                var parent = await _parentRepo.GetAsync(parentId);
-                if (parent != null)
-                {
-                    NewStudent.Parents.Add(parent);
-                }
+                await OnGet();
+                return Page();
             }
+
             try
             {
+                NewStudent.SchoolClass = await _schoolClassRepo.GetAsync(Convert.ToInt32(SchoolClassId));
+                NewStudent.Parent = await _parentRepo.GetAsync(Convert.ToInt32(ParentId));
                 await _studentRepo.CreateAsync(NewStudent);
                 return RedirectToPage("Index");
             }
@@ -59,6 +68,7 @@ namespace RazorPageApplication.Pages.Students
             {
                 ViewData["ErrorMessage"] = ex.Message;
                 ModelState.AddModelError(string.Empty, ex.Message);
+                await OnGet();
                 return Page();
 
             }

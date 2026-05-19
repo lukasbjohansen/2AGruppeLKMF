@@ -9,29 +9,57 @@
 <p>
     <a asp-page="CreateStudent" class="btn btn-success btn-sm">Opret ny elev</a>
 </p>
+
+<form method="get">
+    Søg: <input type="text" asp-for="@Model.FilterCriteria" />
+    <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
+        <option value="All">Alle</option>
+        <option value="StudentName">Navn</option>
+        <option value="PhotoCode">Fotokode</option>
+        <option value="SchoolClassID">Skoleklasse</option>
+        <option value="ParentID">Forælder</option>
+    </select>
+    <button type="submit" class="btn btn-success btn-sm">Filtrér</button>
+</form>
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Navn</th>
-            <th>Skoleklasse</th>
-            <th>Forældre</th>
-            <th>Fotokode</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+            <th>
+
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhotoCode" class="btn btn-link p-0">Fotokode<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="SchoolClassName" class="btn btn-link p-0">Skoleklasse<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="ParentName" class="btn btn-link p-0">Forælder<i class="bi bi-sort-down"></i></button>
+            </th>
+            </form>
             <th>Slet | Redigér</th>
         </tr>
     </thead>
     <tbody>
-        @foreach (Student item in Model.Students) //Vi vil gerne løbe alle vores (public property) Students igennem og tage ét member ud af gangen (item) som vi smider ind i en række. Det gør vi ved at blande C# med html ved at bruge @
+        @foreach (Student item in Model.Students)
         {
             <tr>
                 <td>@item.Id</td>
                 <td>@item.Name</td>
-                <td>@item.SchoolClass.Name</td>
-                <td>@item.Parents</td>
                 <td>@item.PhotoCode</td>
+                <td>@item.SchoolClass.Name</td>
+                <td>@item.Parent.Name</td>
                 <td>
-                    <a asp-page="DeleteSchoolClass" asp-route-id="@item.Id">Slet skoleklasse</a> |
-                    <a asp-page="EditSchoolClass" asp-route-id="@item.Id">Redigér skoleklasse</a>
+                    <a asp-page="DeleteStudent" asp-route-id="@item.Id">Slet elev</a> |
+                    <a asp-page="EditStudent" asp-route-id="@item.Id">Redigér elev</a>
                 </td>
             </tr>
         }

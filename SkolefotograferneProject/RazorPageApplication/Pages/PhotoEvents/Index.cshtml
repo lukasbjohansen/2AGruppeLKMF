@@ -10,12 +10,35 @@
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
+            @*             <th>ID</th>
             <th>Starttid</th>
             <th>Sluttid</th>
             <th>Lokation</th>
             <th>Fotograf id</th>
-            <th>Skoleklasse id</th>
+            <th>Skoleklasse id</th> *@
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+                <th>
+                    <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="StartDate" class="btn btn-link p-0">Starttid<i class="bi bi-sort-down"></i></button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="EndDate" class="btn btn-link p-0">Sluttid<i class="bi bi-sort-down"></i></button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="Location" class="btn btn-link p-0">Lokation<i class="bi bi-sort-down"></i></button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="PhotographerID" class="btn btn-link p-0">Fotograf id<i class="bi bi-sort-down"></i></button>
+                </th>
+                <th>
+                    <button type="submit" name="SortBy" value="SchoolClassID" class="btn btn-link p-0">Skoleklasse id<i class="bi bi-sort-down"></i></button>
+                </th>
+            </form>
             <th>Slet | Redigér</th>
         </tr>
     </thead>

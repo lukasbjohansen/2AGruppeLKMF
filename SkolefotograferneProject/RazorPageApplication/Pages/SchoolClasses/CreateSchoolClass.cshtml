@@ -10,20 +10,20 @@
     <input type="hidden" asp-for="@Model.NewSchoolClass.Id" />
     <div class="form-group">
         <label asp-for="@Model.NewSchoolClass.Name" class="control-label">Navn</label>
-        <input asp-for="@Model.NewSchoolClass.Name" class="form-control" />
+        <input asp-for="@Model.NewSchoolClass.Name" class="form-control" placeholder="Indtast den nye skoleklasse's navn her Fx. '1A'" />
     </div>
 
     <div class="form-group">
         <label asp-for="@Model.NewSchoolClass.Year" class="control-label">Årgang</label>
-        <input asp-for="@Model.NewSchoolClass.Year" class="form-control" />
+        <input asp-for="@Model.NewSchoolClass.Year" class="form-control" placeholder="Indtast den nye skoleklasse's årgang her Fx. '2026'" />
     </div>
     <div class="form-group">
         <label asp-for="@Model.SchoolId" class="control-label">Skole</label>
-        <input asp-for="@Model.SchoolId" class="form-control" />
+        <select asp-for="@Model.SchoolId" asp-items="@Model.SchoolSelect" id="SchoolSelect" class="form-select"><option value="">Vælg Skole</option></select>
     </div>
     <div class="form-group">
         <label asp-for="@Model.TeacherId" class="control-label">Lærer</label>
-        <input asp-for="@Model.TeacherId" class="form-control" />
+        <select asp-for="@Model.TeacherId" asp-items="@Model.TeacherSelect" id="TeacherSelect" class="form-select"><option value="">Vælg Lærer</option></select>
     </div>
 
 

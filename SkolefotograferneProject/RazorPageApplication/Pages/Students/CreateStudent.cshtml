@@ -1,6 +1,7 @@
 ﻿@page
 @model RazorPageApplication.Pages.Students.CreateStudentModel
 @{
+    ViewData["Title"] = "Opret elev";
 }
 <h1>Opret ny elev</h1>
 
@@ -9,16 +10,20 @@
     <input type="hidden" asp-for="@Model.NewStudent.Id" />
     <div class="form-group">
         <label asp-for="@Model.NewStudent.Name" class="control-label">Navn</label>
-        <input asp-for="@Model.NewStudent.Name" class="form-control" />
+        <input asp-for="@Model.NewStudent.Name" class="form-control" placeholder="Indtast elevens navn her" />
     </div>
 
     <div class="form-group">
         <label asp-for="@Model.NewStudent.PhotoCode" class="control-label">Fotokode</label>
-        <input asp-for="@Model.NewStudent.PhotoCode" class="form-control" />
+        <input asp-for="@Model.NewStudent.PhotoCode" class="form-control" placeholder="Indtast elevens fotokode her" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.NewStudent.SchoolClass.Id" class="control-label">Skoleklasse</label>
-        <input asp-for="@Model.NewStudent.SchoolClass.Id" class="form-control" />
+        <label asp-for="@Model.SchoolClassId" class="control-label">Skoleklasse</label>
+        <select asp-for="@Model.SchoolClassId" asp-items="@Model.SchoolClassSelect" id="SchoolClassSelect" class="form-select"><option value="">Vælg Skoleklasse</option></select>
+    </div>
+    <div class="form-group">
+        <label asp-for="@Model.ParentId" class="control-label">Forælder</label>
+        <select asp-for="@Model.ParentId" asp-items="@Model.ParentSelect" id="ParentSelect" class="form-select"><option value="">Vælg Forælder</option></select>
     </div>
 
     <div class="form-group">

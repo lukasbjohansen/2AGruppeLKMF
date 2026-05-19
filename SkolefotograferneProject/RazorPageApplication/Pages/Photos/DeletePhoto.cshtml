@@ -1,0 +1,15 @@
+﻿@page
+@model RazorPageApplication.Pages.Photos.DeletePhotoModel
+@{
+    ViewData["Title"] = "Slet foto";
+}
+<h1>Slet skoleklasse</h1>
+<form method="post">
+    <label>ID</label>: @Model.DeletePhoto.Id<br />
+    <label>Filnavn</label>: @Model.DeletePhoto.FilePath<br />
+    <label>Dato</label>: @Model.DeletePhoto.Date<br />
+    <label>Fotograf</label>: @Model.DeletePhoto.Photographer.Name<br />
+    <label>Elev</label>: @Model.DeletePhoto.Student.Name<br />
+    <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeletePhoto.Id" class="btn btn-danger" value="Slet skole" />
+    <input type="submit" class="btn btn-warning" value="Annullér" />
+</form>

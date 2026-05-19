@@ -21,12 +21,12 @@
         <input asp-for="@Model.PhotoEventToUpdate.Location" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.PhotoEventToUpdate.Photographer.Id" class="control-label">Fotograf id</label>
-        <input asp-for="@Model.PhotoEventToUpdate.Photographer.Id" class="form-control" />
+        <label asp-for="@Model.PhotographerId" class="control-label">Fotograf id</label>
+        <input asp-for="@Model.PhotographerId" class="form-control" />
     </div>
     <div class="form-group">
-        <label asp-for="@Model.PhotoEventToUpdate.SchoolClass.Id" class="control-label">Skoleklasse id</label>
-        <input asp-for="@Model.PhotoEventToUpdate.SchoolClass.Id" class="form-control" />
+        <label asp-for="@Model.SchoolClassId" class="control-label">Skoleklasse id</label>
+        <input asp-for="@Model.SchoolClassId" class="form-control" />
     </div>
     <div class="form-group">
         <input type="submit" asp-page-handler="Update" value="Opdater fotoevent" class="btn btn-primary" />
