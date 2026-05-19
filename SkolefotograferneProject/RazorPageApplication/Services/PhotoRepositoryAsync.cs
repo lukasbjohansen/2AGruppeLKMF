@@ -18,7 +18,7 @@ namespace RazorPageApplication.Services
         }
         public async Task CreateAsync(Photo item)
 		{
-            string query = "INSERT INTO Photo(FilePath,PhotoDate,PhotographerID,StudentID) Values(@FilePath,@PhotoDate,@PhotographerID,@StudentID)";
+            string query = "INSERT INTO Photo(FilePath,PhotoDate,PhotographerID,StudentID) OUTPUT INSERTED.PhotoID Values(@FilePath,@PhotoDate,@PhotographerID,@StudentID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -29,7 +29,8 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@PhotoDate", item.Date);
                     command.Parameters.AddWithValue("@PhotographerID", item.Photographer.Id);
                     command.Parameters.AddWithValue("@StudentID", item.Student.Id);
-                    await command.ExecuteNonQueryAsync();
+                    int newId = (int)await command.ExecuteScalarAsync();
+                    item.Id = newId;
                 }
                 catch (SqlException sEx)
                 {
