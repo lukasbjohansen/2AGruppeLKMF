@@ -8,7 +8,7 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
-        public string Mail { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
         public string Name { get; set; }
         public string PhoneNumber { get; set; }
@@ -24,7 +24,7 @@ namespace RazorPageApplication.Models
         public Secretary(int id, string mail, string password, string name, string phoneNumber, School school)
         {
             Id = id;
-            Mail = mail;
+            Username = mail;
             Password = password;
             Name = name;
             PhoneNumber = phoneNumber;
@@ -35,7 +35,7 @@ namespace RazorPageApplication.Models
         #region Methods
         public override string ToString()
         {
-            return $"Secretary:\n\tId: {Id}\n\tMail: {Mail}\n\tName: {Name}\n\tPhonenumber: {PhoneNumber}\n\tSchool: {School}";
+            return $"Secretary:\n\tId: {Id}\n\tMail: {Username}\n\tName: {Name}\n\tPhonenumber: {PhoneNumber}\n\tSchool: {School}";
         } 
         #endregion
     }

@@ -13,18 +13,18 @@ namespace RazorPageApplication.Services
         {
             string query =
                 @"INSERT INTO 
-                Photographer(PhotographerName, Mail, PhoneNumber, CVR, PhotographerPassword) 
-                Values(@PhotographerName, @Mail, @PhoneNumber, @CVR, @PhotographerPassword)";
+                Photographer(PhotographerName, Username, PhoneNumber, CVR, Password) 
+                Values(@PhotographerName, @Username, @PhoneNumber, @CVR, @Password)";
             try
             {
                 await using SqlConnection connection = new(Secret.ConnectionString);
                 await connection.OpenAsync();
                 await using SqlCommand command = new(query, connection);
                 command.Parameters.AddWithValue("@PhotographerName", photographer.Name);
-                command.Parameters.AddWithValue("@Mail", photographer.Mail);
+                command.Parameters.AddWithValue("@Username", photographer.Username);
                 command.Parameters.AddWithValue("@PhoneNumber", photographer.PhoneNumber);
                 command.Parameters.AddWithValue("@CVR", photographer.CVR);
-                command.Parameters.AddWithValue("@PhotographerPassword", photographer.Password);
+                command.Parameters.AddWithValue("@Password", photographer.Password);
                 await command.ExecuteNonQueryAsync();
             }
             catch (SqlException e)
@@ -70,8 +70,8 @@ namespace RazorPageApplication.Services
             string query =
                 @"SELECT * FROM Photographer
                 WHERE PhotographerName LIKE @filterCriteria
-                OR Mail LIKE @filterCriteria
-                OR PhotographerPassword LIKE @filterCriteria
+                OR Username LIKE @filterCriteria
+                OR Password LIKE @filterCriteria
                 OR PhoneNumber LIKE @filterCriteria
                 OR CVR LIKE @filterCriteria";
             List<Photographer> photographers = new();
@@ -87,8 +87,8 @@ namespace RazorPageApplication.Services
                     photographers.Add(new(
                         reader.GetInt32("PhotographerID"),
                         reader.GetString("PhotographerName"),
-                        reader.GetString("Mail"),
-                        reader.GetString("PhotographerPassword"),
+                        reader.GetString("Username"),
+                        reader.GetString("Password"),
                         reader.GetString("PhoneNumber"),
                         reader.GetString("CVR")
                     ));
@@ -124,8 +124,8 @@ namespace RazorPageApplication.Services
                     return new(
                         id,
                         reader.GetString("PhotographerName"),
-                        reader.GetString("Mail"),
-                        reader.GetString("PhotographerPassword"),
+                        reader.GetString("Username"),
+                        reader.GetString("Password"),
                         reader.GetString("PhoneNumber"),
                         reader.GetString("CVR")
                     );
@@ -159,8 +159,8 @@ namespace RazorPageApplication.Services
                     photographers.Add(new(
                         reader.GetInt32("PhotographerID"),
                         reader.GetString("PhotographerName"),
-                        reader.GetString("Mail"),
-                        reader.GetString("PhotographerPassword"),
+                        reader.GetString("Username"),
+                        reader.GetString("Password"),
                         reader.GetString("PhoneNumber"),
                         reader.GetString("CVR")
                     ));
@@ -184,8 +184,8 @@ namespace RazorPageApplication.Services
             string query =
                 @"UPDATE Photographer
                 SET PhotographerName = @PhotographerName,
-                    Mail = @Mail,
-                    PhotographerPassword = @PhotographerPassword,
+                    Username = @Username,
+                    Password = @Password,
                     PhoneNumber = @PhoneNumber,
                     CVR = @CVR
                 WHERE PhotographerID = @PhotographerID";
@@ -196,8 +196,8 @@ namespace RazorPageApplication.Services
                 using SqlCommand command = new(query, connection);
                 command.Parameters.AddWithValue("@PhotographerID", photographer.Id);
                 command.Parameters.AddWithValue("@PhotographerName", photographer.Name);
-                command.Parameters.AddWithValue("@Mail", photographer.Mail);
-                command.Parameters.AddWithValue("@PhotographerPassword", photographer.Password);
+                command.Parameters.AddWithValue("@Username", photographer.Username);
+                command.Parameters.AddWithValue("@Password", photographer.Password);
                 command.Parameters.AddWithValue("@PhoneNumber", photographer.PhoneNumber);
                 command.Parameters.AddWithValue("@CVR", photographer.CVR);
                 await command.ExecuteNonQueryAsync();

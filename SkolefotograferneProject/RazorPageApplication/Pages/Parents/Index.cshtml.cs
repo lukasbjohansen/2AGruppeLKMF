@@ -48,7 +48,7 @@ namespace RazorPageApplication.Pages.Parents
 
                     case "Mail":
                         Parents = allParents
-                            .Where(sc => sc.Mail.ToString().Contains(FilterCriteria))
+                            .Where(sc => sc.Username.ToString().Contains(FilterCriteria))
                             .ToList();
                         break;
 
@@ -73,7 +73,7 @@ namespace RazorPageApplication.Pages.Parents
                     case "All":
                         allParents.Where(sc =>
                                 sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                sc.Mail.Contains(FilterCriteria) ||
+                                sc.Username.Contains(FilterCriteria) ||
                                 sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
                                 sc.Address.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
                                 sc.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
@@ -103,7 +103,7 @@ namespace RazorPageApplication.Pages.Parents
                     Parents.Sort(new GenericComparer<Parent, string>(p => p.Name, IsDescending));
                     break;
                 case "Mail":
-                    Parents.Sort(new GenericComparer<Parent, string>(p => p.Mail, IsDescending));
+                    Parents.Sort(new GenericComparer<Parent, string>(p => p.Username, IsDescending));
                     break;
                 case "PhoneNumber":
                     Parents.Sort(new GenericComparer<Parent, string>(p => p.PhoneNumber, IsDescending));

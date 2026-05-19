@@ -45,7 +45,7 @@ namespace RazorPageApplication.Pages.Students
             List<Parent> parents = await _parentRepo.GetAllAsync();
 
             SchoolClassSelect = schoolClasses.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Year}" });
-            ParentSelect = parents.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Mail}" });
+            ParentSelect = parents.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Username}" });
 
             SchoolClassId = StudentToUpdate.SchoolClass.Id.ToString();
             ParentId = StudentToUpdate.Parent.Id.ToString();

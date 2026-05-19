@@ -11,7 +11,7 @@ namespace RazorPageApplication.Services
 	{
 		public async Task CreateAsync(Parent item)
 		{
-            string query = "INSERT INTO Parent(ParentName,Mail,PhoneNumber,ParentAddress,ParentPassword,PostalCode) Values(@ParentName,@Mail,@PhoneNumber,@ParentAddress,@ParentPassword,@PostalCode)";
+            string query = "INSERT INTO Parent(ParentName,Username,PhoneNumber,ParentAddress,Password,PostalCode) Values(@ParentName,@Username,@PhoneNumber,@ParentAddress,@Password,@PostalCode)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -19,10 +19,10 @@ namespace RazorPageApplication.Services
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@ParentName", item.Name);
-                    command.Parameters.AddWithValue("@Mail", item.Mail);
+                    command.Parameters.AddWithValue("@Username", item.Username);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     command.Parameters.AddWithValue("@ParentAddress", item.Address);
-                    command.Parameters.AddWithValue("@ParentPassword", item.Password);
+                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@PostalCode", item.PostalCode);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -74,10 +74,10 @@ namespace RazorPageApplication.Services
                 SELECT * FROM Parent 
                 WHERE ParentID LIKE @filterCriteria 
                 OR ParentName LIKE @filterCriteria 
-                OR Mail LIKE @filterCriteria
+                OR Username LIKE @filterCriteria
                 OR PhoneNumber LIKE @filterCriteria
                 OR ParentAddress LIKE @filterCriteria
-                OR ParentPassword LIKE @filterCriteria
+                OR Password LIKE @filterCriteria
                 OR PostalCode LIKE @filterCriteria";
             List<Parent> parents = new List<Parent>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -92,10 +92,10 @@ namespace RazorPageApplication.Services
                     {
                         int parentId = reader.GetInt32("ParentID");
                         string parentName = reader.GetString("ParentName");
-                        string mail = reader.GetString("Mail");
+                        string mail = reader.GetString("Username");
                         string phoneNumber = reader.GetString("PhoneNumber");
                         string ParentAddress = reader.GetString("ParentAddress");
-                        string ParentPassword = reader.GetString("ParentPassword");
+                        string ParentPassword = reader.GetString("Password");
                         string postalCode = reader.GetString("PostalCode");
                         Parent parent = new Parent(parentId, mail, ParentPassword, parentName, phoneNumber, ParentAddress, postalCode);
                         parents.Add(parent);
@@ -130,8 +130,8 @@ namespace RazorPageApplication.Services
                 if (await reader.ReadAsync())
                 {
                     return new Parent(id,
-                        reader.GetString("Mail"),
-                        reader.GetString("ParentPassword"),
+                        reader.GetString("Username"),
+                        reader.GetString("Password"),
                         reader.GetString("ParentName"),
                         reader.GetString("PhoneNumber"),
                         reader.GetString("ParentAddress"),
@@ -157,10 +157,10 @@ namespace RazorPageApplication.Services
                     {
                         int parentId = reader.GetInt32("ParentID");
                         string parentName = reader.GetString("ParentName");
-                        string mail = reader.GetString("Mail");
+                        string mail = reader.GetString("Username");
                         string phoneNumber = reader.GetString("PhoneNumber");
                         string parentAddress = reader.GetString("ParentAddress");
-                        string parentPassword = reader.GetString("ParentPassword");
+                        string parentPassword = reader.GetString("Password");
                         string postalCode = reader.GetString("PostalCode");
                         Parent parent = new Parent(parentId, mail, parentPassword, parentName, phoneNumber, parentAddress, postalCode);
                         parents.Add(parent);
@@ -184,7 +184,7 @@ namespace RazorPageApplication.Services
 
 		public async Task UpdateAsync(Parent item)
 		{
-            string query = "UPDATE Parent SET ParentName = @ParentName, Mail = @Mail, PhoneNumber = @PhoneNumber, ParentAddress = @ParentAddress, ParentPassword = @ParentPassword, PostalCode = @PostalCode WHERE ParentID = @ParentID";
+            string query = "UPDATE Parent SET ParentName = @ParentName, Username = @Username, PhoneNumber = @PhoneNumber, ParentAddress = @ParentAddress, Password = @Password, PostalCode = @PostalCode WHERE ParentID = @ParentID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -193,10 +193,10 @@ namespace RazorPageApplication.Services
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@ParentID", item.Id);
                     command.Parameters.AddWithValue("@ParentName", item.Name);
-                    command.Parameters.AddWithValue("@Mail", item.Mail);
+                    command.Parameters.AddWithValue("@Username", item.Username);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     command.Parameters.AddWithValue("@ParentAddress", item.Address);
-                    command.Parameters.AddWithValue("@ParentPassword", item.Password);
+                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@PostalCode", item.PostalCode);
                     await command.ExecuteNonQueryAsync();
 

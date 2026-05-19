@@ -44,7 +44,7 @@ namespace RazorPageApplication.Pages.Photographers
                         break;
                     case "Mail":
                         Photographers = allPhotographers
-                            .Where(p => p.Mail.Contains(FilterCriteria))
+                            .Where(p => p.Username.Contains(FilterCriteria))
                             .ToList();
                         break;
                     case "PhotographerPassword":
@@ -66,7 +66,7 @@ namespace RazorPageApplication.Pages.Photographers
                         Photographers = allPhotographers
                             .Where(p =>
                                 p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                p.Mail.Contains(FilterCriteria) ||
+                                p.Username.Contains(FilterCriteria) ||
                                 p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
                                 p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
                                 p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
@@ -95,7 +95,7 @@ namespace RazorPageApplication.Pages.Photographers
                     Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Name, IsDescending));
                     break;
                 case "Mail":
-                    Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Mail, IsDescending));
+                    Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Username, IsDescending));
                     break;
                 case "Password":
                     Photographers.Sort(new GenericComparer<Photographer, string>(p => p.Password, IsDescending));

@@ -44,7 +44,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
             List<Teacher> teachers = await _teacherRepo.GetAllAsync();
             List<School> schools = await _schoolRepo.GetAllAsync();
 
-            TeacherSelect = teachers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Mail}" });
+            TeacherSelect = teachers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Username}" });
             SchoolSelect = schools.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.PostalCode}" });
 
         }

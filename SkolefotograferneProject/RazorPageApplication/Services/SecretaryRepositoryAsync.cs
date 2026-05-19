@@ -18,7 +18,7 @@ namespace RazorPageApplication.Services
         //Create, GetAll, Get, Delete, Update, Filter
         public async Task CreateAsync(Secretary item)
         {
-            string query = "INSERT INTO Secretary(SecretaryName, PhoneNumber, Mail, SecretaryPassword, SchoolID) Values (@SecretaryName, @PhoneNumber, @Mail, @SecretaryPassword, @SchoolID)";
+            string query = "INSERT INTO Secretary(SecretaryName, PhoneNumber, Username, Password, SchoolID) Values (@SecretaryName, @PhoneNumber, @Username, @Password, @SchoolID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -27,8 +27,8 @@ namespace RazorPageApplication.Services
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@SecretaryName", item.Name);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
-                    command.Parameters.AddWithValue("@Mail", item.Mail);
-                    command.Parameters.AddWithValue("@SecretaryPassword", item.Password);
+                    command.Parameters.AddWithValue("@Username", item.Username);
+                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@SchoolID", item.School.Id);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -80,8 +80,8 @@ namespace RazorPageApplication.Services
                 WHERE SecretaryID LIKE @filterCriteria 
                 OR SecretaryName LIKE @filterCriteria 
                 OR PhoneNumber LIKE @filterCriteria
-                OR Mail LIKE @filterCriteria
-                OR SecretaryPassword LIKE @filterCriteria
+                OR Username LIKE @filterCriteria
+                OR Password LIKE @filterCriteria
                 OR SchoolID LIKE @filterCriteria";
             List<Secretary> Secretaries = new List<Secretary>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -97,8 +97,8 @@ namespace RazorPageApplication.Services
                         int secretaryID = reader.GetInt32("SecretaryID");
                         string secretaryName = reader.GetString("SecretaryName");
                         string phoneNumber = reader.GetString("PhoneNumber");
-                        string mail = reader.GetString("Mail");
-                        string secretaryPassword = reader.GetString("SecretaryPassword");
+                        string mail = reader.GetString("Username");
+                        string secretaryPassword = reader.GetString("Password");
                         School schoolID = await _schoolRepo.GetAsync(reader.GetInt32("SchoolID"));
                         Secretary secretary = new Secretary(secretaryID, mail, secretaryPassword, secretaryName, phoneNumber, schoolID);
                         Secretaries.Add(secretary);
@@ -134,8 +134,8 @@ namespace RazorPageApplication.Services
                 if (await reader.ReadAsync())
                 {
                     return new Secretary(id,
-                        reader.GetString("Mail"),
-                        reader.GetString("SecretaryPassword"),
+                        reader.GetString("Username"),
+                        reader.GetString("Password"),
                         reader.GetString("SecretaryName"),
                         reader.GetString("PhoneNumber"),
                         await _schoolRepo.GetAsync(reader.GetInt32("SchoolID")));
@@ -161,8 +161,8 @@ namespace RazorPageApplication.Services
                         int secretaryID = reader.GetInt32("SecretaryID");
                         string secretaryName = reader.GetString("SecretaryName");
                         string phoneNumber = reader.GetString("PhoneNumber");
-                        string mail = reader.GetString("Mail");
-                        string secretaryPassword = reader.GetString("SecretaryPassword");
+                        string mail = reader.GetString("Username");
+                        string secretaryPassword = reader.GetString("Password");
                         int schoolID = reader.GetInt32("SchoolID");
 
                         Secretary secretary = new Secretary(secretaryID, mail, secretaryPassword, secretaryName, phoneNumber, await _schoolRepo.GetAsync(schoolID));
@@ -188,7 +188,7 @@ namespace RazorPageApplication.Services
 
         public async Task UpdateAsync(Secretary item)
         {
-            string query = "UPDATE Secretary SET SecretaryName = @SecretaryName, PhoneNumber = @PhoneNumber, Mail = @Mail, SecretaryPassword = @SecretaryPassword, SchoolID = @SchoolID WHERE SecretaryID = @SecretaryID";
+            string query = "UPDATE Secretary SET SecretaryName = @SecretaryName, PhoneNumber = @PhoneNumber, Username = @Username, Password = @Password, SchoolID = @SchoolID WHERE SecretaryID = @SecretaryID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -198,8 +198,8 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@SecretaryID", item.Id);
                     command.Parameters.AddWithValue("@SecretaryName", item.Name);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
-                    command.Parameters.AddWithValue("@Mail", item.Mail);
-                    command.Parameters.AddWithValue("@SecretaryPassword", item.Password);
+                    command.Parameters.AddWithValue("@Username", item.Username);
+                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@SchoolID", item.School.Id);
                     await command.ExecuteNonQueryAsync();
                 }

@@ -30,12 +30,12 @@ namespace RazorPageApplication.Pages.Users
             HttpContext.Session.Remove("Username");
         }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            IUser user = _userService.VerifyUser(Username, Password);
+            IUser user = await _userService.VerifyUser(Username, Password);
             if(user != null)
             {
-                HttpContext.Session.SetString("Username", user.Mail);
+                HttpContext.Session.SetString("Username", user.Username);
                 return RedirectToPage("/Welcome");
             } else
             {

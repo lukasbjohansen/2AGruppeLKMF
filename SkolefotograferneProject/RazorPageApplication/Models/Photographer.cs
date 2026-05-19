@@ -13,7 +13,7 @@ namespace RazorPageApplication.Models
         public string Name { get; set; }
 
         [Required(ErrorMessage = "Mail er påkrævet")]
-        public string Mail { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Password er krævet")]
         public string Password { get; set; }
@@ -38,7 +38,7 @@ namespace RazorPageApplication.Models
         {
             Id = id;
             Name = name;
-            Mail = mail;
+            Username = mail;
             Password = password;
             PhoneNumber = phoneNumber;
             CVR = cvr;
@@ -48,7 +48,7 @@ namespace RazorPageApplication.Models
         #region Methods
         public override string ToString()
         {
-            return $"Photographer: \n\tID: {Id}\n\tName: {Name}\n\tMail: {Mail}\n\tPhoneNumber: {PhoneNumber}\n\tCVR: {CVR}";
+            return $"Photographer: \n\tID: {Id}\n\tName: {Name}\n\tMail: {Username}\n\tPhoneNumber: {PhoneNumber}\n\tCVR: {CVR}";
         }
 
         // Not required

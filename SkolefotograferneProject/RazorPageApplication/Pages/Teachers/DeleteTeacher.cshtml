@@ -6,7 +6,7 @@
 <form method="post">
     <label>ID</label>: @Model.DeleteTeacher.Id<br />
     <label>Navn</label>: @Model.DeleteTeacher.Name<br />
-    <label>Email</label>: @Model.DeleteTeacher.Mail<br />
+    <label>Email</label>: @Model.DeleteTeacher.Username<br />
     <label>Telefonnummer</label>: @Model.DeleteTeacher.PhoneNumber<br />
     <input type="submit" asp-page-handler="Delete" asp-route-id="@Model.DeleteTeacher.Id" class="btn btn-danger" value="Slet lærer" />
     <input type="submit" class="btn btn-warning" value="Annullér" />

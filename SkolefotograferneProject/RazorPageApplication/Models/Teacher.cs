@@ -17,7 +17,7 @@ namespace RazorPageApplication.Models
         /// </summary>
         [Required]
         [EmailAddress]
-        public string Mail { get; set; }
+        public string Username { get; set; }
         /// <summary>
         /// Password. Stored raw for this prototype. Ideally stored as a hash value.
         /// </summary>
@@ -50,7 +50,7 @@ namespace RazorPageApplication.Models
         /// 
         public Teacher()
         {
-            Mail = "";
+            Username = "";
             Password = "";
             Name = "";
             PhoneNumber = "";
@@ -67,7 +67,7 @@ namespace RazorPageApplication.Models
 		public Teacher(int id, string mail, string password, string name, string phoneNumber)
         {
             Id = id;
-            Mail = mail;
+            Username = mail;
             Password = password;
             Name = name;
             PhoneNumber = phoneNumber;
@@ -81,7 +81,7 @@ namespace RazorPageApplication.Models
 		/// <returns>All properties compacted to a <see langword="string"/></returns>
 		public override string ToString()
         {
-            return $"Teacher:\n\tId: {Id}\n\tMail: {Mail}\n\tName: {Name}\n\tPhonenumber: {PhoneNumber}";
+            return $"Teacher:\n\tId: {Id}\n\tMail: {Username}\n\tName: {Name}\n\tPhonenumber: {PhoneNumber}";
         } 
         #endregion
     }

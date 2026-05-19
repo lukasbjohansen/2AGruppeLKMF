@@ -9,7 +9,7 @@ namespace RazorPageApplication.Models
         #region Propeties
         public int Id { get; set; }
         [Required(ErrorMessage = "Mail er påkrævet")]
-        public string Mail { get; set; }
+        public string Username { get; set; }
         [Required(ErrorMessage = "Password er påkrævet")]
         public string Password { get; set; }
         [Required(ErrorMessage = "Navn er påkrævet")]
@@ -30,10 +30,10 @@ namespace RazorPageApplication.Models
 
         }
 
-        public Parent(int id, string mail, string password, string name, string phoneNumber, string address, string postalCode)
+        public Parent(int id, string username, string password, string name, string phoneNumber, string address, string postalCode)
         {
             Id = id;
-            Mail = mail;
+            Username = username;
             Password = password;
             Name = name;
             PhoneNumber = phoneNumber;
@@ -45,7 +45,7 @@ namespace RazorPageApplication.Models
         #region Methods
         public override string ToString()
         {
-            return $"Id: {Id}\n\tMail: {Mail}\n\tName: {Name}\n\tPhoneNumber: {PhoneNumber}\n\tAddress: {Address}\n\tPostalCode: {PostalCode}";
+            return $"Id: {Id}\n\tMail: {Username}\n\tName: {Name}\n\tPhoneNumber: {PhoneNumber}\n\tAddress: {Address}\n\tPostalCode: {PostalCode}";
         }
         #endregion
     }

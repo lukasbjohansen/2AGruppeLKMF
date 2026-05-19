@@ -44,7 +44,7 @@ namespace RazorPageApplication.Pages.Photos
             StudentId = Convert.ToString(PhotoToUpdate.Student.Id);
 
             List<Photographer> photographers = await _photographerRepo.GetAllAsync();
-            PhotographerSelect = photographers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.Mail}" });
+            PhotographerSelect = photographers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.Username}" });
             List<Student> students = await _studentRepo.GetAllAsync();
             StudentSelect = students.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.SchoolClass.Name} - {p.SchoolClass.Year}" });
         }

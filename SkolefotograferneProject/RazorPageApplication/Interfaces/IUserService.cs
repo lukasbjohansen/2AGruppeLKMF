@@ -2,8 +2,8 @@
 {
     public interface IUserService
     {
-        List<IUser> GetAllUsers();
-        IUser VerifyUser(string username, string password);
-        IUser GetUserByUsername(string username);
+        Task<List<IUser>> GetAllUsers();
+        Task<IUser> VerifyUser(string username, string password);
+        Task<IUser> GetUserByUsername(string username);
     }
 }

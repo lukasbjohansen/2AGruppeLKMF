@@ -16,7 +16,7 @@ namespace RazorPageApplication.Pages.Users
             _userService = userService;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGet()
         {
             Username = HttpContext.Session.GetString("Username");
             if (Username == null)
@@ -25,7 +25,7 @@ namespace RazorPageApplication.Pages.Users
             }
             else
             {
-                CurrentUser = _userService.GetUserByUsername(Username);
+                CurrentUser = await _userService.GetUserByUsername(Username);
                 return Page();
             }
         }
