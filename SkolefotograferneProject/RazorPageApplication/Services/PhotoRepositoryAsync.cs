@@ -18,7 +18,10 @@ namespace RazorPageApplication.Services
         }
         public async Task CreateAsync(Photo item)
 		{
-            string query = "INSERT INTO Photo(FilePath,PhotoDate,PhotographerID,StudentID) Values(@FilePath,@PhotoDate,@PhotographerID,@StudentID)";
+            // Added OUTPUT INSERTED.PhotoID.
+            // INSERTED is the item that is inserted in the SQL.
+            // OUTPUT makes it available in ExecuteScalarAsync as a return value.
+            string query = "INSERT INTO Photo(FilePath,PhotoDate,PhotographerID,StudentID) OUTPUT INSERTED.PhotoID Values(@FilePath,@PhotoDate,@PhotographerID,@StudentID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -29,7 +32,11 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@PhotoDate", item.Date);
                     command.Parameters.AddWithValue("@PhotographerID", item.Photographer.Id);
                     command.Parameters.AddWithValue("@StudentID", item.Student.Id);
-                    await command.ExecuteNonQueryAsync();
+                    // Changed to ExecuteScalarAsync to get the outputted value.
+                    int newId = (int)await command.ExecuteScalarAsync();
+                    // The argument which is a reference type gets updated with the new Id,
+                    // so it is available within the model page.
+                    item.Id = newId;
                 }
                 catch (SqlException sEx)
                 {
