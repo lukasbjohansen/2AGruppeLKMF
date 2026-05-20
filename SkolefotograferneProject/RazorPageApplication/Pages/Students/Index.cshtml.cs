@@ -9,7 +9,11 @@ namespace RazorPageApplication.Pages.Students
 {
     public class IndexModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Student> _repo;
+        #endregion
+
+        #region Properties
         public List<Student> Students { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -25,11 +29,16 @@ namespace RazorPageApplication.Pages.Students
 
         [BindProperty(SupportsGet = true)]
         public bool IsDescending { get; set; }
+        #endregion
 
+        #region Constructors
         public IndexModel(IRepositoryAsync<Student> studentRepository)
         {
             _repo = studentRepository;
         }
+        #endregion
+
+        #region Methods
         public async Task OnGet()
         {
             var allStudents = await _repo.GetAllAsync();
@@ -107,7 +116,8 @@ namespace RazorPageApplication.Pages.Students
                     break;
             }
         }
-    }
+        #endregion
+    } 
 }
     
 

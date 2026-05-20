@@ -10,10 +10,13 @@ namespace RazorPageApplication.Pages.SchoolClasses
     public class CreateSchoolClassModel : PageModel
     {
 
+        #region Instance fields
         private IRepositoryAsync<SchoolClass> _schoolClassRepo;
         private ITeacherRepository _teacherRepo;
         private IRepositoryAsync<School> _schoolRepo;
+        #endregion
 
+        #region Propeties
         [BindProperty]
         public SchoolClass NewSchoolClass { get; set; }
 
@@ -30,13 +33,18 @@ namespace RazorPageApplication.Pages.SchoolClasses
 
         [BindProperty]
         public IEnumerable<SelectListItem> SchoolSelect { get; set; }
+        #endregion
 
-        public CreateSchoolClassModel(IRepositoryAsync<SchoolClass> schoolClassRepository, ITeacherRepository teacherRepository, IRepositoryAsync<School>schoolRepository)
+        #region Constructors
+        public CreateSchoolClassModel(IRepositoryAsync<SchoolClass> schoolClassRepository, ITeacherRepository teacherRepository, IRepositoryAsync<School> schoolRepository)
         {
             _schoolClassRepo = schoolClassRepository;
             _teacherRepo = teacherRepository;
             _schoolRepo = schoolRepository;
         }
+        #endregion
+
+        #region Methods
         public async Task OnGet()
         {
             NewSchoolClass = new SchoolClass();
@@ -50,7 +58,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
         }
         public async Task<IActionResult> OnPost()
         {
-            
+
             if (!ModelState.IsValid)
             {
                 await OnGet();
@@ -73,6 +81,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
 
             }
 
-        }
+        } 
+        #endregion
     }
 }

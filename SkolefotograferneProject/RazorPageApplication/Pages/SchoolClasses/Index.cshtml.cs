@@ -10,7 +10,11 @@ namespace RazorPageApplication.Pages.SchoolClasses
     public class IndexModel : PageModel
     {
 
+        #region Instance fields
         private IRepositoryAsync<SchoolClass> _repo;
+        #endregion
+
+        #region Properties
         public List<SchoolClass> SchoolClasses { get; set; }
 
 
@@ -26,13 +30,17 @@ namespace RazorPageApplication.Pages.SchoolClasses
 
         [BindProperty(SupportsGet = true)]
         public bool IsDescending { get; set; }
+        #endregion
 
-
+        #region Constructors
         public IndexModel(IRepositoryAsync<SchoolClass> schoolClassRepository)
         {
             _repo = schoolClassRepository;
 
         }
+        #endregion
+
+        #region Methods
         public async Task OnGet()
         {
 
@@ -83,10 +91,10 @@ namespace RazorPageApplication.Pages.SchoolClasses
             {
                 SchoolClasses = allClasses;
             }
-                if (!string.IsNullOrEmpty(SortBy))
-                {
-                    SortSchoolClasses();
-                }
+            if (!string.IsNullOrEmpty(SortBy))
+            {
+                SortSchoolClasses();
+            }
 
         }
 
@@ -110,7 +118,8 @@ namespace RazorPageApplication.Pages.SchoolClasses
                     SchoolClasses.Sort(new GenericComparer<SchoolClass, string>(p => p.Teacher.Name, IsDescending));
                     break;
             }
-        }
+        } 
+        #endregion
     }
 }
 
