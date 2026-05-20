@@ -17,6 +17,7 @@ builder.Services.AddTransient<IRepositoryAsync<Photo>, PhotoRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<PhotoEvent>, PhotoEventRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<Order>, OrderRepositoryAsync>();
 builder.Services.AddTransient<IRepositoryAsync<OrderLine>, OrderLineRepositoryAsync>();
+builder.Services.AddTransient<LoginUserRepository>();
 
 // Login
 builder.Services.AddTransient<IUserService, UserService>();

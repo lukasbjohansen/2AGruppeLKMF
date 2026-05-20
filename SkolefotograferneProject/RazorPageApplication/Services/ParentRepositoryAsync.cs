@@ -7,22 +7,31 @@ using System.Data;
 
 namespace RazorPageApplication.Services
 {
-	public class ParentRepositoryAsync : IRepositoryAsync<Parent>
-	{
-		public async Task CreateAsync(Parent item)
-		{
-            string query = "INSERT INTO Parent(ParentName,Username,PhoneNumber,ParentAddress,Password,PostalCode) Values(@ParentName,@Username,@PhoneNumber,@ParentAddress,@Password,@PostalCode)";
+    public class ParentRepositoryAsync : IRepositoryAsync<Parent>
+    {
+        private readonly LoginUserRepository _userRepo;
+
+        public ParentRepositoryAsync(LoginUserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
+
+        public async Task CreateAsync(Parent item)
+        {
+            string query = @"INSERT INTO Parent(ParentID, ParentName,PhoneNumber,ParentAddress,PostalCode)
+                             Values(@ParentID, @ParentName,@PhoneNumber,@ParentAddress,@PostalCode)";
+            int userId = await _userRepo.CreateAsync(item.Username, item.Password);
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
+
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@ParentID", userId);
                     command.Parameters.AddWithValue("@ParentName", item.Name);
-                    command.Parameters.AddWithValue("@Username", item.Username);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     command.Parameters.AddWithValue("@ParentAddress", item.Address);
-                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@PostalCode", item.PostalCode);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -52,7 +61,6 @@ namespace RazorPageApplication.Services
                     await connection.OpenAsync();
                     command.Parameters.AddWithValue("@ParentID", item.Id);
                     await command.ExecuteNonQueryAsync();
-
                 }
                 catch (SqlException sEx)
                 {
@@ -65,12 +73,13 @@ namespace RazorPageApplication.Services
                     ex.PrintWithType();
                     throw new RepositoryException(RepositoryExceptionType.Delete, ex.GetFullMessage());
                 }
+                await _userRepo.DeleteAsync(item.Id);
             }
         }
 
-		public async Task<List<Parent>> FilterAsync(string filterCriteria)
-		{
-            string query = @"
+        public async Task<List<Parent>> FilterAsync(string filterCriteria)
+        {
+            string query = /*@"
                 SELECT * FROM Parent 
                 WHERE ParentID LIKE @filterCriteria 
                 OR ParentName LIKE @filterCriteria 
@@ -78,7 +87,15 @@ namespace RazorPageApplication.Services
                 OR PhoneNumber LIKE @filterCriteria
                 OR ParentAddress LIKE @filterCriteria
                 OR Password LIKE @filterCriteria
-                OR PostalCode LIKE @filterCriteria";
+                OR PostalCode LIKE @filterCriteria";*/
+            @"SELECT p.ParentID, p.ParentName, p.PhoneNumber, p.ParentAddress, p.PostalCode, lu.Username, lu.Password 
+                  FROM Parent p
+                  INNER JOIN LoginUser lu ON p.ParentID = lu.UserID
+                  WHERE p.ParentName LIKE @filterCriteria
+                  OR lu.Username LIKE @filterCriteria
+                  OR p.PhoneNumber LIKE @filterCriteria
+                  OR p.ParentAddress LIKE @filterCriteria
+                  OR p.PostalCode LIKE @filterCriteria";
             List<Parent> parents = new List<Parent>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -119,7 +136,12 @@ namespace RazorPageApplication.Services
 
         public async Task<Parent> GetAsync(int id)
         {
-            string query = "SELECT * FROM Parent WHERE ParentID = @ParentID";
+            string query =
+                /*"SELECT * FROM Parent WHERE ParentID = @ParentID"*/
+                @"SELECT p.ParentID, p.ParentName, p.PhoneNumber, p.ParentAddress, p.PostalCode, lu.Username, lu.Password 
+                  FROM Parent p
+                  INNER JOIN LoginUser lu ON p.ParentID = lu.UserID
+                  WHERE p.ParentID = @ParentID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
@@ -143,8 +165,12 @@ namespace RazorPageApplication.Services
         }
 
         public async Task<List<Parent>> GetAllAsync()
-		{
-            string query = "SELECT * FROM Parent";
+        {
+            string query =
+                /*"SELECT * FROM Parent"*/
+                @"SELECT p.ParentID, p.ParentName, p.PhoneNumber, p.ParentAddress, p.PostalCode, lu.Username, lu.Password 
+                  FROM Parent p
+                  INNER JOIN LoginUser lu ON p.ParentID = lu.UserID"; ;
             List<Parent> parents = new List<Parent>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -182,21 +208,20 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public async Task UpdateAsync(Parent item)
-		{
-            string query = "UPDATE Parent SET ParentName = @ParentName, Username = @Username, PhoneNumber = @PhoneNumber, ParentAddress = @ParentAddress, Password = @Password, PostalCode = @PostalCode WHERE ParentID = @ParentID";
+        public async Task UpdateAsync(Parent item)
+        {
+            string query = "UPDATE Parent SET ParentName = @ParentName, PhoneNumber = @PhoneNumber, ParentAddress = @ParentAddress, PostalCode = @PostalCode WHERE ParentID = @ParentID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
+                    await _userRepo.UpdateAsync(item.Id, item.Username, item.Password);
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@ParentID", item.Id);
                     command.Parameters.AddWithValue("@ParentName", item.Name);
-                    command.Parameters.AddWithValue("@Username", item.Username);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     command.Parameters.AddWithValue("@ParentAddress", item.Address);
-                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@PostalCode", item.PostalCode);
                     await command.ExecuteNonQueryAsync();
 
@@ -208,5 +233,5 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-	}
+    }
 }

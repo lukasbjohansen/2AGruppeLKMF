@@ -9,22 +9,29 @@ namespace RazorPageApplication.Services
 {
     public class PhotographerRepositoryAsync : IRepositoryAsync<Photographer>
     {
+        private readonly LoginUserRepository _userRepo;
+
+        public PhotographerRepositoryAsync(LoginUserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
+
         public async Task CreateAsync(Photographer photographer)
         {
             string query =
                 @"INSERT INTO 
-                Photographer(PhotographerName, Username, PhoneNumber, CVR, Password) 
-                Values(@PhotographerName, @Username, @PhoneNumber, @CVR, @Password)";
+                Photographer(PhotographerID, PhotographerName, PhoneNumber, CVR) 
+                Values(@PhotographerID, @PhotographerName, @PhoneNumber, @CVR)";
             try
             {
+                int userId = await _userRepo.CreateAsync(photographer.Username, photographer.Password);
                 await using SqlConnection connection = new(Secret.ConnectionString);
                 await connection.OpenAsync();
                 await using SqlCommand command = new(query, connection);
+                command.Parameters.AddWithValue("@PhotographerID", userId);
                 command.Parameters.AddWithValue("@PhotographerName", photographer.Name);
-                command.Parameters.AddWithValue("@Username", photographer.Username);
                 command.Parameters.AddWithValue("@PhoneNumber", photographer.PhoneNumber);
                 command.Parameters.AddWithValue("@CVR", photographer.CVR);
-                command.Parameters.AddWithValue("@Password", photographer.Password);
                 await command.ExecuteNonQueryAsync();
             }
             catch (SqlException e)
@@ -51,6 +58,7 @@ namespace RazorPageApplication.Services
                 using SqlCommand command = new(query, connection);
                 command.Parameters.AddWithValue("@PhotographerID", photographer.Id);
                 await command.ExecuteNonQueryAsync();
+                await _userRepo.DeleteAsync(photographer.Id);
 
             }
             catch (SqlException e)
@@ -68,12 +76,13 @@ namespace RazorPageApplication.Services
         public async Task<List<Photographer>> FilterAsync(string filterCriteria)
         {
             string query =
-                @"SELECT * FROM Photographer
-                WHERE PhotographerName LIKE @filterCriteria
-                OR Username LIKE @filterCriteria
-                OR Password LIKE @filterCriteria
-                OR PhoneNumber LIKE @filterCriteria
-                OR CVR LIKE @filterCriteria";
+                @"SELECT p.PhotographerID, p.PhotographerName, p.PhoneNumber, p.CVR, lu.Username, lu.Password 
+                  FROM Photographer p
+                  INNER JOIN LoginUser lu ON p.PhotographerID = lu.UserID
+                  WHERE p.PhotographerName LIKE @filterCriteria
+                  OR lu.Username LIKE @filterCriteria
+                  OR p.PhoneNumber LIKE @filterCriteria
+                  OR p.CVR LIKE @filterCriteria";
             List<Photographer> photographers = new();
             try
             {
@@ -110,8 +119,10 @@ namespace RazorPageApplication.Services
         public async Task<Photographer> GetAsync(int id)
         {
             string query =
-                @"SELECT * FROM Photographer 
-                WHERE PhotographerID = @PhotographerID";
+                @"SELECT p.PhotographerID, p.PhotographerName, p.PhoneNumber, p.CVR, lu.Username, lu.Password 
+                  FROM Photographer p
+                  INNER JOIN LoginUser lu ON p.PhotographerID = lu.UserID
+                  WHERE p.PhotographerID = @PhotographerID";
             try
             {
                 using SqlConnection connection = new(Secret.ConnectionString);
@@ -146,7 +157,10 @@ namespace RazorPageApplication.Services
 
         public async Task<List<Photographer>> GetAllAsync()
         {
-            string query = "SELECT * FROM Photographer";
+            string query =
+                @"SELECT p.PhotographerID, p.PhotographerName, p.PhoneNumber, p.CVR, lu.Username, lu.Password 
+                  FROM Photographer p
+                  INNER JOIN LoginUser lu ON p.PhotographerID = lu.UserID";
             List<Photographer> photographers = new();
             try
             {
@@ -184,20 +198,17 @@ namespace RazorPageApplication.Services
             string query =
                 @"UPDATE Photographer
                 SET PhotographerName = @PhotographerName,
-                    Username = @Username,
-                    Password = @Password,
                     PhoneNumber = @PhoneNumber,
                     CVR = @CVR
                 WHERE PhotographerID = @PhotographerID";
             try
             {
+                await _userRepo.UpdateAsync(photographer.Id, photographer.Username, photographer.Password);
                 using SqlConnection connection = new(Secret.ConnectionString);
                 await connection.OpenAsync();
                 using SqlCommand command = new(query, connection);
                 command.Parameters.AddWithValue("@PhotographerID", photographer.Id);
                 command.Parameters.AddWithValue("@PhotographerName", photographer.Name);
-                command.Parameters.AddWithValue("@Username", photographer.Username);
-                command.Parameters.AddWithValue("@Password", photographer.Password);
                 command.Parameters.AddWithValue("@PhoneNumber", photographer.PhoneNumber);
                 command.Parameters.AddWithValue("@CVR", photographer.CVR);
                 await command.ExecuteNonQueryAsync();

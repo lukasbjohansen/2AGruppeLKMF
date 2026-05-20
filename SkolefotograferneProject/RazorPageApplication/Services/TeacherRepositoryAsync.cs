@@ -10,20 +10,27 @@ namespace RazorPageApplication.Services
 {
     public class TeacherRepositoryAsync : ITeacherRepository
     {
+        private readonly LoginUserRepository _userRepo;
+
+        public TeacherRepositoryAsync(LoginUserRepository userRepo)
+        {
+            _userRepo = userRepo;
+        }
+
         public async Task CreateAsync(Teacher item)
         {
             string query = @"INSERT INTO Teacher
-                            (TeacherName, Username, Password, PhoneNumber) 
-                            Values(@TeacherName, @Mail, @TeacherPassword, @PhoneNumber)";
+                            (TeacherID, TeacherName, Username, Password, PhoneNumber) 
+                            Values(@TeacherID, @TeacherName, @Mail, @TeacherPassword, @PhoneNumber)";
+            int userId = await _userRepo.CreateAsync(item.Username, item.Password);
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@TeacherID", userId);
                     command.Parameters.AddWithValue("@TeacherName", item.Name);
-                    command.Parameters.AddWithValue("@Username", item.Username);
-                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber = item.PhoneNumber.TrimPhoneNumber());
                     await command.ExecuteNonQueryAsync();
                 }
@@ -65,6 +72,7 @@ namespace RazorPageApplication.Services
                     throw new RepositoryException(RepositoryExceptionType.Delete, ex.GetFullMessage());
                 }
             }
+            await _userRepo.DeleteAsync(item.Id);
         }
         public async Task<List<Teacher>> FilterAsync(string filterCriteria)
         {
@@ -132,7 +140,12 @@ namespace RazorPageApplication.Services
 
         public async Task<Teacher?> GetAsync(int id)
         {
-            string query = "SELECT * FROM Teacher WHERE TeacherID = @TeacherID";
+            string query =
+                                /*"SELECT * FROM Teacher WHERE TeacherID = @TeacherID";*/
+                @"SELECT p.TeacherID, p.TeacherName, p.PhoneNumber, lu.Username, lu.Password 
+                  FROM Teacher p
+                  INNER JOIN LoginUser lu ON p.TeacherID = lu.UserID
+                  WHERE p.TeacherID = @TeacherID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
@@ -155,7 +168,10 @@ namespace RazorPageApplication.Services
 
         public async Task<List<Teacher>> GetAllAsync()
         {
-            string query = "SELECT * FROM Teacher";
+            string query = /*"SELECT * FROM Teacher";*/
+                                @"SELECT p.TeacherID, p.TeacherName, p.PhoneNumber, lu.Username, lu.Password 
+                                  FROM Teacher p
+                                  INNER JOIN LoginUser lu ON p.TeacherID = lu.UserID";
             List<Teacher> teachers = new List<Teacher>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -193,7 +209,12 @@ namespace RazorPageApplication.Services
 
         public async Task UpdateAsync(Teacher item)
         {
-            string query = "UPDATE Teacher SET TeacherName = @TeacherName, Username = @Username, Password = @Password, PhoneNumber = @PhoneNumber WHERE TeacherID = @TeacherID";
+            string query = /*"UPDATE Teacher SET TeacherName = @TeacherName, Username = @Username, Password = @Password, PhoneNumber = @PhoneNumber WHERE TeacherID = @TeacherID";*/
+              @"UPDATE Teacher
+                SET TeacherName = @TeacherName,
+                    PhoneNumber = @PhoneNumber,
+                WHERE TeacherID = @TeacherID";
+            _userRepo.UpdateAsync(item.Id, item.Username, item.Password);
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -202,8 +223,6 @@ namespace RazorPageApplication.Services
                     SqlCommand command = new SqlCommand(query, connection);
                     command.Parameters.AddWithValue("@TeacherID", item.Id);
                     command.Parameters.AddWithValue("@TeacherName", item.Name);
-                    command.Parameters.AddWithValue("@Username", item.Username);
-                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     await command.ExecuteNonQueryAsync();
 

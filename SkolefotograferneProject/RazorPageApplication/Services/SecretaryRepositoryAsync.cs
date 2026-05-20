@@ -10,25 +10,27 @@ namespace RazorPageApplication.Services
     public class SecretaryRepositoryAsync : IRepositoryAsync<Secretary>
     {
         private IRepositoryAsync<School> _schoolRepo;
-        public SecretaryRepositoryAsync(IRepositoryAsync<School> schoolRepo)
+        private LoginUserRepository _userRepo;
+        public SecretaryRepositoryAsync(IRepositoryAsync<School> schoolRepo, LoginUserRepository userRepo)
         {
             _schoolRepo = schoolRepo;
+            _userRepo = userRepo;
         }
 
         //Create, GetAll, Get, Delete, Update, Filter
         public async Task CreateAsync(Secretary item)
         {
-            string query = "INSERT INTO Secretary(SecretaryName, PhoneNumber, Username, Password, SchoolID) Values (@SecretaryName, @PhoneNumber, @Username, @Password, @SchoolID)";
+            string query = "INSERT INTO Secretary(SecretaryID, SecretaryName, PhoneNumber, SchoolID) Values (@SecretaryID, @SecretaryName, @PhoneNumber, @SchoolID)";
+            int userId = await _userRepo.CreateAsync(item.Username, item.Password);
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@SecretaryID", userId);
                     command.Parameters.AddWithValue("@SecretaryName", item.Name);
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
-                    command.Parameters.AddWithValue("@Username", item.Username);
-                    command.Parameters.AddWithValue("@Password", item.Password);
                     command.Parameters.AddWithValue("@SchoolID", item.School.Id);
                     await command.ExecuteNonQueryAsync();
                 }
@@ -57,7 +59,6 @@ namespace RazorPageApplication.Services
                     await connection.OpenAsync();
                     command.Parameters.AddWithValue("@SecretaryID", item.Id);
                     await command.ExecuteNonQueryAsync();
-
                 }
                 catch (SqlException sEx)
                 {
@@ -71,18 +72,26 @@ namespace RazorPageApplication.Services
                     throw new RepositoryException(RepositoryExceptionType.Delete, ex.GetFullMessage());
                 }
             }
+            await _userRepo.DeleteAsync(item.Id);
         }
 
         public async Task<List<Secretary>> FilterAsync(string filterCriteria)
         {
-            string query = @"
+            string query = /*@"
                 SELECT * FROM Secretary 
                 WHERE SecretaryID LIKE @filterCriteria 
                 OR SecretaryName LIKE @filterCriteria 
                 OR PhoneNumber LIKE @filterCriteria
                 OR Username LIKE @filterCriteria
                 OR Password LIKE @filterCriteria
-                OR SchoolID LIKE @filterCriteria";
+                OR SchoolID LIKE @filterCriteria";*/
+                @"SELECT p.SecretaryID, p.SecretaryName, p.PhoneNumber, p.SchoolID, lu.Username, lu.Password 
+                  FROM Secretary p
+                  INNER JOIN LoginUser lu ON p.SecretaryID = lu.UserID
+                  WHERE p.SecretaryName LIKE @filterCriteria
+                  OR lu.Username LIKE @filterCriteria
+                  OR p.PhoneNumber LIKE @filterCriteria
+                  OR p.SchoolID LIKE @filterCriteria";
             List<Secretary> Secretaries = new List<Secretary>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -122,8 +131,13 @@ namespace RazorPageApplication.Services
 
         public async Task<Secretary?> GetAsync(int id)
         {
-            string query = "SELECT * FROM Secretary WHERE SecretaryID = @SecretaryID";
-            
+            string query =
+                /*"SELECT * FROM Secretary WHERE SecretaryID = @SecretaryID";*/
+                @"SELECT p.SecretaryID, p.SecretaryName, p.PhoneNumber, p.SchoolID, lu.Username, lu.Password 
+                  FROM Photographer p
+                  INNER JOIN LoginUser lu ON p.SecretaryID = lu.UserID
+                  WHERE p.PhotographerID = @SecretaryID";
+
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
@@ -147,7 +161,11 @@ namespace RazorPageApplication.Services
 
         public async Task<List<Secretary>> GetAllAsync()
         {
-            string query = "SELECT * FROM Secretary";
+            string query =
+                                /*"SELECT * FROM Secretary";*/
+                @"SELECT p.SecretaryID, p.SecretaryName, p.PhoneNumber, p.SchoolID, lu.Username, lu.Password 
+                  FROM Secretary p
+                  INNER JOIN LoginUser lu ON p.SecretaryID = lu.UserID";
             List<Secretary> secretaries = new List<Secretary>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -188,7 +206,13 @@ namespace RazorPageApplication.Services
 
         public async Task UpdateAsync(Secretary item)
         {
-            string query = "UPDATE Secretary SET SecretaryName = @SecretaryName, PhoneNumber = @PhoneNumber, Username = @Username, Password = @Password, SchoolID = @SchoolID WHERE SecretaryID = @SecretaryID";
+            string query = /*"UPDATE Secretary SET SecretaryName = @SecretaryName, PhoneNumber = @PhoneNumber, Username = @Username, Password = @Password, SchoolID = @SchoolID WHERE SecretaryID = @SecretaryID";*/
+              @"UPDATE Secretary
+                SET SecretaryName = @SecretaryName,
+                    PhoneNumber = @PhoneNumber,
+                    SchoolID = @SchoolID
+                WHERE SecretaryID = @SecretaryID";
+            await _userRepo.UpdateAsync(item.Id, item.Username, item.Password);
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
