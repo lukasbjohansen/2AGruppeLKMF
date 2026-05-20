@@ -10,10 +10,14 @@ namespace RazorPageApplication.Pages.Students
 {
     public class EditStudentModel : PageModel
     {
+        #region Instance fields
         private readonly IRepositoryAsync<Student> _repo;
         private readonly IRepositoryAsync<Parent> _parentRepo;
         private readonly IRepositoryAsync<SchoolClass> _schoolClassRepo;
 
+        #endregion
+
+        #region Properties
         [BindProperty]
         public Student StudentToUpdate { get; set; }
 
@@ -30,14 +34,18 @@ namespace RazorPageApplication.Pages.Students
 
         [BindProperty]
         public IEnumerable<SelectListItem> ParentSelect { get; set; }
+        #endregion
 
+        #region Constructors
         public EditStudentModel(IRepositoryAsync<Student> repo, IRepositoryAsync<Parent> teacherRepo, IRepositoryAsync<SchoolClass> schoolRepo)
         {
             _repo = repo;
             _parentRepo = teacherRepo;
             _schoolClassRepo = schoolRepo;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
             StudentToUpdate = await _repo.GetAsync(id);
@@ -74,6 +82,7 @@ namespace RazorPageApplication.Pages.Students
                 return Page();
             }
         }
-    }
+        #endregion
+    } 
 }
 
