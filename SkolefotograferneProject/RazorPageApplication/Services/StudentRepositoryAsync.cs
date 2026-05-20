@@ -9,19 +9,25 @@ namespace RazorPageApplication.Services
 {
     public class StudentRepositoryAsync : IRepositoryAsync<Student>
     {
+        #region Instance fields
         private IRepositoryAsync<SchoolClass> _schoolClassRepo;
         private IRepositoryAsync<Parent> _parentRepo;
+        #endregion
+
+        #region Constructors
         public StudentRepositoryAsync(IRepositoryAsync<SchoolClass> schoolClassRepo, IRepositoryAsync<Parent> parentRepo)
         {
             _schoolClassRepo = schoolClassRepo;
             _parentRepo = parentRepo;
         }
+        #endregion
 
+        #region Methods
         public async Task CreateAsync(Student user)
         {
 
             string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID,ParentID) Values(@StudentName,@PhotoCode,@SchoolClassID,@ParentID)";
-  
+
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -151,12 +157,12 @@ namespace RazorPageApplication.Services
         }
 
         public async Task<List<Student>> GetAllAsync()
-        
+
         {
             string query = "SELECT * FROM Student";
             List<Student> students = new List<Student>();
 
-            using ( SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
                 try
@@ -180,7 +186,7 @@ namespace RazorPageApplication.Services
                         Student student = new Student(studentId, studentName, schoolClass, parent, photoCode);
                         students.Add(student);
                     }
-                        await reader.CloseAsync();
+                    await reader.CloseAsync();
 
                 }
                 catch (SqlException sEx)
@@ -224,5 +230,6 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-    }
+        #endregion
+    } 
 }

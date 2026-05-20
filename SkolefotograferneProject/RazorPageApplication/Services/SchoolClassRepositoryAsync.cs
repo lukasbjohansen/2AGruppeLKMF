@@ -9,15 +9,22 @@ namespace RazorPageApplication.Services
 {
 	public class SchoolClassRepositoryAsync : IRepositoryAsync<SchoolClass>
 	{
+        #region Instance fields
         private IRepositoryAsync<School> _schoolRepo;
         private ITeacherRepository _teacherRepo;
-        public SchoolClassRepositoryAsync(IRepositoryAsync<School>schoolRepository,ITeacherRepository teacherRepository)
+        #endregion
+
+        #region Constructors
+        public SchoolClassRepositoryAsync(IRepositoryAsync<School> schoolRepository, ITeacherRepository teacherRepository)
         {
             _schoolRepo = schoolRepository;
             _teacherRepo = teacherRepository;
         }
+        #endregion
+
+        #region Methods
         public async Task CreateAsync(SchoolClass item)
-		{
+        {
             string query = "INSERT INTO SchoolClass(SchoolClassName,SchoolClassYear,SchoolID,TeacherID) Values(@SchoolClassName,@SchoolClassYear,@SchoolID,@TeacherID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -46,8 +53,8 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public async Task DeleteAsync(SchoolClass item)
-		{
+        public async Task DeleteAsync(SchoolClass item)
+        {
             string query = "DELETE FROM SchoolClass WHERE SchoolClassID = @SchoolClassID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -72,8 +79,8 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public async Task<List<SchoolClass>> FilterAsync(string filterCriteria)
-		{
+        public async Task<List<SchoolClass>> FilterAsync(string filterCriteria)
+        {
             string query = @"
                 SELECT * FROM SchoolClass
                 WHERE SchoolClassID LIKE @filterCriteria
@@ -93,7 +100,7 @@ namespace RazorPageApplication.Services
                     while (await reader.ReadAsync())
                     {
                         int schoolClassId = reader.GetInt32("SchoolClassID");
-                        string schoolClassName = reader.GetString("SchoolClassName");   
+                        string schoolClassName = reader.GetString("SchoolClassName");
                         int schoolId = reader.GetInt32("SchoolID");
                         int teacherId = reader.GetInt32("TeacherID");
                         int schoolClassYear = reader.GetInt32("SchoolClassYear");
@@ -112,7 +119,7 @@ namespace RazorPageApplication.Services
                     throw new RepositoryException(RepositoryExceptionType.Read, "Kan ikke indlæses");
                 }
                 catch (Exception ex)
-                { 
+                {
                     //ExceptionHelpers.PrintWithType(ex);
                     ex.PrintWithType();
                     throw new RepositoryException(RepositoryExceptionType.Read, ex.GetFullMessage());
@@ -137,7 +144,7 @@ namespace RazorPageApplication.Services
                     int teacherId = reader.GetInt32("TeacherID");
                     int schoolClassYear = reader.GetInt32("SchoolClassYear");
 
-                    
+
                     School school = await _schoolRepo.GetAsync(schoolId);
                     Teacher teacher = await _teacherRepo.GetAsync(teacherId);
 
@@ -149,7 +156,7 @@ namespace RazorPageApplication.Services
         }
 
         public async Task<List<SchoolClass>> GetAllAsync()
-		{
+        {
             string query = "SELECT * FROM SchoolClass";
             List<SchoolClass> schoolClasses = new List<SchoolClass>();
 
@@ -172,13 +179,13 @@ namespace RazorPageApplication.Services
                         int schoolClassYear = reader.GetInt32("SchoolClassYear");
 
 
-                        SchoolClass schoolClass = new SchoolClass(schoolClassId, schoolClassName, await _schoolRepo.GetAsync(schoolId),await _teacherRepo.GetAsync(teacherId), schoolClassYear);
+                        SchoolClass schoolClass = new SchoolClass(schoolClassId, schoolClassName, await _schoolRepo.GetAsync(schoolId), await _teacherRepo.GetAsync(teacherId), schoolClassYear);
 
                         schoolClasses.Add(schoolClass);
-                        
+
                     }
                     await reader.CloseAsync();
-                    
+
                 }
                 catch (SqlException sEx)
                 {
@@ -195,8 +202,8 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public async Task UpdateAsync(SchoolClass item)
-		{
+        public async Task UpdateAsync(SchoolClass item)
+        {
             string query = "UPDATE SchoolClass SET SchoolClassName = @SchoolClassName, SchoolClassYear = @SchoolClassYear, SchoolID = @SchoolID, TeacherID=@TeacherID WHERE SchoolClassID = @SchoolClassID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -219,5 +226,6 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-	}
+        #endregion
+    } 
 }
