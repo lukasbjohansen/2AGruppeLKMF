@@ -2,6 +2,7 @@
 using RazorPageApplication.Enums;
 using RazorPageApplication.Exceptions;
 using RazorPageApplication.Helpers;
+using RazorPageApplication.Helpers.Sorting;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 using System.Data;
@@ -215,7 +216,20 @@ namespace RazorPageApplication.Services
                 }
             }
         }
+<<<<<<< Updated upstream
 
         
+=======
+        /// <summary>
+        /// Sorts the teachers by their Id using TeacherCompareById
+        /// </summary>
+        /// <returns>The sorted list</returns>
+        public async Task<List<Teacher>> Sort()
+        {
+            List<Teacher> teachers = await GetAllAsync();
+            teachers.Sort(new TeacherCompareById());
+            return teachers;
+        }
+>>>>>>> Stashed changes
     }
 }
