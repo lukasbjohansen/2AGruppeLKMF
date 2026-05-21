@@ -4,19 +4,45 @@
 @{
 }
 
-<h1>Liste over secretaries</h1>
+<h1>Liste over sekræterer</h1>
 <p>
     <a asp-page="CreateSecretary" class="btn btn-success btn-sm">Opret ny secretary</a>
 </p>
+<form method="get">
+    Søg: <input type="text" asp-for="@Model.FilterCriteria" />
+    <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
+        <option value="All">Alle</option>
+        <option value="Name">Navn</option>
+        <option value="Mail">Mail</option>
+        <option value="PhoneNumber">Telefonnummer</option>
+        <option value="School">Skole</option>
+    </select>
+</form>
 
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Navn</th>
-            <th>Telefon nummer</th>
-            <th>Mail</th>
-            <th>Skole</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+            <th>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Name" class="btn btn-link p-0">Navn<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhoneNumber" class="btn btn-link p-0">Telefon nummer<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="Mail" class="btn btn-link p-0">Mail<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="School" class="btn btn-link p-0">Skole navn</button>
+            </th>
+            </form>
+            <th>Slet | Redigér</th>
         </tr>
     </thead>
     <tbody>
@@ -29,8 +55,8 @@
                 <td>@item.Mail</td>
                 <td>@item.School.Name</td>
                 <td>
-                    <a asp-page="DeleteSecretary" asp-route-id="@item.Id">Slet</a>|
-                    <a asp-page="UpdateSecretary" asp-route-id="@item.Id">Opdater</a>
+                    <a asp-page="DeleteSecretary" asp-route-id="@item.Id">Slet</a> |
+                    <a asp-page="EditSecretary" asp-route-id="@item.Id">Opdater</a>
                 </td>
             </tr>
         }

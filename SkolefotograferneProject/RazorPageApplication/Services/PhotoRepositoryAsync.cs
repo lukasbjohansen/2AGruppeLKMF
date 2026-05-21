@@ -18,19 +18,25 @@ namespace RazorPageApplication.Services
         }
         public async Task CreateAsync(Photo item)
 		{
-            string query = "INSERT INTO Photo(PhotoID,FilePath,PhotoDate,PhotographerID,StudentID) Values(@PhotoID,@FilePath,@PhotoDate,@PhotographerID,@StudentID)";
+            // Added OUTPUT INSERTED.PhotoID.
+            // INSERTED is the item that is inserted in the SQL.
+            // OUTPUT makes it available in ExecuteScalarAsync as a return value.
+            string query = "INSERT INTO Photo(FilePath,PhotoDate,PhotographerID,StudentID) OUTPUT INSERTED.PhotoID Values(@FilePath,@PhotoDate,@PhotographerID,@StudentID)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
                 {
                     await connection.OpenAsync();
                     SqlCommand command = new SqlCommand(query, connection);
-                    command.Parameters.AddWithValue("@PhotoID", item.Id);
                     command.Parameters.AddWithValue("@FilePath", item.FilePath);
                     command.Parameters.AddWithValue("@PhotoDate", item.Date);
-                    command.Parameters.AddWithValue("@PhotographerID", item.Photographer.Name);
-                    command.Parameters.AddWithValue("@StudentID", item.Student.Name);
-                    await command.ExecuteNonQueryAsync();
+                    command.Parameters.AddWithValue("@PhotographerID", item.Photographer.Id);
+                    command.Parameters.AddWithValue("@StudentID", item.Student.Id);
+                    // Changed to ExecuteScalarAsync to get the outputted value.
+                    int newId = (int)await command.ExecuteScalarAsync();
+                    // The argument which is a reference type gets updated with the new Id,
+                    // so it is available within the model page.
+                    item.Id = newId;
                 }
                 catch (SqlException sEx)
                 {
@@ -92,7 +98,7 @@ namespace RazorPageApplication.Services
                 if (await reader.ReadAsync())
                 {
                     string filePath = reader.GetString("FilePath");
-                    DateTime date = reader.GetDateTime("DateTime");
+                    DateTime date = reader.GetDateTime("PhotoDate");
                     int photographerId = reader.GetInt32("PhotographerID");
                     int studentId = reader.GetInt32("StudentID");
                     Photographer photographer = await _photographerRepo.GetAsync(photographerId);
@@ -145,9 +151,29 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public Task UpdateAsync(Photo item)
+		public async Task UpdateAsync(Photo item)
 		{
-			throw new NotImplementedException();
-		}
+            string query = "UPDATE Photo SET FilePath = @FilePath, PhotoDate = @PhotoDate, PhotographerID = @PhotographerID, StudentID = @StudentID WHERE PhotoID = @PhotoID";
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            {
+                try
+                {
+                    await connection.OpenAsync();
+                    SqlCommand command = new SqlCommand(query, connection);
+                    command.Parameters.AddWithValue("@PhotoID", item.Id);
+                    command.Parameters.AddWithValue("@FilePath", item.FilePath);
+                    command.Parameters.AddWithValue("@PhotoDate", item.Date);
+                    command.Parameters.AddWithValue("@PhotographerID", item.Photographer.Id);
+                    command.Parameters.AddWithValue("@StudentID", item.Student.Id);
+                    await command.ExecuteNonQueryAsync();
+
+                }
+                catch (SqlException e)
+                {
+                    e.PrintWithType();
+                    throw new RepositoryException(RepositoryExceptionType.Update, "Ugyldigt input");
+                }
+            }
+        }
 	}
 }

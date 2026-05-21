@@ -9,18 +9,25 @@ namespace RazorPageApplication.Services
 {
     public class StudentRepositoryAsync : IRepositoryAsync<Student>
     {
+        #region Instance fields
         private IRepositoryAsync<SchoolClass> _schoolClassRepo;
         private IRepositoryAsync<Parent> _parentRepo;
+        #endregion
+
+        #region Constructors
         public StudentRepositoryAsync(IRepositoryAsync<SchoolClass> schoolClassRepo, IRepositoryAsync<Parent> parentRepo)
         {
             _schoolClassRepo = schoolClassRepo;
             _parentRepo = parentRepo;
         }
+        #endregion
 
+        #region Methods
         public async Task CreateAsync(Student user)
         {
-            string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID) Values(@StudentName,@PhotoCode,@SchoolClassID)";
-            //string query2 = "INSERT INTO ParentStudent(StudentID,ParentID) Values(@StudentID,@ParentID)";
+
+            string query = "INSERT INTO Student(StudentName,PhotoCode,SchoolClassID,ParentID) Values(@StudentName,@PhotoCode,@SchoolClassID,@ParentID)";
+
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -30,15 +37,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@StudentName", user.Name);
                     command.Parameters.AddWithValue("@PhotoCode", user.PhotoCode);
                     command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass.Id);
-                    //command.Parameters.AddWithValue("@ParentID", user.Parents);
-
-                    //foreach (Parent p in user.Parents)
-                    //{
-                    //    SqlCommand command2 = new SqlCommand(query2, connection);
-                    //    command.Parameters.AddWithValue("@StudentID", user.Id);
-                    //    command.Parameters.AddWithValue("@ParentID", p.Id);
-                    //    await command2.ExecuteNonQueryAsync();
-                    //}
+                    command.Parameters.AddWithValue("@ParentID", user.Parent.Id);
 
                     await command.ExecuteNonQueryAsync();
                 }
@@ -53,7 +52,6 @@ namespace RazorPageApplication.Services
                     ex.PrintWithType();
                     throw new RepositoryException(RepositoryExceptionType.Create, ex.GetFullMessage());
                 }
-
             }
         }
 
@@ -110,7 +108,7 @@ namespace RazorPageApplication.Services
                         int parentId = reader.GetInt32("ParentID");
 
                         SchoolClass schoolClass = await _schoolClassRepo.GetAsync(schoolClassId);
-                        List<Parent> parent = await _parentRepo.GetAllAsync();
+                        Parent parent = await _parentRepo.GetAsync(parentId);
 
                         Student student = new Student(studentId, studentName, schoolClass, parent, photoCode);
                         students.Add(student);
@@ -148,7 +146,7 @@ namespace RazorPageApplication.Services
                     int schoolClassId = reader.GetInt32("SchoolClassID");
                     int parentId = reader.GetInt32("ParentID");
 
-                    List<Parent> parent = await _parentRepo.GetAllAsync();
+                    Parent parent = await _parentRepo.GetAsync(parentId);
                     SchoolClass schoolClass = await _schoolClassRepo.GetAsync(schoolClassId);
 
                     return new Student(id, studentName, schoolClass, parent, photoCode);
@@ -159,12 +157,12 @@ namespace RazorPageApplication.Services
         }
 
         public async Task<List<Student>> GetAllAsync()
-        
+
         {
             string query = "SELECT * FROM Student";
             List<Student> students = new List<Student>();
 
-            using ( SqlConnection connection = new SqlConnection(Secret.ConnectionString))
+            using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
                 try
@@ -179,16 +177,16 @@ namespace RazorPageApplication.Services
                         int studentId = reader.GetInt32("StudentID");
                         string studentName = reader.GetString("StudentName");
                         string photoCode = reader.GetString("PhotoCode");
-                        int schoolClassId = reader.GetOrdinal("SchoolClassID");
-                        int parentId = reader.GetOrdinal("ParentID");
+                        int schoolClassId = reader.GetInt32("SchoolClassID");
+                        int parentId = reader.GetInt32("ParentID");
 
-                        await reader.CloseAsync();
                         SchoolClass schoolClass = await _schoolClassRepo.GetAsync(schoolClassId);
-                        List<Parent> parents = await _parentRepo.GetAllAsync();
+                        Parent parent = await _parentRepo.GetAsync(parentId);
 
-                        Student student = new Student(studentId, studentName, schoolClass, parents, photoCode);
+                        Student student = new Student(studentId, studentName, schoolClass, parent, photoCode);
                         students.Add(student);
                     }
+                    await reader.CloseAsync();
 
                 }
                 catch (SqlException sEx)
@@ -218,8 +216,8 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@StudentID", user.Id);
                     command.Parameters.AddWithValue("@StudentName", user.Name);
                     command.Parameters.AddWithValue("@PhotoCode", user.PhotoCode);
-                    command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass.Id);
-                    command.Parameters.AddWithValue("@ParentID", user.Parents.Select(p => p.Id).FirstOrDefault());
+                    command.Parameters.AddWithValue("@SchoolClassID", user.SchoolClass!.Id);
+                    command.Parameters.AddWithValue("@ParentID", user.Parent!.Id);
 
 
                     await command.ExecuteNonQueryAsync();
@@ -232,5 +230,6 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-    }
+        #endregion
+    } 
 }

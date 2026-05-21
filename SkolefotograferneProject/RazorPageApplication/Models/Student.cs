@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Interfaces;
+using System.ComponentModel.DataAnnotations;
 
 namespace RazorPageApplication.Models
 {
@@ -6,10 +7,18 @@ namespace RazorPageApplication.Models
     {
         #region Properties
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "Navn er påkrævet")]
         public string Name { get; set; }
+ 
         public SchoolClass? SchoolClass { get; set; }
-        public List<Parent>? Parents { get; set; }
+      
+        public Parent? Parent { get; set; }
+
+        [Required(ErrorMessage = "Fotokode er påkrævet")]
+        [StringLength(15, ErrorMessage = "Fotokoden må maks være 15 tegn langt")]
         public string PhotoCode { get; set; }
+
         #endregion
 
         #region Constructors
@@ -18,12 +27,12 @@ namespace RazorPageApplication.Models
 
         }
 
-        public Student(int id, string name, SchoolClass? schoolClass, List<Parent>? parents, string photoCode)
+        public Student(int id, string name, SchoolClass? schoolClass, Parent? parent, string photoCode)
         {
             Id = id;
             Name = name;
             SchoolClass = schoolClass;
-            Parents = parents;
+            Parent = parent;
             PhotoCode = photoCode;
         }
         #endregion
@@ -31,7 +40,7 @@ namespace RazorPageApplication.Models
         #region Methods
         public override string ToString()
         {
-            return $"Student:\n\tId: {Id}\n\tName: {Name}\n\tSchoolclass: {SchoolClass}\n\tParents: {Parents}";
+            return $"Student:\n\tId: {Id}\n\tName: {Name}\n\tSchoolclass: {SchoolClass}\n\tParent: {Parent.Name}";
         } 
         #endregion
     }

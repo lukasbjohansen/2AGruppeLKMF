@@ -11,8 +11,8 @@ namespace RazorPageApplication.Services
 	public class OrderRepositoryAsync : IRepositoryAsync<Order>
 	{
         private IRepositoryAsync<Parent> _parentRepo;
-		private IRepositoryAsync<Parent> _orderLines;
-        public OrderRepositoryAsync(IRepositoryAsync<Parent> parentRepository, IRepositoryAsync<Parent> orderLines)
+		private IRepositoryAsync<OrderLine> _orderLines;
+        public OrderRepositoryAsync(IRepositoryAsync<Parent> parentRepository, IRepositoryAsync<OrderLine> orderLines)
         {
             _parentRepo = parentRepository;
             _orderLines = orderLines;

@@ -1,4 +1,5 @@
 ﻿using RazorPageApplication.Enums;
+using RazorPageApplication.Helpers;
 using RazorPageApplication.Interfaces;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,6 +16,7 @@ namespace RazorPageApplication.Models
         /// Email address. Must be unique.
         /// </summary>
         [Required]
+        [EmailAddress]
         public string Mail { get; set; }
         /// <summary>
         /// Password. Stored raw for this prototype. Ideally stored as a hash value.
@@ -31,6 +33,7 @@ namespace RazorPageApplication.Models
         /// Phonenumber. Must be unique.
         /// </summary>
         [Required]
+        [PhoneNumber]
         [Display(Name = "Telefonnummer")]
         public string PhoneNumber { get; set; }
         /// <summary>

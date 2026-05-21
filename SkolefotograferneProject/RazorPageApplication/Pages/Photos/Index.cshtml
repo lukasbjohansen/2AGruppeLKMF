@@ -11,14 +11,44 @@
     <a asp-page="CreatePhoto" class="btn btn-success btn-sm">Opret nyt foto</a>
 </p>
 
+<form method="get">
+    Søg: <input type="text" asp-for="@Model.FilterCriteria" />
+    <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
+        <option value="All">Alle</option>
+        <option value="FilePath">Filnavn</option>
+        <option value="PhotoDate">Dato</option>
+        <option value="PhotographerID">Fotograf</option>
+        <option value="StudentID">Elev</option>
+    </select>
+    <button type="submit" class="btn btn-success btn-sm">Filtrér</button>
+</form>
+
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Filnavn</th>
-            <th>Dato</th>
-            <th>Fotograf</th>
-            <th>Elev</th>
+            <form method="get">
+                <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
+                <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
+                <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
+            <th>
+                <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="FilePath" class="btn btn-link p-0">Billede<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="FilePath" class="btn btn-link p-0">Filnavn<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhotoDate" class="btn btn-link p-0">Dato<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="PhotographerName" class="btn btn-link p-0">Fotograf<i class="bi bi-sort-down"></i></button>
+            </th>
+            <th>
+                <button type="submit" name="SortBy" value="StudentName" class="btn btn-link p-0">Elev<i class="bi bi-sort-down"></i></button>
+            </th>
+            </form>
             <th>Redigér | Slet</th>
         </tr>
     </thead>
@@ -27,13 +57,16 @@
         {
             <tr>
                 <td>@item.Id</td>
+                <td>
+                    <img src="~/images/Photos/@item.FilePath" width="80" height="70" />
+                </td>
                 <td>@item.FilePath</td>
                 <td>@item.Date</td>
                 <td>@item.Photographer.Name</td>
                 <td>@item.Student.Name</td>
                 <td>
-                    <a asp-page="EditParent" asp-route-id="@item.Id">Redigér</a> | 
-                    <a asp-page="DeleteParent" asp-route-id="@item.Id">Slet</a>
+                    <a asp-page="EditPhoto" asp-route-id="@item.Id">Redigér</a> | 
+                    <a asp-page="DeletePhoto" asp-route-id="@item.Id">Slet</a>
                 </td>
             </tr>
         }

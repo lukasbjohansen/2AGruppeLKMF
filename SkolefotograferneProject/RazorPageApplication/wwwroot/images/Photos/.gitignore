@@ -1,0 +1,6 @@
+# Ignore all contents in this directory
+*
+
+# Except for this .gitignore file itself
+!.gitignore
+!Placeholder.png

@@ -29,7 +29,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     command.Parameters.AddWithValue("@Mail", item.Mail);
                     command.Parameters.AddWithValue("@SecretaryPassword", item.Password);
-                    command.Parameters.AddWithValue("@SchoolID", item.School); //kan vel kun være School
+                    command.Parameters.AddWithValue("@SchoolID", item.School.Id);
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (SqlException sEx)
@@ -120,10 +120,10 @@ namespace RazorPageApplication.Services
             }
         }
 
-        public async Task<Secretary> GetAsync(int id)
+        public async Task<Secretary?> GetAsync(int id)
         {
             string query = "SELECT * FROM Secretary WHERE SecretaryID = @SecretaryID";
-            School? school = await _schoolRepo.GetAsync(id); //hvorfor gør man det her igen?
+            
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
 
@@ -134,11 +134,11 @@ namespace RazorPageApplication.Services
                 if (await reader.ReadAsync())
                 {
                     return new Secretary(id,
-                        reader.GetString("SecretaryName"),
-                        reader.GetString("PhoneNumber"),
                         reader.GetString("Mail"),
                         reader.GetString("SecretaryPassword"),
-                        school);
+                        reader.GetString("SecretaryName"),
+                        reader.GetString("PhoneNumber"),
+                        await _schoolRepo.GetAsync(reader.GetInt32("SchoolID")));
                 }
                 await reader.CloseAsync();
             }
@@ -188,7 +188,7 @@ namespace RazorPageApplication.Services
 
         public async Task UpdateAsync(Secretary item)
         {
-            string query = "UPDATE Secretary SET SecretaryID = @SecretaryID, SecretaryName = @SecretaryName, PhoneNumber = @PhoneNumber, Mail = @Mail, SecretaryPassword = @SecretaryPassword, SchoolID = @SchoolID";
+            string query = "UPDATE Secretary SET SecretaryName = @SecretaryName, PhoneNumber = @PhoneNumber, Mail = @Mail, SecretaryPassword = @SecretaryPassword, SchoolID = @SchoolID WHERE SecretaryID = @SecretaryID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -200,7 +200,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     command.Parameters.AddWithValue("@Mail", item.Mail);
                     command.Parameters.AddWithValue("@SecretaryPassword", item.Password);
-                    command.Parameters.AddWithValue("@SchoolID", item.School);
+                    command.Parameters.AddWithValue("@SchoolID", item.School.Id);
                     await command.ExecuteNonQueryAsync();
                 }
                 catch (SqlException e)

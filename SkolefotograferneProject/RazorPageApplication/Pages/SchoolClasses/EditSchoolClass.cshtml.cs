@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
@@ -9,49 +10,71 @@ namespace RazorPageApplication.Pages.SchoolClasses
 {
     public class EditSchoolClassModel : PageModel
     {
-        private readonly IRepositoryAsync<SchoolClass> _repo;
-        private readonly ITeacherRepository _teacherRepo;
-        private readonly IRepositoryAsync<School> _schoolRepo;
+        #region Instance fields
+        private IRepositoryAsync<SchoolClass> _repo;
+        private ITeacherRepository _teacherRepo;
+        private IRepositoryAsync<School> _schoolRepo;
+        #endregion
 
+        #region Properties
         [BindProperty]
-        public SchoolClass? SchoolClassToUpdate { get; set; }
+        public SchoolClass SchoolClassToUpdate { get; set; }
 
         [BindProperty]
         [Required]
-        public int TeacherId { get; set; }
+        public string TeacherId { get; set; }
 
         [BindProperty]
         [Required]
-        public int SchoolId { get; set; }
+        public string SchoolId { get; set; }
 
-        public EditSchoolClassModel(IRepositoryAsync<SchoolClass> repo, ITeacherRepository teacherRepo,IRepositoryAsync<School> schoolRepo)
+        [BindProperty]
+        public IEnumerable<SelectListItem> TeacherSelect { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> SchoolSelect { get; set; }
+        #endregion
+
+        #region Constructors
+        public EditSchoolClassModel(IRepositoryAsync<SchoolClass> repo, ITeacherRepository teacherRepo, IRepositoryAsync<School> schoolRepo)
         {
             _repo = repo;
             _teacherRepo = teacherRepo;
             _schoolRepo = schoolRepo;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
-            SchoolClassToUpdate = await _repo.GetAsync(id);
+            SchoolClassToUpdate = await _repo.GetAsync(id)
+                ;
+            List<Teacher> teachers = await _teacherRepo.GetAllAsync();
+            List<School> schools = await _schoolRepo.GetAllAsync();
 
-           
+            TeacherSelect = teachers.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.Mail}" });
+            SchoolSelect = schools.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Id} - {p.Name} - {p.PostalCode}" });
+
+
+            SchoolId = SchoolClassToUpdate.School.Id.ToString();
+            TeacherId = SchoolClassToUpdate.Teacher.Id.ToString();
 
         }
 
         public async Task<IActionResult> OnPostUpdate()
         {
-            //if (!ModelState.IsValid || TeacherId < 1 || SchoolId < 1)
-            //{
-            //    return Page();
-            //}
-            SchoolClassToUpdate.School = await _schoolRepo.GetAsync(SchoolId);
-            SchoolClassToUpdate.Teacher = await _teacherRepo.GetAsync(TeacherId);
+            if (!ModelState.IsValid)
+            {
+                await OnGet(SchoolClassToUpdate.Id);
+                return Page();
+            }
 
 
 
             try
             {
+                SchoolClassToUpdate.School = await _schoolRepo.GetAsync(Convert.ToInt32(SchoolId));
+                SchoolClassToUpdate.Teacher = await _teacherRepo.GetAsync(Convert.ToInt32(TeacherId));
                 await _repo.UpdateAsync(SchoolClassToUpdate);
                 return RedirectToPage("Index");
             }
@@ -59,9 +82,11 @@ namespace RazorPageApplication.Pages.SchoolClasses
             {
                 ViewData["ErrorMessage"] = e.Message;
                 ModelState.AddModelError(string.Empty, e.Message);
+                await OnGet(SchoolClassToUpdate.Id);
                 return Page();
             }
-        }
+        } 
+        #endregion
     }
 }
 
