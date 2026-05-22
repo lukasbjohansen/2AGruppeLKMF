@@ -10,10 +10,13 @@ namespace RazorPageApplication.Pages.SchoolClasses
 {
     public class EditSchoolClassModel : PageModel
     {
-        private readonly IRepositoryAsync<SchoolClass> _repo;
-        private readonly ITeacherRepository _teacherRepo;
-        private readonly IRepositoryAsync<School> _schoolRepo;
+        #region Instance fields
+        private IRepositoryAsync<SchoolClass> _repo;
+        private ITeacherRepository _teacherRepo;
+        private IRepositoryAsync<School> _schoolRepo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public SchoolClass SchoolClassToUpdate { get; set; }
 
@@ -30,14 +33,18 @@ namespace RazorPageApplication.Pages.SchoolClasses
 
         [BindProperty]
         public IEnumerable<SelectListItem> SchoolSelect { get; set; }
+        #endregion
 
-        public EditSchoolClassModel(IRepositoryAsync<SchoolClass> repo, ITeacherRepository teacherRepo,IRepositoryAsync<School> schoolRepo)
+        #region Constructors
+        public EditSchoolClassModel(IRepositoryAsync<SchoolClass> repo, ITeacherRepository teacherRepo, IRepositoryAsync<School> schoolRepo)
         {
             _repo = repo;
             _teacherRepo = teacherRepo;
             _schoolRepo = schoolRepo;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
             SchoolClassToUpdate = await _repo.GetAsync(id)
@@ -78,7 +85,8 @@ namespace RazorPageApplication.Pages.SchoolClasses
                 await OnGet(SchoolClassToUpdate.Id);
                 return Page();
             }
-        }
+        } 
+        #endregion
     }
 }
 

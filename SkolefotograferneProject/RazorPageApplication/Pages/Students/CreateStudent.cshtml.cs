@@ -9,10 +9,13 @@ namespace RazorPageApplication.Pages.Students
 {
     public class CreateStudentModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Student> _studentRepo;
         private IRepositoryAsync<SchoolClass> _schoolClassRepo;
         private IRepositoryAsync<Parent> _parentRepo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public Student NewStudent { get; set; }
 
@@ -29,13 +32,18 @@ namespace RazorPageApplication.Pages.Students
 
         [BindProperty]
         public IEnumerable<SelectListItem> ParentSelect { get; set; }
+        #endregion
 
+        #region Constructors
         public CreateStudentModel(IRepositoryAsync<Student> studentRepository, IRepositoryAsync<SchoolClass> schoolClassRepository, IRepositoryAsync<Parent> parentRepository)
         {
             _studentRepo = studentRepository;
             _schoolClassRepo = schoolClassRepository;
             _parentRepo = parentRepository;
         }
+        #endregion
+
+        #region Methods
         public async Task OnGet()
         {
             NewStudent = new Student();
@@ -73,7 +81,8 @@ namespace RazorPageApplication.Pages.Students
 
             }
 
-        }
+        } 
+        #endregion
     }
 }
 
