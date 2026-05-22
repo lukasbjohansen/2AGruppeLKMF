@@ -23,6 +23,11 @@ namespace RazorPageApplication.Services
         /// <exception cref="RepositoryException">Rethrown as a more detailed exception</exception>
         public async Task CreateAsync(Teacher item)
         {
+            item.PhoneNumber = item.PhoneNumber.TrimPhoneNumber();
+            if (string.IsNullOrEmpty(item.PhoneNumber) || item.PhoneNumber[0] == '0' || item.PhoneNumber[0] == '1')
+            {
+                throw new RepositoryException(RepositoryExceptionType.Create, "Ugyldigt tlf nr.");
+            }
             string query = @"INSERT INTO Teacher
                             (TeacherName, Mail, TeacherPassword, PhoneNumber) 
                             OUTPUT INSERTED.TeacherID
@@ -36,7 +41,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@TeacherName", item.Name);
                     command.Parameters.AddWithValue("@Mail", item.Mail);
                     command.Parameters.AddWithValue("@TeacherPassword", item.Password);
-                    command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber = item.PhoneNumber.TrimPhoneNumber());
+                    command.Parameters.AddWithValue("@PhoneNumber", item.PhoneNumber);
                     object? result = await command.ExecuteScalarAsync();
                     item.Id = Convert.ToInt32(result);
                 }
@@ -69,8 +74,11 @@ namespace RazorPageApplication.Services
                     SqlCommand command = new SqlCommand(query, connection);
                     await connection.OpenAsync();
                     command.Parameters.AddWithValue("@TeacherID", item.Id);
-                    await command.ExecuteNonQueryAsync();
-
+                    int rowsAffected = await command.ExecuteNonQueryAsync();
+                    if (rowsAffected == 0)
+                    {
+                        throw new RepositoryException(RepositoryExceptionType.Delete, "No teacher found with the given Id");
+                    }
                 }
                 catch (SqlException sEx)
                 {

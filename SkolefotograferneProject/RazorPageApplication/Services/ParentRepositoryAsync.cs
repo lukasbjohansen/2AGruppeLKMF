@@ -9,8 +9,17 @@ namespace RazorPageApplication.Services
 {
 	public class ParentRepositoryAsync : IRepositoryAsync<Parent>
 	{
-		public async Task CreateAsync(Parent item)
-		{
+        #region Methods
+        /// <summary>
+        /// Method used for asynchronously creating and inserting new parent objects into the SQL database.
+        /// The method takes parameter 'item' of type Parent.
+        /// It builds a parameterized SQL INSERT query to avoid SQL injection.
+        /// The method opens a database connection using a secret connection string.
+        /// The method assigns properties from the Parent object (item) to SQL parameters.
+        /// The method executes the query asynchronously.
+        /// </summary>
+        public async Task CreateAsync(Parent item)
+        {
             string query = "INSERT INTO Parent(ParentName,Mail,PhoneNumber,ParentAddress,ParentPassword,PostalCode) Values(@ParentName,@Mail,@PhoneNumber,@ParentAddress,@ParentPassword,@PostalCode)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -41,6 +50,14 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Method used for asynchronously deleting parent objects from the SQL database using it's ID.
+        /// The method takes parameter 'item' of type Parent.
+        /// It builds a parameterized SQL DELETE query to avoid SQL injection.
+        /// The method opens a database connection using a secret connection string.
+        /// The method assigns the Id from the Parent object to @ParentID in the SQL query.
+        /// The method executes the query asynchronously.
+        /// </summary>
         public async Task DeleteAsync(Parent item)
         {
             string query = "DELETE FROM Parent WHERE ParentID = @ParentID";
@@ -68,8 +85,15 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public async Task<List<Parent>> FilterAsync(string filterCriteria)
-		{
+        /// <summary>
+        /// Method used for asynchronously filtering parent objects from the SQL database using a filter criteria.
+        /// The method takes parameter 'filterCriteria' of type string.
+        /// It builds a parameterized SQL SELECT query to avoid SQL injection.
+        /// The method opens a database connection using a secret connection string.
+        /// If the operation is successful (if the filter criteria matches the columns in the database), a list of parents that match the filter criteria is returned.
+        /// </summary>
+        public async Task<List<Parent>> FilterAsync(string filterCriteria)
+        {
             string query = @"
                 SELECT * FROM Parent 
                 WHERE ParentID LIKE @filterCriteria 
@@ -117,6 +141,15 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Method used for asynchronously retrieving a parent object from the SQL database using it's ID.
+        /// The method takes parameter 'id' of type int.
+        /// It builds a parameterized SQL SELECT query to avoid SQL injection.
+        /// The method opens a database connection using a secret connection string.
+        /// The method assigns the id from the Parent object to @ParentID in the SQL query.
+        /// The method executes the query asynchronously.
+        /// If a matching parent is found, a new parent object with given values is created and returned.
+        /// </summary>
         public async Task<Parent> GetAsync(int id)
         {
             string query = "SELECT * FROM Parent WHERE ParentID = @ParentID";
@@ -142,8 +175,16 @@ namespace RazorPageApplication.Services
             return null;
         }
 
+        /// <summary>
+        /// Method used for asynchronously retrieving parent objects from the SQL database.
+        /// It builds a parameterized SQL SELECT query to avoid SQL injection where all rows and columns from the Parent table are selected.
+        /// It creates a list to store parent objects from the database.
+        /// The method opens a database connection using a secret connection string.
+        /// The method executes the query asynchronously.
+        /// The method converts each row into a new parent object and adds it to and returns the list.
+        /// </summary>
         public async Task<List<Parent>> GetAllAsync()
-		{
+        {
             string query = "SELECT * FROM Parent";
             List<Parent> parents = new List<Parent>();
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
@@ -182,8 +223,16 @@ namespace RazorPageApplication.Services
             }
         }
 
-		public async Task UpdateAsync(Parent item)
-		{
+        /// <summary>
+        /// Method used for asynchronously updating parent objects from the SQL database.
+        /// It builds a parameterized SQL SELECT query to avoid SQL injection.
+        /// The method takes parameter 'item' of type Parent.
+        /// The method opens a database connection using a secret connection string.
+        /// The method assigns values from the parent object (item) to the corresponding placeholders in the SQL query.
+        /// The method executes the query asynchronously.
+        /// </summary>
+        public async Task UpdateAsync(Parent item)
+        {
             string query = "UPDATE Parent SET ParentName = @ParentName, Mail = @Mail, PhoneNumber = @PhoneNumber, ParentAddress = @ParentAddress, ParentPassword = @ParentPassword, PostalCode = @PostalCode WHERE ParentID = @ParentID";
             using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
@@ -207,6 +256,7 @@ namespace RazorPageApplication.Services
                     throw new RepositoryException(RepositoryExceptionType.Update, "Ugyldigt input");
                 }
             }
-        }
-	}
+        } 
+        #endregion
+    }
 }
