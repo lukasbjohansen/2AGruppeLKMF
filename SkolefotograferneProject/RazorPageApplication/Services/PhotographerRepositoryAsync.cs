@@ -9,13 +9,23 @@ namespace RazorPageApplication.Services
 {
     public class PhotographerRepositoryAsync : IRepositoryAsync<Photographer>
     {
+        #region Instance Fields
         private readonly LoginUserRepository _userRepo;
+        #endregion
 
+        #region Constructors
         public PhotographerRepositoryAsync(LoginUserRepository userRepo)
         {
             _userRepo = userRepo;
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Handles creating/adding a photographer to the database asynchronously.
+        /// Takes a photographer reference as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task CreateAsync(Photographer photographer)
         {
             string query =
@@ -46,6 +56,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles deleting an existing Photographer from the database asynchronously.
+        /// Takes a photographer reference as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task DeleteAsync(Photographer photographer)
         {
             string query =
@@ -73,6 +88,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles filtering photographers from the database asynchronously.
+        /// Takes the string filterCriteria as an argument, and returns a List matching the criteria.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<List<Photographer>> FilterAsync(string filterCriteria)
         {
             string query =
@@ -116,6 +136,12 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles retrieving and returning a Photographer from the database asynchronously.
+        /// Takes an int, id, as an argument, and returns a Photographer matching that id,
+        /// if it exists, otherwise null is returned.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<Photographer> GetAsync(int id)
         {
             string query =
@@ -155,6 +181,10 @@ namespace RazorPageApplication.Services
             return null;
         }
 
+        /// <summary>
+        /// Handles retrieving all Photographers from the database asynchronously and returns them as a List.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<List<Photographer>> GetAllAsync()
         {
             string query =
@@ -193,6 +223,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles updating all Photographers from the database asynchronously.
+        /// Takes a photographer reference, which we want to update, as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task UpdateAsync(Photographer photographer)
         {
             string query =
@@ -224,5 +259,6 @@ namespace RazorPageApplication.Services
                 throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
             }
         }
+        #endregion
     }
 }
