@@ -5,6 +5,7 @@ namespace RazorPageApplication.Models
     public class Order : IIdAble
     {
         #region Properties
+        //Properties til at gemme og sæt værdier ind
         public int Id { get; set; }
         public DateTime Date { get; set; }
         public double TotalPrice { get; set; }
@@ -13,6 +14,7 @@ namespace RazorPageApplication.Models
         public List<OrderLine> OrderLines = new List<OrderLine>();
         #endregion
 
+        //Constructor er til når man laver en ny instans og skal enten give den alle argumenterne eller intet
         #region constructor
         public Order()
         {
@@ -30,6 +32,8 @@ namespace RazorPageApplication.Models
         }
         #endregion
 
+
+        //til at kunne printe den enkelte objekts infomation
         #region Methods
         public override string ToString()
         {

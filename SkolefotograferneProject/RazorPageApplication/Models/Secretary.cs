@@ -6,16 +6,28 @@ namespace RazorPageApplication.Models
 {
     public class Secretary : IUser
     {
+        //Properties til at gemme og sæt værdier ind
         #region Properties
         public int Id { get; set; }
+        [Required(ErrorMessage = "Mail er påkrævet")]
         public string Mail { get; set; }
+
+        [Required(ErrorMessage = "Password er påkrævet")]
         public string Password { get; set; }
+
+        [Required(ErrorMessage = "Navn er påkrævet")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "Telefon nummer er påkrævet")]
         public string PhoneNumber { get; set; }
+
         public School? School { get; set; }
+
         public UserRole Role { get => UserRole.Secretary; }
         #endregion
 
+
+        //Constructor er til når man laver en ny instans og skal enten give den alle argumenterne eller intet
         #region Constructors
         public Secretary()
         {
@@ -32,6 +44,7 @@ namespace RazorPageApplication.Models
         }
         #endregion
 
+        //til at kunne printe den enkelte objekts infomation
         #region Methods
         public override string ToString()
         {
