@@ -8,8 +8,11 @@ namespace RazorPageApplication.Pages.Photos
 {
     public class IndexModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Photo> _repo;
+        #endregion
 
+        #region Properties
         public List<Photo> Photos { get; set; }
 
 
@@ -24,6 +27,9 @@ namespace RazorPageApplication.Pages.Photos
 
         [BindProperty(SupportsGet = true)]
         public string SortBy { get; set; }
+        #endregion
+
+        #region Methods
         public IndexModel(IRepositoryAsync<Photo> photoRepository)
         {
             _repo = photoRepository;
@@ -103,6 +109,7 @@ namespace RazorPageApplication.Pages.Photos
                     Photos.Sort(new GenericComparer<Photo, string>(p => p.Student.Name, IsDescending));
                     break;
             }
-        }
+        } 
+        #endregion
     }
 }
