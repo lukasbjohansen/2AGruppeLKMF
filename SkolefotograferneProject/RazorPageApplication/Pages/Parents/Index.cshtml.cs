@@ -10,8 +10,11 @@ namespace RazorPageApplication.Pages.Parents
 {
     public class IndexModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Parent> _repo;
+        #endregion
 
+        #region Properties
         public List<Parent> Parents { get; set; }
 
         [BindProperty(SupportsGet = true)]
@@ -25,12 +28,16 @@ namespace RazorPageApplication.Pages.Parents
 
         [BindProperty(SupportsGet = true)]
         public string SortBy { get; set; }
+        #endregion
 
+        #region Constructors
         public IndexModel(IRepositoryAsync<Parent> parentRepository)
         {
             _repo = parentRepository;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet()
         {
             var allParents = await _repo.GetAllAsync();
@@ -115,6 +122,7 @@ namespace RazorPageApplication.Pages.Parents
                     Parents.Sort(new GenericComparer<Parent, string>(p => p.Address, IsDescending));
                     break;
             }
-        }
+        } 
+        #endregion
     }
 }

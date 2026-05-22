@@ -9,9 +9,11 @@ namespace RazorPageApplication.Pages.Secretaries
 {
     public class EditSecretaryModel : PageModel
     {
+        #region Instance fields
         private readonly IRepositoryAsync<Secretary> _secretaryRepo;
         private readonly IRepositoryAsync<School> _schoolRepo;
-
+        #endregion
+        #region Properties
         [BindProperty]
         public Secretary? SecretaryToUpdate { get; set; }
 
@@ -20,12 +22,15 @@ namespace RazorPageApplication.Pages.Secretaries
 
         [BindProperty]
         public IEnumerable<SelectListItem> SchoolSelect { get; set; }
-
+        #endregion
+        #region Constructor
         public EditSecretaryModel(IRepositoryAsync<Secretary> repo, IRepositoryAsync<School>schoolRepo)
         {
             _secretaryRepo = repo;
             _schoolRepo = schoolRepo;
         }
+        #endregion
+        #region Methods
         public async Task OnGet(int id)
         {
             List<School> schools = await _schoolRepo.GetAllAsync();
@@ -33,6 +38,7 @@ namespace RazorPageApplication.Pages.Secretaries
             SecretaryToUpdate = await _secretaryRepo.GetAsync(id);
             SchoolID = SecretaryToUpdate.School.Id;
         }
+
         public async Task<IActionResult> OnPostUpdate()
         {
             if (!ModelState.IsValid)
@@ -54,5 +60,6 @@ namespace RazorPageApplication.Pages.Secretaries
                 return Page();
             }
         }
+        #endregion
     }
 }

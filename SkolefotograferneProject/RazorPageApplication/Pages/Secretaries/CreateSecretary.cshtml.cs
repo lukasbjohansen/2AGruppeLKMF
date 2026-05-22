@@ -11,9 +11,14 @@ namespace RazorPageApplication.Pages.Secretaries
 {
     public class CreateSecretaryModel : PageModel
     {
+        #region Instance fields
+        //Independen injection (Uddybe mere?)
         private IRepositoryAsync<Secretary> _secretaryRepo;
         private IRepositoryAsync<School> _schoolRepo;
-        
+        #endregion
+        #region Properties
+        //Properties til at gemme og sæt værdier ind 
+        //BindProperty SKAL HAVE HJÆLP MED AT FORKLARE OM DET
         [BindProperty]
         public Secretary NewSecretary { get; set; }
 
@@ -21,22 +26,28 @@ namespace RazorPageApplication.Pages.Secretaries
         [Required]
         public int SchoolID { get; set; }
 
-        
-
         [BindProperty]
         public IEnumerable<SelectListItem> SchoolSelect { get; set; }
+        #endregion
+        #region Constructor
+        //Independen injection (... uddbyb mere)
         public CreateSecretaryModel(IRepositoryAsync<Secretary> secretaryRepo, IRepositoryAsync<School> schoolRepo)
         {
             _secretaryRepo = secretaryRepo;
             _schoolRepo = schoolRepo;
         }
+        #endregion
+        #region Methods
+        //Metoden OnGet() indsætter man nye data til en ny sekretær objekt og kan drop-down en liste af skoler
         public async Task OnGet()
         {
            NewSecretary = new Secretary();
             List<School> schools = await _schoolRepo.GetAllAsync();
             SchoolSelect = schools.Select(p => new SelectListItem { Value = Convert.ToString(p.Id), Text = $"{p.Name} - {p.PostalCode}" });
-
         }
+
+        //OnPost metoden er den nye sekretær skabt, hvis ikke ugyldige infomationer bliver lavet
+        //Hvis der dukker fejl op kommer der en exception besked og så må man prøve igen
         public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid)
@@ -46,8 +57,9 @@ namespace RazorPageApplication.Pages.Secretaries
             }
             try
             {
-                NewSecretary.School = await _schoolRepo.GetAsync(Convert.ToInt32(SchoolID));
+                //finder en skole objekt reference ud fra SchoolID og assigner til NewSecretary property
                 NewSecretary.School = await _schoolRepo.GetAsync(SchoolID);
+                //Skaber en ny sekretær ud fra de nye dataer
                 await _secretaryRepo.CreateAsync(NewSecretary);
                 return RedirectToPage("Index");
             }
@@ -61,5 +73,6 @@ namespace RazorPageApplication.Pages.Secretaries
             }
 
         }
+        #endregion
     }
 }

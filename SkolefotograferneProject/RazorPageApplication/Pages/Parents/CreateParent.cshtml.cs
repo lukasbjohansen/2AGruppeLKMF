@@ -7,15 +7,22 @@ namespace RazorPageApplication.Pages.Parents
 {
     public class CreateParentModel : PageModel
     {
-        private IRepositoryAsync<Parent> _repo;
+        #region Instance fields
+        private IRepositoryAsync<Parent> _repo; 
+        #endregion
 
+        #region Properties
         [BindProperty]
-        public Parent NewParent { get; set; }
+        public Parent NewParent { get; set; } 
+        #endregion
 
+        #region Constructors
         public CreateParentModel(IRepositoryAsync<Parent> parentRepository)
         {
             _repo = parentRepository;
-        }
+        } 
+        #endregion
+        #region Methods
         public void OnGet()
         {
             NewParent = new Parent();
@@ -38,9 +45,9 @@ namespace RazorPageApplication.Pages.Parents
                 ViewData["ErrorMessage"] = ex.Message;
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return Page();
-
             }
 
-        }
+        } 
+        #endregion
     }
 }
