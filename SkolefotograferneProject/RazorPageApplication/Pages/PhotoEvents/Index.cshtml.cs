@@ -51,14 +51,19 @@ namespace RazorPageApplication.Pages.PhotoEvents
                             .Where(photoEvent => photoEvent.EndTime.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
-                    case "PhotographerID":
+                    case "Location":
                         PhotoEvents = allPhotoEvents
-                            .Where(photoEvent => photoEvent.Photographer.Id.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .Where(photoEvent => photoEvent.Location.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
-                    case "SchoolClassID":
+                    case "PhotographerName":
                         PhotoEvents = allPhotoEvents
-                            .Where(photoEvent => photoEvent.SchoolClass.Id.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .Where(photoEvent => photoEvent.Photographer.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                            .ToList();
+                        break;
+                    case "SchoolClassName":
+                        PhotoEvents = allPhotoEvents
+                            .Where(photoEvent => photoEvent.SchoolClass.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
                     case "All":
@@ -67,8 +72,8 @@ namespace RazorPageApplication.Pages.PhotoEvents
                                 photoEvent.Id.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
                                 photoEvent.StartTime.ToString().ToString().Contains(FilterCriteria) ||
                                 photoEvent.EndTime.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                photoEvent.Photographer.Id.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                photoEvent.SchoolClass.Id.ToString().Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                                photoEvent.Photographer.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                                photoEvent.SchoolClass.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
                             .ToList();
                         break;
                 }
@@ -96,11 +101,11 @@ namespace RazorPageApplication.Pages.PhotoEvents
                 case "EndDate":
                     PhotoEvents.Sort(new GenericComparer<PhotoEvent, DateTime>(p => p.EndTime, IsDescending));
                     break;
-                case "PhotographerID":
-                    PhotoEvents.Sort(new GenericComparer<PhotoEvent, int>(p => p.Photographer.Id, IsDescending));
+                case "PhotographerName":
+                    PhotoEvents.Sort(new GenericComparer<PhotoEvent, string>(p => p.Photographer.Name, IsDescending));
                     break;
-                case "SchoolClassID":
-                    PhotoEvents.Sort(new GenericComparer<PhotoEvent, int>(p => p.SchoolClass.Id, IsDescending));
+                case "SchoolClassName":
+                    PhotoEvents.Sort(new GenericComparer<PhotoEvent, string>(p => p.SchoolClass.Name, IsDescending));
                     break;
             }
         }
