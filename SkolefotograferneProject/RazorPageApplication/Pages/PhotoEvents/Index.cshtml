@@ -7,15 +7,20 @@
 <p>
     <a asp-page="CreatePhotoEvent" class="btn btn-success btn-sm">Opret ny fotoevent</a>
 </p>
+<form method="get">
+    Søg: <input type="text" asp-for="@Model.FilterCriteria" />
+    <select asp-for="@Model.FilterBy" class="form-select d-inline-block" style="width:auto; margin-left: 8px;">
+        <option value="All">Alle</option>
+        <option value="StartDate">Starttid</option>
+        <option value="EndDate">Sluttid</option>
+        <option value="Location">Lokation</option>
+        <option value="PhotographerName">Fotograf</option>
+        <option value="SchoolClassName">Skoleklasse</option>
+    </select>
+</form>
 <table class="table">
     <thead>
         <tr>
-            @*             <th>ID</th>
-            <th>Starttid</th>
-            <th>Sluttid</th>
-            <th>Lokation</th>
-            <th>Fotograf id</th>
-            <th>Skoleklasse id</th> *@
             <form method="get">
                 <input type="hidden" name="FilterCriteria" value="@Model.FilterCriteria" />
                 <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
@@ -33,10 +38,10 @@
                     <button type="submit" name="SortBy" value="Location" class="btn btn-link p-0">Lokation<i class="bi bi-sort-down"></i></button>
                 </th>
                 <th>
-                    <button type="submit" name="SortBy" value="PhotographerID" class="btn btn-link p-0">Fotograf id<i class="bi bi-sort-down"></i></button>
+                    <button type="submit" name="SortBy" value="PhotographerName" class="btn btn-link p-0">Fotograf<i class="bi bi-sort-down"></i></button>
                 </th>
                 <th>
-                    <button type="submit" name="SortBy" value="SchoolClassID" class="btn btn-link p-0">Skoleklasse id<i class="bi bi-sort-down"></i></button>
+                    <button type="submit" name="SortBy" value="SchoolClassName" class="btn btn-link p-0">Skoleklasse<i class="bi bi-sort-down"></i></button>
                 </th>
             </form>
             <th>Slet | Redigér</th>
@@ -50,8 +55,8 @@
                 <td>@pe.StartTime</td>
                 <td>@pe.EndTime</td>
                 <td>@pe.Location</td>
-                <td>@pe.Photographer.Id</td>
-                <td>@pe.SchoolClass.Id</td>
+                <td>@pe.Photographer.Name</td>
+                <td>@pe.SchoolClass.Name</td>
                 <td>
                     <a asp-page="DeletePhotoEvent" asp-route-id="@pe.Id">Slet fotoevent</a> |
                     <a asp-page="EditPhotoEvent" asp-route-id="@pe.Id">Redigér fotoevent</a>
