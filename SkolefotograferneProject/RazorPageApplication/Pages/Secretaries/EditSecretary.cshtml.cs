@@ -31,6 +31,9 @@ namespace RazorPageApplication.Pages.Secretaries
         }
         #endregion
         #region Methods
+        //Metoden henter den specifikke sekretær ud fra den id fra parameter
+        //Henter alle skoler til at kunne finde dem på drop-down ved foranliggende
+        //sekretærens skole id bliver sat inde i SchoolID
         public async Task OnGet(int id)
         {
             List<School> schools = await _schoolRepo.GetAllAsync();
@@ -39,6 +42,8 @@ namespace RazorPageApplication.Pages.Secretaries
             SchoolID = SecretaryToUpdate.School.Id;
         }
 
+        //Metoden har en IActionResult som udføre opdatering når brugeren klikker på en knap
+        //Metoden henter den nye skole ....
         public async Task<IActionResult> OnPostUpdate()
         {
             if (!ModelState.IsValid)
