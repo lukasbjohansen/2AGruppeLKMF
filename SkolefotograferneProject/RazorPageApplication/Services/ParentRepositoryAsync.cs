@@ -20,7 +20,7 @@ namespace RazorPageApplication.Services
         /// </summary>
         public async Task CreateAsync(Parent item)
         {
-            string query = "INSERT INTO Parent(ParentName,Mail,PhoneNumber,ParentAddress,ParentPassword,PostalCode) Values(@ParentName,@Mail,@PhoneNumber,@ParentAddress,@ParentPassword,@PostalCode)";
+            string query = "INSERT INTO Parent(ParentName,Mail,PhoneNumber,ParentAddress,ParentPassword,PostalCode) OUTPUT INSERTED.ParentID Values(@ParentName,@Mail,@PhoneNumber,@ParentAddress,@ParentPassword,@PostalCode)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -33,7 +33,9 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@ParentAddress", item.Address);
                     command.Parameters.AddWithValue("@ParentPassword", item.Password);
                     command.Parameters.AddWithValue("@PostalCode", item.PostalCode);
-                    await command.ExecuteNonQueryAsync();
+                    int newId = (int)await command.ExecuteScalarAsync();
+
+                    item.Id = newId;
                 }
                 catch (SqlException sEx)
                 {

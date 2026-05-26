@@ -8,6 +8,9 @@ namespace RazorPageApplication.Pages.Parents
     public class CreateParentModel : PageModel
     {
         #region Instance fields
+        /// <summary>
+        /// The repository field for the Parent entity, which will be used to perform asynchronous operations such as creating a new parent record in the database.
+        /// </summary>
         private IRepositoryAsync<Parent> _repo; 
         #endregion
 
