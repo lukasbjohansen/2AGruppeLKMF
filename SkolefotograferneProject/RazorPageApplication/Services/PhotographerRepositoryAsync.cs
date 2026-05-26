@@ -20,6 +20,7 @@ namespace RazorPageApplication.Services
             string query =
                 @"INSERT INTO 
                 Photographer(PhotographerName, Mail, PhoneNumber, CVR, PhotographerPassword) 
+                OUTPUT INSERTED.PhotographerID
                 Values(@PhotographerName, @Mail, @PhoneNumber, @CVR, @PhotographerPassword)";
             try
             {
@@ -31,7 +32,9 @@ namespace RazorPageApplication.Services
                 command.Parameters.AddWithValue("@PhoneNumber", photographer.PhoneNumber);
                 command.Parameters.AddWithValue("@CVR", photographer.CVR);
                 command.Parameters.AddWithValue("@PhotographerPassword", photographer.Password);
-                await command.ExecuteNonQueryAsync();
+                //await command.ExecuteNonQueryAsync();
+                int columnId = (int)await command.ExecuteScalarAsync();
+                photographer.Id = columnId;
             }
             catch (SqlException e)
             {

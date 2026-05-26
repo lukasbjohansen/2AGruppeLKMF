@@ -46,7 +46,7 @@ namespace RazorPageApplication.Pages.SchoolClasses
 
         #region Methods
         public async Task OnGet()
-        {
+        {   
             NewSchoolClass = new SchoolClass();
 
             List<Teacher> teachers = await _teacherRepo.GetAllAsync();

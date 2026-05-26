@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
@@ -21,6 +22,14 @@ namespace RazorPageApplication.Pages.PhotoEvents
         [BindProperty]
         public int SchoolClassId { get; set; }
 
+        [BindProperty]
+        [Required]
+        public IEnumerable<SelectListItem> PhotographerSelect { get; set; }
+
+        [BindProperty]
+        [Required]
+        public IEnumerable<SelectListItem> SchoolClassSelect { get; set; }
+
         public EditPhotoEventModel(IRepositoryAsync<PhotoEvent> photoEventRepo,
                                    IRepositoryAsync<Photographer> photographerRepo,
                                    IRepositoryAsync<SchoolClass> schoolClassRepo)
@@ -28,7 +37,6 @@ namespace RazorPageApplication.Pages.PhotoEvents
             _photoEventRepo = photoEventRepo;
             _photographerRepo = photographerRepo;
             _schoolClassRepo = schoolClassRepo;
-
         }
 
         public async Task OnGet(int id)
@@ -36,12 +44,31 @@ namespace RazorPageApplication.Pages.PhotoEvents
             PhotoEventToUpdate = await _photoEventRepo.GetAsync(id);
             PhotographerId = PhotoEventToUpdate.Photographer.Id;
             SchoolClassId = PhotoEventToUpdate.SchoolClass.Id;
+            await UpdateSelectList();
+        }
+
+        private async Task UpdateSelectList()
+        {
+
+            List<Photographer> photographers = await _photographerRepo.GetAllAsync();
+            List<SchoolClass> schoolClasses = await _schoolClassRepo.GetAllAsync();
+            PhotographerSelect = photographers.Select(p => new SelectListItem
+            {
+                Value = Convert.ToString(p.Id),
+                Text = $"{p.Id} - {p.Name} - {p.Mail}"
+            });
+            SchoolClassSelect = schoolClasses.Select(p => new SelectListItem
+            {
+                Value = Convert.ToString(p.Id),
+                Text = $"{p.Id} - {p.Name} - {p.School.Name}"
+            });
         }
 
         public async Task<IActionResult> OnPostUpdate()
         {
             if (!ModelState.IsValid)
             {
+                await UpdateSelectList();
                 return Page();
             }
             try
@@ -55,6 +82,7 @@ namespace RazorPageApplication.Pages.PhotoEvents
             {
                 ViewData["ErrorMessage"] = e.Message;
                 ModelState.AddModelError(string.Empty, e.Message);
+                await UpdateSelectList();
                 return Page();
             }
         }
