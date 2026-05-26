@@ -11,20 +11,18 @@ namespace RazorPageApplication.Services
 	{
         #region Instance fields
         /// <summary>
-        /// Instance of the School repository. 
-        /// Used to retrieve school information when creating or updating a school class, and when retrieving school classes from the database.
+        /// ¨_schoolRepo instance field that represents the repository for the School model.
         /// </summary>
         private IRepositoryAsync<School> _schoolRepo;
         /// <summary>
-        /// Instance of the Teacher repository. 
-        /// Used to retrieve teacher information when creating or updating a school class, and when retrieving school classes from the database.
+        /// _teacherRepo instance field that represents the repository for the Teacher model.
         /// </summary>
         private ITeacherRepository _teacherRepo;
         #endregion
 
         #region Constructors
         /// <summary>
-        /// Constructor for the SchoolClassRepositoryAsync class.
+        /// SchoolClassRepositoryAsync constructor that is used to create a new instance of the SchoolClassRepositoryAsync class with the repositories for the School and Teacher models injected as parameters.
         /// </summary>
         public SchoolClassRepositoryAsync(IRepositoryAsync<School> schoolRepository, ITeacherRepository teacherRepository)
         {
@@ -35,11 +33,7 @@ namespace RazorPageApplication.Services
 
         #region Methods
         /// <summary>
-        /// Creates a new school class. 
-        /// The method takes a SchoolClass object as input and inserts its properties into the SchoolClass table in the database. 
-        /// It uses parameterized queries to prevent SQL injection attacks. 
-        /// If the operation is successful, the new school class is added to the database. 
-        /// If there is an error during the operation, a RepositoryException is thrown with an appropriate message. 
+        ///CreateAsync method that is used to create a new school class in the database.
         /// </summary>
         public async Task CreateAsync(SchoolClass item)
         {
@@ -71,11 +65,7 @@ namespace RazorPageApplication.Services
             }
         }
         /// <summary>
-        /// Deletes a school class. 
-        /// The method takes a SchoolClass object as input and deletes the corresponding record from the SchoolClass table in the database based on the SchoolClassID. 
-        /// It uses parameterized queries to prevent SQL injection attacks. 
-        /// If the operation is successful, the school class is removed from the database. 
-        /// If there is an error during the operation, a RepositoryException is thrown with an appropriate message. 
+        /// DeleteAsync method that is used to delete an existing school class from the database.
         /// </summary>
         public async Task DeleteAsync(SchoolClass item)
         {
@@ -103,11 +93,7 @@ namespace RazorPageApplication.Services
             }
         }
         /// <summary>
-        /// Filters school classes based on the provided filter criteria. 
-        /// The method constructs a SQL query that searches for matches in multiple columns of the SchoolClass table, including SchoolClassID, SchoolClassName, SchoolClassYear, SchoolID, and TeacherID. 
-        /// It uses parameterized queries to prevent SQL injection attacks.
-        /// If the operation is successful, a list of school classes that match the filter criteria is returned.
-        /// If there is an error during the operation, a RepositoryException is thrown with an appropriate message.
+        /// FilterAsync method that is used to filter school classes based on a search term.
         /// </summary>
         public async Task<List<SchoolClass>> FilterAsync(string filterCriteria)
         {
@@ -158,12 +144,7 @@ namespace RazorPageApplication.Services
             }
         }
         /// <summary>
-        /// Gets a school class by its unique identifier. 
-        /// The method takes an integer id as input and retrieves the corresponding record from the SchoolClass table in the database based on the SchoolClassID. 
-        /// It uses a parameterized query to prevent SQL injection attacks. 
-        /// If the operation is successful, the school class is returned. 
-        /// If the school class is not found, null is returned. 
-        /// If there is an error during the operation, a RepositoryException is thrown with an appropriate message.
+        /// GetAsync method that is used to retrieve a specific school class from the database based on its ID.
         /// </summary>
         public async Task<SchoolClass?> GetAsync(int id)
         {
@@ -192,12 +173,7 @@ namespace RazorPageApplication.Services
             return null;
         }
         /// <summary>
-        /// Gets all school classes from the database.
-        /// The method executes a SQL query to retrieve all records from the SchoolClass table. 
-        /// It uses a SqlDataReader to read the results and constructs a list of SchoolClass objects based on the retrieved data. 
-        /// If there is an error during the operation, a RepositoryException is thrown with an appropriate message. 
-        /// The method returns a list of all school classes in the database. 
-        /// If there are no school classes, an empty list is returned.
+        /// GetAllAsync method that is used to retrieve all school classes from the database.
         /// </summary>
         public async Task<List<SchoolClass>> GetAllAsync()
         {
@@ -246,11 +222,7 @@ namespace RazorPageApplication.Services
             }
         }
         /// <summary>
-        /// Updates an existing school class in the database. 
-        /// The method takes a SchoolClass object as input and updates the corresponding record in the SchoolClass table based on the SchoolClassID. 
-        /// It uses a parameterized query to prevent SQL injection attacks. 
-        /// If the operation is successful, the school class is updated in the database. 
-        /// If there is an error during the operation, a RepositoryException is thrown with an appropriate message. 
+        /// UpdateAsync method that is used to update an existing school class in the database with new information.
         /// </summary>
         public async Task UpdateAsync(SchoolClass item)
         {
