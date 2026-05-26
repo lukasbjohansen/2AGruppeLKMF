@@ -96,12 +96,62 @@ public sealed class ParentRepositoryTest
         _createdParents.Add(p2);
         _createdParents.Add(p3);
         // Act
-        List<Parent> list = await _repository.FilterAsync("peter");
+        List<Parent> list = await _repository.FilterAsync("hans");
         // Assert
         Assert.IsNotNull(list);
-        Assert.IsFalse(list.Any(p => p.Id == p1.Id));
-        Assert.IsTrue(list.Any(p => p.Id == p2.Id));
-        Assert.IsTrue(list.Any(p => p.Id == p3.Id));
-        Assert.IsTrue(list.Count >= 2);
+        Assert.IsTrue(list.Any(p => p.Id == p1.Id));
+        Assert.IsFalse(list.Any(p => p.Id == p2.Id));
+        Assert.IsFalse(list.Any(p => p.Id == p3.Id));
+        Assert.IsTrue(list.Count >= 1);
+    }
+    [TestMethod]
+    public async Task UpdateAsyncTest()
+    {
+        // Arrange
+        Parent originalParent = new Parent(0,"Test1@gmail.com","123456789","Hans","23456789","TestVej 1","4700");
+        string originalMail = originalParent.Mail;
+        string originalPassword = originalParent.Password;
+        string originalName = originalParent.Name;
+        string originalPhone = originalParent.PhoneNumber;
+        string originalAddress = originalParent.Address;
+        string originalPostal = originalParent.PostalCode;
+        Parent newParent = new Parent(0, "Test2@gmail.com", "123456782", "Peter", "23456781","TestVej 2","4684");
+        await _repository.CreateAsync(originalParent); // Sets the Id of the parameter
+        newParent.Id = originalParent.Id;
+        _createdParents.Add(originalParent);
+
+        // Act
+        await _repository.UpdateAsync(newParent);
+        Parent? updatedParent = await _repository.GetAsync(originalParent.Id);
+        // Assert
+        Assert.IsNotNull(updatedParent);
+        Assert.AreEqual(originalParent.Id, newParent.Id);
+
+        Assert.AreEqual(newParent.Mail, updatedParent.Mail);
+        Assert.AreEqual(newParent.Password, updatedParent.Password);
+        Assert.AreEqual(newParent.Name, updatedParent.Name);
+        Assert.AreEqual(newParent.PhoneNumber, updatedParent.PhoneNumber);
+        Assert.AreEqual(newParent.Address, updatedParent.Address);
+        Assert.AreEqual(newParent.PostalCode, updatedParent.PostalCode);
+        Assert.AreEqual(newParent.Id, updatedParent.Id);
+
+        Assert.AreNotEqual(originalMail, updatedParent.Mail);
+        Assert.AreNotEqual(originalPassword, updatedParent.Password);
+        Assert.AreNotEqual(originalName, updatedParent.Name);
+        Assert.AreNotEqual(originalPhone, updatedParent.PhoneNumber);
+        Assert.AreNotEqual(originalAddress, updatedParent.Address);
+        Assert.AreNotEqual(originalPostal, updatedParent.PostalCode);
+    }
+    [TestMethod]
+    public async Task DeleteAsyncTest()
+    {
+        // Arrange
+        Parent testParent = new Parent(0,"Test@mail.com","1234","Peter","23476372","TestAddress","4700");
+        await _repository.CreateAsync(testParent);
+        // Act
+        await _repository.DeleteAsync(testParent);
+        Parent? cachedParent = await _repository.GetAsync(testParent.Id);
+        // Assert
+        Assert.IsNull(cachedParent);
     }
 }
