@@ -10,10 +10,13 @@ namespace RazorPageApplication.Pages.PhotoEvents
 {
     public class EditPhotoEventModel : PageModel
     {
+        #region Instance Fields
         private readonly IRepositoryAsync<PhotoEvent> _photoEventRepo;
         private readonly IRepositoryAsync<Photographer> _photographerRepo;
         private readonly IRepositoryAsync<SchoolClass> _schoolClassRepo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public PhotoEvent? PhotoEventToUpdate { get; set; }
         [BindProperty]
@@ -29,7 +32,9 @@ namespace RazorPageApplication.Pages.PhotoEvents
         [BindProperty]
         [Required]
         public IEnumerable<SelectListItem> SchoolClassSelect { get; set; }
+        #endregion
 
+        #region Constructors
         public EditPhotoEventModel(IRepositoryAsync<PhotoEvent> photoEventRepo,
                                    IRepositoryAsync<Photographer> photographerRepo,
                                    IRepositoryAsync<SchoolClass> schoolClassRepo)
@@ -38,7 +43,9 @@ namespace RazorPageApplication.Pages.PhotoEvents
             _photographerRepo = photographerRepo;
             _schoolClassRepo = schoolClassRepo;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
             PhotoEventToUpdate = await _photoEventRepo.GetAsync(id);
@@ -86,5 +93,6 @@ namespace RazorPageApplication.Pages.PhotoEvents
                 return Page();
             }
         }
+        #endregion
     }
 }
