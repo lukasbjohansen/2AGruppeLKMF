@@ -78,9 +78,9 @@ public sealed class SchoolRepositoryTest
     public async Task FitlerAsyncTest()
     {
         // Arrange
-        School t1 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
-        School t2 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
-        School t3 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
+        School t1 = new School(0, "schoolNameTest", "TestAddresse", "2625");
+        School t2 = new School(0, "schoolNameTest32", "TestAddresse", "2625");
+        School t3 = new School(0, "schoolNameTest3", "TestAddresse", "2625");
         await _repository.CreateAsync(t1);
         await _repository.CreateAsync(t2);
         await _repository.CreateAsync(t3);
@@ -88,7 +88,7 @@ public sealed class SchoolRepositoryTest
         _createdSchool.Add(t2);
         _createdSchool.Add(t3);
         // Act
-        List<School> list = await _repository.FilterAsync("schoolNameTest");
+        List<School> list = await _repository.FilterAsync("Test3");
         // Assert
         Assert.IsNotNull(list);
         Assert.IsFalse(list.Any(t => t.Id == t1.Id));
@@ -107,6 +107,31 @@ public sealed class SchoolRepositoryTest
         School? cached = await _repository.GetAsync(testSubject.Id);
         // Assert
         Assert.IsNull(cached);
+    }
+    [TestMethod]
+    public async Task UpdateAsyncTest()
+    {
+        //Arrange 
+        School originalSchool = new School(0, "schoolNameTest", "TestAddresse", "2625");
+        School newSchool = new School(0, "NewSchoolNameTest", "NewAddresse", "2000");
+        await _repository.CreateAsync(originalSchool);
+        newSchool.Id = originalSchool.Id; //får samme ID så den ved hvilket den skal opdateres bagefter
+        _createdSchool.Add(originalSchool);
+        //Act
+        await _repository.UpdateAsync(newSchool); //ved den skal opdater ID 0 
+        School? updatedSchool = await _repository.GetAsync(originalSchool.Id); //en kopi af den nye skole
+        //Assert
+        Assert.IsNotNull(updatedSchool);
+        Assert.AreEqual(originalSchool.Id, newSchool.Id);
+
+        Assert.AreEqual(newSchool.Name, updatedSchool.Name);
+        Assert.AreEqual(newSchool.Address, updatedSchool.Address);
+        Assert.AreEqual(newSchool.PostalCode, updatedSchool.PostalCode);
+        Assert.AreEqual(newSchool.Id, updatedSchool.Id);
+
+        Assert.AreNotEqual(originalSchool.Name, updatedSchool.Name);
+        Assert.AreNotEqual(originalSchool.Address, updatedSchool.Address);
+        Assert.AreNotEqual(originalSchool.PostalCode, updatedSchool.PostalCode);
     }
 }
 
