@@ -93,6 +93,7 @@ namespace RazorPageApplication.Services
         /// It builds a parameterized SQL SELECT query to avoid SQL injection.
         /// The method opens a database connection using a secret connection string.
         /// If the operation is successful (if the filter criteria matches the columns in the database), a list of parents that match the filter criteria is returned.
+        /// Currently not being used, as we made another filter method in Parent index page
         /// </summary>
         public async Task<List<Parent>> FilterAsync(string filterCriteria)
         {

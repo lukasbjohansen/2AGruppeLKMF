@@ -15,7 +15,7 @@ namespace TestProject1
     [TestClass]
     [DoNotParallelize]
     public sealed class TeacherRepositoryTest
-    {
+    {   
         private TeacherRepositoryAsync _repository;
         private readonly List<Teacher> _createdTeachers = new();
 
