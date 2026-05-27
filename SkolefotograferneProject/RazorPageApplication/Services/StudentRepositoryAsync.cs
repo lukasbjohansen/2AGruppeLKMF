@@ -10,11 +10,21 @@ namespace RazorPageApplication.Services
     public class StudentRepositoryAsync : IRepositoryAsync<Student>
     {
         #region Instance fields
+        /// <summary>
+        /// _schoolClassRepo instance field that represents the repository for the SchoolClass model.
+        /// </summary>
         private IRepositoryAsync<SchoolClass> _schoolClassRepo;
+        /// <summary>
+        /// _parentRepo instance field that represents the repository for the Parent model.
+        /// </summary>
         private IRepositoryAsync<Parent> _parentRepo;
         #endregion
 
         #region Constructors
+        /// <summary>
+        ///StudentRepositoryAsync constructor that is used to create a new instance of the StudentRepositoryAsync class with the repositories for the SchoolClass and Parent models injected as parameters.
+        /// </summary>
+
         public StudentRepositoryAsync(IRepositoryAsync<SchoolClass> schoolClassRepo, IRepositoryAsync<Parent> parentRepo)
         {
             _schoolClassRepo = schoolClassRepo;
@@ -23,6 +33,9 @@ namespace RazorPageApplication.Services
         #endregion
 
         #region Methods
+        /// <summary>
+        ///CreateAsync method that is used to create a new student in the system.
+        /// </summary>
         public async Task CreateAsync(Student user)
         {
 
@@ -54,7 +67,9 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-
+        /// <summary>
+        ///DeleteAsync method that is used to delete an existing student from the system.
+        /// </summary>
         public async Task DeleteAsync(Student user)
         {
             string query = "DELETE FROM Student WHERE StudentID = @StudentID";
@@ -80,7 +95,9 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-
+        /// <summary>
+        /// FilterAsync method that is used to filter students based on a given criteria.
+        /// </summary>
         public async Task<List<Student>> FilterAsync(string filterCriteria)
         {
             string query = @"
@@ -129,7 +146,9 @@ namespace RazorPageApplication.Services
                 return students;
             }
         }
-
+        /// <summary>
+        ///GetAsync method that is used to retrieve a specific student from the system based on their ID.
+        /// </summary>
         public async Task<Student?> GetAsync(int id)
         {
             string query = "SELECT * FROM Student WHERE StudentID = @StudentID";
@@ -155,7 +174,9 @@ namespace RazorPageApplication.Services
             }
             return null;
         }
-
+        /// <summary>
+        /// GetAllAsync method that is used to retrieve all students from the system.
+        /// </summary>
         public async Task<List<Student>> GetAllAsync()
 
         {
@@ -203,7 +224,9 @@ namespace RazorPageApplication.Services
                 return students;
             }
         }
-
+        /// <summary>
+        /// UpdateAsync method that is used to update an existing student's information in the system.
+        /// </summary>
         public async Task UpdateAsync(Student user)
         {
             string query = "UPDATE Student SET StudentName = @StudentName, PhotoCode = @PhotoCode, SchoolClassID = @SchoolClassID, ParentID=@ParentID WHERE StudentID = @StudentID";

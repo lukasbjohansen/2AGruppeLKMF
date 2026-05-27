@@ -10,10 +10,13 @@ namespace RazorPageApplication.Pages.Photos
 {
     public class EditPhotoModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Photo> _repo;
         private IRepositoryAsync<Photographer> _photographerRepo;
         private IRepositoryAsync<Student> _studentRepo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public Photo PhotoToUpdate { get; set; }
 
@@ -29,14 +32,18 @@ namespace RazorPageApplication.Pages.Photos
         public IEnumerable<SelectListItem> PhotographerSelect { get; set; }
         [BindProperty]
         public IEnumerable<SelectListItem> StudentSelect { get; set; }
+        #endregion
 
+        #region Constructors
         public EditPhotoModel(IRepositoryAsync<Photo> repo, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository)
         {
             _repo = repo;
             _photographerRepo = photographerRepository;
             _studentRepo = studentRepository;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
             PhotoToUpdate = await _repo.GetAsync(id);
@@ -69,6 +76,7 @@ namespace RazorPageApplication.Pages.Photos
                 ModelState.AddModelError(string.Empty, e.Message);
                 return Page();
             }
-        }
+        } 
+        #endregion
     }
 }

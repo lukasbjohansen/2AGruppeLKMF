@@ -10,11 +10,20 @@ namespace RazorPageApplication.Services
 	public class SchoolClassRepositoryAsync : IRepositoryAsync<SchoolClass>
 	{
         #region Instance fields
+        /// <summary>
+        /// ¨_schoolRepo instance field that represents the repository for the School model.
+        /// </summary>
         private IRepositoryAsync<School> _schoolRepo;
+        /// <summary>
+        /// _teacherRepo instance field that represents the repository for the Teacher model.
+        /// </summary>
         private ITeacherRepository _teacherRepo;
         #endregion
 
         #region Constructors
+        /// <summary>
+        /// SchoolClassRepositoryAsync constructor that is used to create a new instance of the SchoolClassRepositoryAsync class with the repositories for the School and Teacher models injected as parameters.
+        /// </summary>
         public SchoolClassRepositoryAsync(IRepositoryAsync<School> schoolRepository, ITeacherRepository teacherRepository)
         {
             _schoolRepo = schoolRepository;
@@ -23,6 +32,9 @@ namespace RazorPageApplication.Services
         #endregion
 
         #region Methods
+        /// <summary>
+        ///CreateAsync method that is used to create a new school class in the database.
+        /// </summary>
         public async Task CreateAsync(SchoolClass item)
         {
             string query = "INSERT INTO SchoolClass(SchoolClassName,SchoolClassYear,SchoolID,TeacherID) Values(@SchoolClassName,@SchoolClassYear,@SchoolID,@TeacherID)";
@@ -52,7 +64,9 @@ namespace RazorPageApplication.Services
 
             }
         }
-
+        /// <summary>
+        /// DeleteAsync method that is used to delete an existing school class from the database.
+        /// </summary>
         public async Task DeleteAsync(SchoolClass item)
         {
             string query = "DELETE FROM SchoolClass WHERE SchoolClassID = @SchoolClassID";
@@ -78,7 +92,9 @@ namespace RazorPageApplication.Services
                 }
             }
         }
-
+        /// <summary>
+        /// FilterAsync method that is used to filter school classes based on a search term.
+        /// </summary>
         public async Task<List<SchoolClass>> FilterAsync(string filterCriteria)
         {
             string query = @"
@@ -127,7 +143,9 @@ namespace RazorPageApplication.Services
                 return schoolClasses;
             }
         }
-
+        /// <summary>
+        /// GetAsync method that is used to retrieve a specific school class from the database based on its ID.
+        /// </summary>
         public async Task<SchoolClass?> GetAsync(int id)
         {
             string query = "SELECT * FROM SchoolClass WHERE SchoolClassID = @SchoolClassID";
@@ -154,7 +172,9 @@ namespace RazorPageApplication.Services
             }
             return null;
         }
-
+        /// <summary>
+        /// GetAllAsync method that is used to retrieve all school classes from the database.
+        /// </summary>
         public async Task<List<SchoolClass>> GetAllAsync()
         {
             string query = "SELECT * FROM SchoolClass";
@@ -201,7 +221,9 @@ namespace RazorPageApplication.Services
                 return schoolClasses;
             }
         }
-
+        /// <summary>
+        /// UpdateAsync method that is used to update an existing school class in the database with new information.
+        /// </summary>
         public async Task UpdateAsync(SchoolClass item)
         {
             string query = "UPDATE SchoolClass SET SchoolClassName = @SchoolClassName, SchoolClassYear = @SchoolClassYear, SchoolID = @SchoolID, TeacherID=@TeacherID WHERE SchoolClassID = @SchoolClassID";

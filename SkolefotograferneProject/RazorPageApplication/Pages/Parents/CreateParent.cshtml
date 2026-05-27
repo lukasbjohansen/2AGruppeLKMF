@@ -6,11 +6,13 @@
 
 <h1>Opret forælder</h1>
 
+@* Form for creating a new parent *@
+
 <form method="post">
     <div asp-validation-summary="All" class="text-danger"></div>
     <input type="hidden" asp-for="@Model.NewParent.Id" />
     <div class="form-group">
-        <label asp-for="@Model.NewParent.Name" class="control-label" placeholder="Skriv dit fulde navn">Navn</label>
+        <label asp-for="@Model.NewParent.Name" class="control-label">Navn</label>
         <input asp-for="@Model.NewParent.Name" class="form-control" placeholder="Skriv dit fulde navn" />
     </div>
     <div class="form-group">

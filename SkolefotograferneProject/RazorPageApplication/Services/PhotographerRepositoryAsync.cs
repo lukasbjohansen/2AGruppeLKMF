@@ -9,11 +9,18 @@ namespace RazorPageApplication.Services
 {
     public class PhotographerRepositoryAsync : IRepositoryAsync<Photographer>
     {
+        #region Methods
+        /// <summary>
+        /// Handles creating/adding a photographer to the database asynchronously.
+        /// Takes a photographer reference as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task CreateAsync(Photographer photographer)
         {
             string query =
                 @"INSERT INTO 
                 Photographer(PhotographerName, Mail, PhoneNumber, CVR, PhotographerPassword) 
+                OUTPUT INSERTED.PhotographerID
                 Values(@PhotographerName, @Mail, @PhoneNumber, @CVR, @PhotographerPassword)";
             try
             {
@@ -25,7 +32,9 @@ namespace RazorPageApplication.Services
                 command.Parameters.AddWithValue("@PhoneNumber", photographer.PhoneNumber);
                 command.Parameters.AddWithValue("@CVR", photographer.CVR);
                 command.Parameters.AddWithValue("@PhotographerPassword", photographer.Password);
-                await command.ExecuteNonQueryAsync();
+                //await command.ExecuteNonQueryAsync();
+                int columnId = (int)await command.ExecuteScalarAsync();
+                photographer.Id = columnId;
             }
             catch (SqlException e)
             {
@@ -39,6 +48,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles deleting an existing Photographer from the database asynchronously.
+        /// Takes a photographer reference as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task DeleteAsync(Photographer photographer)
         {
             string query =
@@ -65,6 +79,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles filtering photographers from the database asynchronously.
+        /// Takes the string filterCriteria as an argument, and returns a List matching the criteria.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<List<Photographer>> FilterAsync(string filterCriteria)
         {
             string query =
@@ -107,6 +126,12 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles retrieving and returning a Photographer from the database asynchronously.
+        /// Takes an int, id, as an argument, and returns a Photographer matching that id,
+        /// if it exists, otherwise null is returned.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<Photographer> GetAsync(int id)
         {
             string query =
@@ -144,6 +169,10 @@ namespace RazorPageApplication.Services
             return null;
         }
 
+        /// <summary>
+        /// Handles retrieving all Photographers from the database asynchronously and returns them as a List.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<List<Photographer>> GetAllAsync()
         {
             string query = "SELECT * FROM Photographer";
@@ -179,6 +208,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles updating all Photographers from the database asynchronously.
+        /// Takes a photographer reference, which we want to update, as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task UpdateAsync(Photographer photographer)
         {
             string query =
@@ -213,5 +247,6 @@ namespace RazorPageApplication.Services
                 throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
             }
         }
+        #endregion
     }
 }

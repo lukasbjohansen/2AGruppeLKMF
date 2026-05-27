@@ -10,16 +10,26 @@ namespace RazorPageApplication.Services
 {
     public class PhotoEventRepositoryAsync : IRepositoryAsync<PhotoEvent>
     {
+        #region Instance Fields
         private readonly IRepositoryAsync<Photographer> _photographerRepo;
         private readonly IRepositoryAsync<SchoolClass> _schoolClassRepo;
+        #endregion
 
+        #region Constructors
         public PhotoEventRepositoryAsync(IRepositoryAsync<Photographer> photographerRepo,
                                          IRepositoryAsync<SchoolClass> schoolClassRepo)
         {
             _photographerRepo = photographerRepo;
             _schoolClassRepo = schoolClassRepo;
         }
+        #endregion
 
+        #region Methods
+        /// <summary>
+        /// Handles creating/adding a PhotoEvent to the database asynchronously.
+        /// Takes a photoEvent reference as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task CreateAsync(PhotoEvent photoEvent)
         {
             string query =
@@ -50,6 +60,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles deleting an existing PhotoEvent from the database asynchronously.
+        /// Takes a photoEvent reference as an argument.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task DeleteAsync(PhotoEvent photoEvent)
         {
             string query =
@@ -76,6 +91,11 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles filtering PhotoEvents from the database asynchronously.
+        /// Takes a string, filterCriteria, as an argument, and returns a List of PhotoEvents matching the criteria.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<List<PhotoEvent>> FilterAsync(string filterCriteria)
         {
             string query =
@@ -119,6 +139,10 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles retrieving and returns PhotoEvent reference from  the database asynchronously.
+        /// Catches an SqlException, in which case a RepositoryException is thrown.
+        /// </summary>
         public async Task<PhotoEvent> GetAsync(int id)
         {
             string query =
@@ -156,6 +180,10 @@ namespace RazorPageApplication.Services
             return null;
         }
 
+        /// <summary>
+        /// Handles retrieving all PhotoEvents from the database asynchronously and returning them as a List.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task<List<PhotoEvent>> GetAllAsync()
         {
             string query = "SELECT * FROM PhotoEvent";
@@ -191,6 +219,10 @@ namespace RazorPageApplication.Services
             }
         }
 
+        /// <summary>
+        /// Handles updating all PhotoEvents from the database asynchronously.
+        /// Catches an SqlException, in which case a RepositoryException is thrown
+        /// </summary>
         public async Task UpdateAsync(PhotoEvent photoEvent)
         {
             string query =
@@ -225,5 +257,6 @@ namespace RazorPageApplication.Services
                 throw new RepositoryException(RepositoryExceptionType.Read, e.GetFullMessage());
             }
         }
+        #endregion
     }
 }

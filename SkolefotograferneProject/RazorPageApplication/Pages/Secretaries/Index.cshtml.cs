@@ -10,9 +10,15 @@ namespace RazorPageApplication.Pages.Secretaries
 {
     public class IndexModel : PageModel
     {
+        #region Instance field
+        //Independen injection (Uddybe mere?)
         IRepositoryAsync<Secretary> _repo;
+        #endregion
+        #region Properties
+        //Properties til at gemme og sæt værdier ind 
         public List<Secretary> Secretaries { get; set; }
 
+        //BindProperty SKAL HAVE HJÆLP MED AT FORKLARE OM DET
         [BindProperty(SupportsGet = true)]
         public string FilterCriteria { get; set; }
 
@@ -22,15 +28,20 @@ namespace RazorPageApplication.Pages.Secretaries
         [BindProperty(SupportsGet = true)]
         public string SortBy { get; set; }
 
-
         [BindProperty(SupportsGet = true)]
         public bool IsDescending { get; set; }
-
-
+        #endregion
+        #region Constructor
+        //Independen injection (... uddbyb mere)
         public IndexModel(IRepositoryAsync<Secretary> secretaryRepo)
         {
             _repo = secretaryRepo;
         }
+        #endregion
+        #region Metoder
+
+        //Metoden henter dataerne fra GetAllAsync()
+        //Den kan hente enten data for alle sekretær eller sekretær som accepter en krav
         public async Task OnGet()
         {
             var allSecretary = await _repo.GetAllAsync();
@@ -83,6 +94,8 @@ namespace RazorPageApplication.Pages.Secretaries
             }
 
         }
+        //Metodens formål er at sortere dataene der bliver vist i en bestemt rækkefølge 
+        //Hver Property som har data der bliver vist på siden, kan sorteres ved, at sammenligne hinandens værdier
         private void SortSecretaries()
         {
             switch (SortBy)
@@ -104,5 +117,6 @@ namespace RazorPageApplication.Pages.Secretaries
                     break;
             }
         }
+        #endregion
     }
 }

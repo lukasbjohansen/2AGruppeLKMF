@@ -10,12 +10,15 @@ namespace RazorPageApplication.Pages.Photos
 {
     public class CreatePhotoModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Photo> _repo;
         private IRepositoryAsync<Photographer> _photographerRepo;
         private IRepositoryAsync<Student> _studentRepo;
 
         private IWebHostEnvironment _webHostEnvironment;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public Photo NewPhoto { get; set; }
 
@@ -38,6 +41,9 @@ namespace RazorPageApplication.Pages.Photos
         [BindProperty]
         public IEnumerable<SelectListItem> StudentSelect { get; set; }
 
+        #endregion
+
+        #region Constructors
         public CreatePhotoModel(IRepositoryAsync<Photo> photoRepository, IRepositoryAsync<Photographer> photographerRepository, IRepositoryAsync<Student> studentRepository, IWebHostEnvironment webHostEnvironment)
         {
             _repo = photoRepository;
@@ -45,6 +51,9 @@ namespace RazorPageApplication.Pages.Photos
             _studentRepo = studentRepository;
             _webHostEnvironment = webHostEnvironment;
         }
+        #endregion
+
+        #region Methods
         public async Task OnGet()
         {
             NewPhoto = new Photo();
@@ -89,12 +98,6 @@ namespace RazorPageApplication.Pages.Photos
                 await OnGet();
                 return Page();
             }
-
-            
-
-            
-
-
         }
 
         private async Task<string> ProcessUploadedFile()
@@ -115,8 +118,7 @@ namespace RazorPageApplication.Pages.Photos
                 }
             }
             return uniqueFileName;
-        }
+        } 
+        #endregion
     }
-
-
 }

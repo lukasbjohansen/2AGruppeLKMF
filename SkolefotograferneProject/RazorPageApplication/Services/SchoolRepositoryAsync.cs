@@ -11,7 +11,7 @@ namespace RazorPageApplication.Services
     {
         public async Task CreateAsync(School school)
         {
-            string query = "INSERT INTO School(SchoolName,SchoolAddress,PostalCode) Values(@SchoolName,@SchoolAddress,@PostalCode)";
+            string query = "INSERT INTO School(SchoolName,SchoolAddress,PostalCode) OUTPUT INSERTED.SchoolID Values(@SchoolName,@SchoolAddress,@PostalCode)";
             await using (SqlConnection connection = new SqlConnection(Secret.ConnectionString))
             {
                 try
@@ -21,7 +21,7 @@ namespace RazorPageApplication.Services
                     command.Parameters.AddWithValue("@SchoolName", school.Name);
                     command.Parameters.AddWithValue("@SchoolAddress", school.Address);
                     command.Parameters.AddWithValue("@PostalCode", school.PostalCode);
-                    await command.ExecuteNonQueryAsync();
+                    school.Id = (int) await command.ExecuteScalarAsync();
                 }
                 catch (SqlException sEx)
                 {

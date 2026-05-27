@@ -22,11 +22,11 @@
     </div>
     <div class="form-group">
         <label asp-for="@Model.PhotographerId" class="control-label">Fotograf id</label>
-        <input asp-for="@Model.PhotographerId" class="form-control" />
+        <select asp-for="@Model.PhotographerId" asp-items="@Model.PhotographerSelect" id="PhotographerSelect" class="form-select"><option value="">Vælg fotograf</option></select>
     </div>
     <div class="form-group">
         <label asp-for="@Model.SchoolClassId" class="control-label">Skoleklasse id</label>
-        <input asp-for="@Model.SchoolClassId" class="form-control" />
+        <select asp-for="@Model.SchoolClassId" asp-items="@Model.SchoolClassSelect" id="SchoolClassSelect" class="form-select"><option value="">Vælg skoleklasse</option></select>
     </div>
     <div class="form-group">
         <input type="submit" asp-page-handler="Update" value="Opdater fotoevent" class="btn btn-primary" />

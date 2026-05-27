@@ -8,16 +8,23 @@ namespace RazorPageApplication.Pages.Parents
 {
     public class EditParentModel : PageModel
     {
+        #region Instance fields
         private IRepositoryAsync<Parent> _repo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public Parent? ParentToUpdate { get; set; }
+        #endregion
 
+        #region Constructors
         public EditParentModel(IRepositoryAsync<Parent> parentRepository)
         {
             _repo = parentRepository;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
             ParentToUpdate = await _repo.GetAsync(id);
@@ -40,6 +47,7 @@ namespace RazorPageApplication.Pages.Parents
                 ModelState.AddModelError(string.Empty, e.Message);
                 return Page();
             }
-        }
+        } 
+        #endregion
     }
 }
