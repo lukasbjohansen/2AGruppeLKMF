@@ -21,6 +21,7 @@
     </select>
     <button type="submit" class="btn btn-success btn-sm">Filtrér</button>
 </form>
+
 <table class="table">
     <thead>
         <tr>
@@ -29,7 +30,6 @@
                 <input type="hidden" name="FilterBy" value="@Model.FilterBy" />
                 <input type="hidden" name="IsDescending" value="@((!Model.IsDescending).ToString())" />
             <th>
-
                 <button type="submit" name="SortBy" value="Id" class="btn btn-link p-0">ID<i class="bi bi-sort-down"></i></button>
             </th>
             <th>
@@ -63,8 +63,6 @@
                 </td>
             </tr>
         }
-
-
     </tbody>
 
 </table>
