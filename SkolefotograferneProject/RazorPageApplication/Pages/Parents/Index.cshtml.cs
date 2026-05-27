@@ -78,6 +78,7 @@ namespace RazorPageApplication.Pages.Parents
                         break;
 
                     case "All":
+                        Parents =
                         allParents.Where(sc =>
                                 sc.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
                                 sc.Mail.Contains(FilterCriteria) ||
