@@ -74,28 +74,28 @@ public sealed class SchoolRepositoryTest
         Assert.AreEqual(testSubject.PostalCode, cached.PostalCode);
         Assert.AreEqual(testSubject.Id, cached.Id);
     }
-    //[TestMethod]
-    //public async Task FitlerAsyncTest()
-    //{
-    //    // Arrange
-    //    School t1 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
-    //    School t2 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
-    //    School t3 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
-    //    await _repository.CreateAsync(t1);
-    //    await _repository.CreateAsync(t2);
-    //    await _repository.CreateAsync(t3);
-    //    _createdSchool.Add(t1);
-    //    _createdSchool.Add(t2);
-    //    _createdSchool.Add(t3);
-    //    // Act
-    //    List<School> list = await _repository.FilterAsync("peter", TeacherFilterBy.TeacherName);
-    //    // Assert
-    //    Assert.IsNotNull(list);
-    //    Assert.IsFalse(list.Any(t => t.Id == t1.Id));
-    //    Assert.IsTrue(list.Any(t => t.Id == t2.Id));
-    //    Assert.IsTrue(list.Any(t => t.Id == t3.Id));
-    //    Assert.IsTrue(list.Count >= 2);
-    //}
+    [TestMethod]
+    public async Task FitlerAsyncTest()
+    {
+        // Arrange
+        School t1 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
+        School t2 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
+        School t3 = new School(0, "schoolNameTest", "TestAddresse", "2625Test");
+        await _repository.CreateAsync(t1);
+        await _repository.CreateAsync(t2);
+        await _repository.CreateAsync(t3);
+        _createdSchool.Add(t1);
+        _createdSchool.Add(t2);
+        _createdSchool.Add(t3);
+        // Act
+        List<School> list = await _repository.FilterAsync("schoolNameTest");
+        // Assert
+        Assert.IsNotNull(list);
+        Assert.IsFalse(list.Any(t => t.Id == t1.Id));
+        Assert.IsTrue(list.Any(t => t.Id == t2.Id));
+        Assert.IsTrue(list.Any(t => t.Id == t3.Id));
+        Assert.IsTrue(list.Count >= 2);
+    }
     [TestMethod]
     public async Task DeleteAsyncTest()
     {

@@ -11,14 +11,14 @@ namespace RazorPageApplication.Pages.Secretaries
     public class IndexModel : PageModel
     {
         #region Instance field
-        //Independen injection (Uddybe mere?)
+       
         IRepositoryAsync<Secretary> _repo;
         #endregion
         #region Properties
         //Properties til at gemme og sæt værdier ind 
         public List<Secretary> Secretaries { get; set; }
 
-        //BindProperty SKAL HAVE HJÆLP MED AT FORKLARE OM DET
+        
         [BindProperty(SupportsGet = true)]
         public string FilterCriteria { get; set; }
 
@@ -32,7 +32,7 @@ namespace RazorPageApplication.Pages.Secretaries
         public bool IsDescending { get; set; }
         #endregion
         #region Constructor
-        //Independen injection (... uddbyb mere)
+        
         public IndexModel(IRepositoryAsync<Secretary> secretaryRepo)
         {
             _repo = secretaryRepo;
