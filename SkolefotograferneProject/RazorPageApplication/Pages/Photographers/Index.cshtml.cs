@@ -35,44 +35,7 @@ namespace RazorPageApplication.Pages.Photographers
             List<Photographer> allPhotographers = await _repo.GetAllAsync();
             if (!string.IsNullOrEmpty(FilterCriteria))
             {
-                switch (FilterBy)
-                {
-                    case "PhotographerName":
-                        Photographers = allPhotographers
-                            .Where(p => p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
-                        break;
-                    case "Mail":
-                        Photographers = allPhotographers
-                            .Where(p => p.Mail.Contains(FilterCriteria))
-                            .ToList();
-                        break;
-                    case "PhotographerPassword":
-                        Photographers = allPhotographers
-                            .Where(p => p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
-                        break;
-                    case "PhoneNumber":
-                        Photographers = allPhotographers
-                            .Where(p => p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
-                        break;
-                    case "CVR":
-                        Photographers = allPhotographers
-                            .Where(p => p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
-                        break;
-                    case "All":
-                        Photographers = allPhotographers
-                            .Where(p =>
-                                p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                p.Mail.Contains(FilterCriteria) ||
-                                p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
-                                p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
-                            .ToList();
-                        break;
-                }
+                Photographers = FilterPhotographers(allPhotographers);
             }
             else
             {
@@ -81,6 +44,44 @@ namespace RazorPageApplication.Pages.Photographers
             if (!string.IsNullOrEmpty(SortBy))
             {
                 SortPhotographers();
+            }
+        }
+
+        private List<Photographer> FilterPhotographers(List<Photographer> allPhotographers)
+        {
+            switch (FilterBy)
+            {
+                case "PhotographerName":
+                    return allPhotographers
+                        .Where(p => p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                case "Mail":
+                    return allPhotographers
+                        .Where(p => p.Mail.Contains(FilterCriteria))
+                        .ToList();
+                case "PhotographerPassword":
+                    return allPhotographers
+                        .Where(p => p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                case "PhoneNumber":
+                    return allPhotographers
+                        .Where(p => p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                case "CVR":
+                    return allPhotographers
+                        .Where(p => p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                case "All":
+                    return allPhotographers
+                        .Where(p =>
+                            p.Name.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                            p.Mail.Contains(FilterCriteria) ||
+                            p.Password.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                            p.PhoneNumber.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase) ||
+                            p.CVR.Contains(FilterCriteria, StringComparison.OrdinalIgnoreCase))
+                        .ToList();
+                default:
+                    return null;
             }
         }
 
