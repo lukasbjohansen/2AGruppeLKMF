@@ -7,16 +7,23 @@ namespace RazorPageApplication.Pages.Photographers
 {
     public class CreatePhotographerModel : PageModel
     {
+        #region Instance Fields
         private readonly IRepositoryAsync<Photographer> _repo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public Photographer NewPhotographer { get; set; }
+        #endregion
 
+        #region Constructors
         public CreatePhotographerModel(IRepositoryAsync<Photographer> repo)
         {
             _repo = repo;
         }
+        #endregion
 
+        #region Methods
         public void OnGet()
         {
             NewPhotographer = new Photographer();
@@ -40,5 +47,6 @@ namespace RazorPageApplication.Pages.Photographers
                 return Page();
             }
         }
+        #endregion
     }
 }

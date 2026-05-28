@@ -8,16 +8,23 @@ namespace RazorPageApplication.Pages.Photographers
 {
     public class EditPhotographerModel : PageModel
     {
+        #region Instance Fields
         private readonly IRepositoryAsync<Photographer> _repo;
+        #endregion
 
+        #region Properties
         [BindProperty]
         public Photographer? PhotographerToUpdate { get; set; }
+        #endregion
 
+        #region Constructors
         public EditPhotographerModel(IRepositoryAsync<Photographer> repo)
         {
             _repo = repo;
         }
+        #endregion
 
+        #region Methods
         public async Task OnGet(int id)
         {
             PhotographerToUpdate = await _repo.GetAsync(id);
@@ -41,5 +48,6 @@ namespace RazorPageApplication.Pages.Photographers
                 return Page();
             }
         }
+        #endregion
     }
 }

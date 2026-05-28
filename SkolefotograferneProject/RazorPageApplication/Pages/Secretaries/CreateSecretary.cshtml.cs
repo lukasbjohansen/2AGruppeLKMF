@@ -12,13 +12,12 @@ namespace RazorPageApplication.Pages.Secretaries
     public class CreateSecretaryModel : PageModel
     {
         #region Instance fields
-        //Independen injection (Uddybe mere?)
+        //Instance field til at kunne bruge klassernes repo class
         private IRepositoryAsync<Secretary> _secretaryRepo;
         private IRepositoryAsync<School> _schoolRepo;
         #endregion
         #region Properties
         //Properties til at gemme og sæt værdier ind 
-        //BindProperty SKAL HAVE HJÆLP MED AT FORKLARE OM DET
         [BindProperty]
         public Secretary NewSecretary { get; set; }
 
@@ -30,7 +29,7 @@ namespace RazorPageApplication.Pages.Secretaries
         public IEnumerable<SelectListItem> SchoolSelect { get; set; }
         #endregion
         #region Constructor
-        //Independen injection (... uddbyb mere)
+        //dependency injection er hvor vi får resourcerne fra, så det ikke behøves at skrive over alle bagvedliggende sider 
         public CreateSecretaryModel(IRepositoryAsync<Secretary> secretaryRepo, IRepositoryAsync<School> schoolRepo)
         {
             _secretaryRepo = secretaryRepo;
