@@ -48,7 +48,7 @@ namespace RazorPageApplication.Pages.Secretaries
         {
             if (!ModelState.IsValid)
             {
-                await OnGet(SecretaryToUpdate.Id); //korrekt?
+                await OnGet(SecretaryToUpdate.Id); 
                 return Page();
             }
             try
