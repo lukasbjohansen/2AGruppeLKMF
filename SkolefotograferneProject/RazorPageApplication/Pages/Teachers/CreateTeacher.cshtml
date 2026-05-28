@@ -14,10 +14,36 @@
         <label asp-for="@Model.NewTeacher.Mail" class="control-label"></label>
         <input asp-for="@Model.NewTeacher.Mail" class="form-control" type="email" />
     </div>
-    <div class="form-group">
-        <label asp-for="@Model.NewTeacher.Password" class="control-label"></label>
-        <input asp-for="@Model.NewTeacher.Password" class="form-control" type="password" />
+    <div class="mb-3">
+        <label asp-for="@Model.NewTeacher.Password" class="form-label"></label>
+        <div class="input-group">
+            <input asp-for="@Model.NewTeacher.Password"
+                   class="form-control"
+                   type="password"
+                   id="passwordInput" />
+            <button class="btn btn-outline-secondary"
+                    type="button"
+                    id="togglePassword"
+                    aria-label="Vis/skjul password">
+                <i class="bi bi-eye"></i>
+            </button>
+        </div>
+        <span asp-validation-for="@Model.NewTeacher.Password" class="text-danger"></span>
     </div>
+    <script>
+            document.getElementById('togglePassword').addEventListener('click', function () {
+                const input = document.getElementById('passwordInput');
+                const icon = this.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.replace('bi-eye', 'bi-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.replace('bi-eye-slash', 'bi-eye');
+                }
+            });
+    </script>
+
     <div class="form-group">
         <label asp-for="@Model.NewTeacher.PhoneNumber" class="control-label"></label>
         <input asp-for="@Model.NewTeacher.PhoneNumber" class="form-control" type="tel" />

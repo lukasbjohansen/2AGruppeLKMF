@@ -2,6 +2,7 @@
 using RazorPageApplication.Enums;
 using RazorPageApplication.Exceptions;
 using RazorPageApplication.Helpers;
+using RazorPageApplication.Helpers.Sorting;
 using RazorPageApplication.Interfaces;
 using RazorPageApplication.Models;
 using System.Data;
@@ -273,6 +274,11 @@ namespace RazorPageApplication.Services
             }
         }
 
-
+        public async Task<List<Teacher>> Sort(TeacherFilterBy teacherFilterBy)
+        {
+            List<Teacher> teachers = await GetAllAsync();
+            teachers.Sort(new TeacherComparer(teacherFilterBy));
+            return teachers;
+        }
     }
 }
