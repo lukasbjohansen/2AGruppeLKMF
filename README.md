@@ -1,7 +1,7 @@
 # 2. Semester group repository (2A F2026)
 
 ### 🎓 School Group Project
-Developed by: **Lukas, Kasper, Maria, and Frederik**
+Developed by: **Lukas, Kasper, Maria, Sinan and Frederik**
 
 ---
 
@@ -31,6 +31,7 @@ Developed by: **Lukas, Kasper, Maria, and Frederik**
 * **Kasper** – TBR
 * **Maria** – TBR
 * **Frederik** – TBR
+* **Sinan** – TBR
 
 ---
 
