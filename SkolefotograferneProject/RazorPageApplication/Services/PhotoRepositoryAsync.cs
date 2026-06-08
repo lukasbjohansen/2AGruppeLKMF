@@ -37,6 +37,9 @@ namespace RazorPageApplication.Services
                     // The argument which is a reference type gets updated with the new Id,
                     // so it is available within the model page.
                     item.Id = newId;
+                    // Alle de steder, hvor vi kalder CreateAsync, smides et item ind med et ukendt Id, da det genereres automatisk.
+                    // Derfor er vi nødt til at 'sette' id'et her, så vi kan bruge det, der hvor vi kalder CreateAsync.
+                    // Fx i vores CreatePhoto C# side, hvor vi skulle bruge Id'et i vores billedsti, men det kunne vi ikke, fordi Id'et ikke var sat endnu.
                 }
                 catch (SqlException sEx)
                 {

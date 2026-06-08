@@ -100,6 +100,9 @@ namespace RazorPageApplication.Pages.Parents
             }
         }
 
+        // Vi bruger et lambda-udtryk til at putte parametret (fx p.Id) ind i en collection, som vi sammenligner ud fra
+        // Vi angiver et delegate (func), som første parameter til comparerklassen, i det her tilfælde et lambda-udtryk (fx p => p.Id)
+        // Parent er T, int/string er TKey
         private void SortParents()
         {
             switch (SortBy)

@@ -20,6 +20,11 @@
             _descending = descending;
         }
 
+        // Vores compare metode sammenligner to værdier, X og Y. 
+        // Først har vi vores if-statements som tjekker, om X og Y = null (ens), hvis X er null, så regnes den som "mindre" dvs. den kommer først, hvis Y = null er X mindre end Y
+        // Til sidst har vi selve 'sammenligningen' 
+        // _selectoren er der hvor vi fortæller, hvilket parameter vi vil sammenligne (id, name, address)
+
         public int Compare(T? x, T? y)
         {
             if (x == null && y == null)
