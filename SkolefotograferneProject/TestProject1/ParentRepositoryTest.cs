@@ -34,12 +34,12 @@ public sealed class ParentRepositoryTest
     [TestMethod]
     public async Task CreateAsyncTest()
     {
-        // Arrange
+        // Arrange - opsætning af testdata og klargøring af objekter
         Parent testSubject = new Parent(0, "Hans@hotmail.com", "123", "Hans", "22345678", "Roskildevej 2", "4000");
         _createdParents.Add(testSubject);
-        // Act
+        // Act - handling. Vi udfører den handling, vi godt vil teste (vi forsøger at oprette et objekt)
         await _repository.CreateAsync(testSubject);
-        // Assert
+        // Assert - verificering. Vi tjekker, om vores handling er gået korrekt igennem (om vores objekt er blevet tilføjet). Den går ind og tjekker, om testSubject.Id er null, og hvis den er det, er testen fejlet
         Assert.IsNotNull(await _repository.GetAsync(testSubject.Id));
     }
 
@@ -55,9 +55,22 @@ public sealed class ParentRepositoryTest
         _createdParents.Add(p2);
         // Act
         List<Parent> list = await _repository.GetAllAsync();
-        // Assert
+        // Assert - hvis én af nedenstående asserts fejler, så fejler testen.
+        // Den tjekker først, at listen ikke er null.
+        // Bagefter tjekker den, vi et lambda udtryk, om p.Id er identisk med p1.Id, og det samme med p2 (den itererer gennem parent listens id'er)
+        // Til sidst tjekker den, om listen har 2 eller flere elementer, hvis der er det, er testen gået godt
         Assert.IsNotNull(list);
         Assert.IsTrue(list.Any(p => p.Id == p1.Id));
+
+        // Eksempel på, hvad lambda-udtrykket gør
+        //foreach (Parent p in list)
+        //{
+        //    if (p.Id == p1.Id)
+        //    {
+        //        return true;
+        //    }
+        //}
+
         Assert.IsTrue(list.Any(p => p.Id == p2.Id));
         Assert.IsTrue(list.Count >= 2);
     }
@@ -69,17 +82,19 @@ public sealed class ParentRepositoryTest
         Parent testSubject = new Parent(0, "Hans@hotmail.com", "123", "Hans", "22345678", "Roskildevej 2", "4000");
         await _repository.CreateAsync(testSubject);
         _createdParents.Add(testSubject);
-        // Act
-        Parent? cached = await _repository.GetAsync(testSubject.Id);
-        // Assert
-        Assert.IsNotNull(cached);
-        Assert.AreEqual(testSubject.Name, cached.Name);
-        Assert.AreEqual(testSubject.Mail, cached.Mail);
-        Assert.AreEqual(testSubject.Password, cached.Password);
-        Assert.AreEqual(testSubject.PhoneNumber, cached.PhoneNumber);
-        Assert.AreEqual(testSubject.Address, cached.Address);
-        Assert.AreEqual(testSubject.PostalCode, cached.PostalCode);
-        Assert.AreEqual(testSubject.Id, cached.Id);
+        // Act - vi tester om vi kan finde det pågældende parent objekt
+        Parent? foundParent = await _repository.GetAsync(testSubject.Id);
+        // Assert - tjekker først, om GetAsync ikke returnerer null (altså om forældren IKKE er null)
+        // Bagefter tjekker den, om værdierne stemmer overens
+        // Grunden til, at vi tjekker alle værdier er, at foundParent ikke er den samme reference som testSubject (dette fordi GetAsync skaber et nyt unikt identisk objekt med foundParent's properties)
+        Assert.IsNotNull(foundParent);
+        Assert.AreEqual(testSubject.Name, foundParent.Name);
+        Assert.AreEqual(testSubject.Mail, foundParent.Mail);
+        Assert.AreEqual(testSubject.Password, foundParent.Password);
+        Assert.AreEqual(testSubject.PhoneNumber, foundParent.PhoneNumber);
+        Assert.AreEqual(testSubject.Address, foundParent.Address);
+        Assert.AreEqual(testSubject.PostalCode, foundParent.PostalCode);
+        Assert.AreEqual(testSubject.Id, foundParent.Id);
     }
 
     [TestMethod]
@@ -97,7 +112,9 @@ public sealed class ParentRepositoryTest
         _createdParents.Add(p3);
         // Act
         List<Parent> list = await _repository.FilterAsync("hans");
-        // Assert
+        // Assert - tjekker først, om listen ikke er null
+        // Bagefter tjekker den, om p.Id == p1.Id er true, og at de andre to lambda udtryk er false
+        // Til sidst tjekker den, om listen indeholder et eller flere elementer
         Assert.IsNotNull(list);
         Assert.IsTrue(list.Any(p => p.Id == p1.Id));
         Assert.IsFalse(list.Any(p => p.Id == p2.Id));
@@ -127,6 +144,8 @@ public sealed class ParentRepositoryTest
         Assert.IsNotNull(updatedParent);
         Assert.AreEqual(originalParent.Id, newParent.Id);
 
+        //Assert.AreEqual(newParent, updatedParent); Dette vil ikke virke, fordi det er to forskellige objekter med samme værdier
+        // Bliver den nye forælder's properties opdateret til updatedParent
         Assert.AreEqual(newParent.Mail, updatedParent.Mail);
         Assert.AreEqual(newParent.Password, updatedParent.Password);
         Assert.AreEqual(newParent.Name, updatedParent.Name);
@@ -134,7 +153,8 @@ public sealed class ParentRepositoryTest
         Assert.AreEqual(newParent.Address, updatedParent.Address);
         Assert.AreEqual(newParent.PostalCode, updatedParent.PostalCode);
         Assert.AreEqual(newParent.Id, updatedParent.Id);
-
+        
+        // Tjekker, om den opdaterede forælder's properties er forskellig fra den originales
         Assert.AreNotEqual(originalMail, updatedParent.Mail);
         Assert.AreNotEqual(originalPassword, updatedParent.Password);
         Assert.AreNotEqual(originalName, updatedParent.Name);
@@ -150,8 +170,8 @@ public sealed class ParentRepositoryTest
         await _repository.CreateAsync(testParent);
         // Act
         await _repository.DeleteAsync(testParent);
-        Parent? cachedParent = await _repository.GetAsync(testParent.Id);
+        Parent? foundParent = await _repository.GetAsync(testParent.Id);
         // Assert
-        Assert.IsNull(cachedParent);
+        Assert.IsNull(foundParent);
     }
 }

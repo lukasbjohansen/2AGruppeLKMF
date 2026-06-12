@@ -34,7 +34,7 @@ namespace RazorPageApplication.Pages.Parents
         {
             // new Parent sørger for, at objektet findes i hukommelsen, så formularen har et sted at 'skrive til'. Det gør at vi undgår, at parent er null.
             // new Parent binder datab fra vores form, når brugeren trykker 'Gem' eller 'Opret'.
-            //new Parent() i OnGet sikrer, at der er en tom "beholder" klar til at tage imod den data, som brugeren indtaster i formularen.
+            // new Parent() i OnGet sikrer, at der er en tom "beholder" klar til at tage imod den data, som brugeren indtaster i formularen.
             NewParent = new Parent();
         }
 
